@@ -1,0 +1,15 @@
+﻿email,name_of_faculty,year_branch_class,subject
+sonali.kothari@sitpune.edu.in,Dr. Sonali Mahendra Kothari,SY-CS-A1,Flexi (JAVA)
+sonali.kothari@sitpune.edu.in,Dr. Sonali Mahendra Kothari,SY-CS-A2,Flexi (JAVA)
+sonali.kothari@sitpune.edu.in,Dr. Sonali Mahendra Kothari,SY-CS-A3,Flexi (JAVA)
+sonali.kothari@sitpune.edu.in,Dr. Sonali Mahendra Kothari,SY-CS-C1,Flexi (JAVA)
+sonali.kothari@sitpune.edu.in,Dr. Sonali Mahendra Kothari,SY-CS-C2,Flexi (JAVA)
+sonali.kothari@sitpune.edu.in,Dr. Sonali Mahendra Kothari,SY-CS-C3,Flexi (JAVA)
+,,,
+Exception: if A teacher is teaching open electives or specialization subjects where she might not teach the entire class as per batch it should be the way mentioned below,,,
+,,,
+komal.shah.vf@sitpune.edu.in,Ms. Komal Shah,SY-CS-A,French
+komal.shah.vf@sitpune.edu.in,Ms. Komal Shah,SY-CS-B,French
+komal.shah.vf@sitpune.edu.in,Ms. Komal Shah,SY-CS-C,French
+,,,
+Please clear all the data below row 1 before adding your data,,,
