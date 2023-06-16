@@ -9,7 +9,7 @@ if(isset($_POST["btnLogin"]))
 	$password = $_POST["password"];
     
 
-	$query = "SELECT * FROM tbluser WHERE username='$username' AND is_valid='1'";
+	$query = "SELECT * FROM login WHERE username='$username' AND is_valid='1'";
 	$result = mysqli_query($conn, $query); 
 
 	if(mysqli_num_rows($result) > 0)
@@ -46,7 +46,7 @@ if(isset($_POST["btnLogin"]))
 			}
 		    }
             else
-    {
+    	{
     	echo "<script>
                 if(window.confirm('Incorrect Username or Password!')){
                     window.location.href = 'index.php';
