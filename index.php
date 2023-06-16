@@ -222,6 +222,7 @@ include "code.php";
 						<?php echo $message; ?>
 					</p>
 					<br/>
+          <a href="forgot-password.php">Forgot password?</a>
 					<div class="form-group">
 						<input type="submit" name="btnLogin" class="RectangleFormLogin" value="Login">
 					</div>
