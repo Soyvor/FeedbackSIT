@@ -15,8 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("Connection unsuccessful: " . mysqli_connect_error());
     }
 
-    // Fetch emails and passwords from the database
-    $query = "SELECT email, password FROM login WHERE role='student'";
+    $role = $_POST['role'];
+
+    // Fetch emails and passwords from the database based on role
+    $query = "SELECT email, password FROM login WHERE role='$role'";
     $result = mysqli_query($conn, $query);
 
     if ($result) {
@@ -38,9 +40,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $mail->isHTML(true);
                 $mail->Subject = 'Password Reminder';
 
-                $sentEmails = array();
-                $notSentEmails = array();
-
                 while ($row = mysqli_fetch_assoc($result)) {
                     $email = $row['email'];
                     $password = $row['password'];
@@ -50,7 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $mail->Body = "Your password is: $password";
 
                     $mail->send();
-                    $sentEmails[] = $email;
 
                     // Clear recipients for the next email
                     $mail->clearAddresses();
@@ -58,21 +56,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 mysqli_close($conn);
 
-                // Display sent and not sent emails
-                echo "Sent Emails:<br>";
-                foreach ($sentEmails as $sentEmail) {
-                    echo $sentEmail . "<br>";
-                }
-
-                echo "<br>Not Sent Emails:<br>";
-                foreach ($notSentEmails as $notSentEmail) {
-                    echo $notSentEmail . "<br>";
-                }
+                echo "Emails sent successfully.";
             } catch (Exception $e) {
                 echo "Failed to send emails. Error: " . $mail->ErrorInfo;
+                
             }
         } else {
             echo "No records found in the database";
+            
         }
     } else {
         echo "Query execution failed: " . mysqli_error($conn);
@@ -94,6 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal">Send Emails to Students</button>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#teacherConfirmModal">Send Email to Teacher</button>
 
     <!-- Confirm Modal -->
     <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
@@ -107,7 +99,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <p>Do you want to send emails to all students?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="sendEmails()">Yes</button>
+                    <button type="button" class="btn btn-primary" onclick="sendEmails('student')">Yes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Teacher Confirm Modal -->
+    <div class="modal fade" id="teacherConfirmModal" tabindex="-1" aria-labelledby="teacherConfirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="teacherConfirmModalLabel">Confirmation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Do you want to send an email to the teacher?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="sendEmails('teacher')">Yes</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                 </div>
             </div>
@@ -115,15 +126,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <script>
-        function sendEmails() {
-            var confirmModal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
+        function sendEmails(role) {
+            var confirmModal;
+            if (role === 'student') {
+                confirmModal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
+            } else if (role === 'teacher') {
+                confirmModal = bootstrap.Modal.getInstance(document.getElementById('teacherConfirmModal'));
+            }
             confirmModal.hide();
             var sendingModal = new bootstrap.Modal(document.getElementById('sendingModal'));
             sendingModal.show();
 
-
             fetch('', {
-                    method: 'POST'
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'role=' + role
                 })
                 .then(response => response.text())
                 .then(data => {
@@ -137,7 +156,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
                     errorModal.show();
                 })
-               
         }
     </script>
 
