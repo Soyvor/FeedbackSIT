@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_coordinator'])) {
 
 
 		// insert the new coordinator into the database
-		$sql = "INSERT INTO tbluser (username, password, branch, role, crnt_year, is_valid) VALUES ('$email', '$encoded_string', '$branch','coordinato','2023','1')";
+		$sql = "INSERT INTO login (username, password, branch, role, crnt_year, is_valid) VALUES ('$email', '$encoded_string', '$branch','coordinato','2023','1')";
 		if (mysqli_query($conn, $sql)) {
 			echo "<script>alert('Coordinator added successfully!');</script>";
 		} else {
@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_coordinator'])
 }
 
 // get all the coordinators from the database
-$sql = "SELECT * FROM tbluser WHERE role = 'coordinato'";
+$sql = "SELECT * FROM login WHERE role = 'coordinato'";
 $result = mysqli_query($conn, $sql);
 
 
@@ -80,7 +80,7 @@ if (isset($_POST['download_passwords'])) {
 	fputcsv($file, array('Username', 'Password'));
 
 	// Query the tbluser table to get all teachers' usernames and decoded passwords
-	$query2 = "SELECT * FROM tbluser WHERE role = 'teacher'";
+	$query2 = "SELECT * FROM login WHERE role = 'teacher'";
 	$result = mysqli_query($conn, $query2);
 
 	// Loop through each row in the result set and add it to the CSV file

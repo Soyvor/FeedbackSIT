@@ -1,5 +1,14 @@
 <?php
 
+session_start();
+
+if (!isset($_SESSION['coordinator'])) {
+    header('Location: index.php');
+    exit;
+}
+
+
+
 require('PHPMailer-master/src/PHPMailer.php');
 require('PHPMailer-master/src/Exception.php');
 require('PHPMailer-master/src/SMTP.php');
