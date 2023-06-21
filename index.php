@@ -28,7 +28,7 @@ include "code.php";
       background: #1C2631;
       box-shadow: 0px 4px 59px -8px rgba(0, 0, 0, 0.25);
       border-radius: 1.5rem;
-      height: 40rem;
+      height: 30rem;
       width: 40rem;
 
     }
@@ -37,7 +37,7 @@ include "code.php";
       border-radius: 1.5rem;
       background: #273444;
       color: white;
-
+      box-shadow: 0px 4px 59px -8px rgba(0, 0, 0, 0.25);
       width: 30rem;
 
     }
@@ -64,8 +64,6 @@ include "code.php";
 
     }
 
-
-
     .custom-anchor {
 
       font-style: normal;
@@ -80,9 +78,9 @@ include "code.php";
 
 <body>
   <section>
-    <div class="container py-5 ">
+    <div class="container py-5 h-100">
       <div class="row d-flex justify-content-center align-items-center ">
-        <div class=" col-12 col-md-8 col-lg-6 col-xl-5 custom-container-1 d-flex justify-content-center align-items-center">
+       
 
 
 
@@ -131,55 +129,54 @@ include "code.php";
             </div>
 
           </div>
-        </div>
+        
       </div>
     </div>
 
 
-    <!-- Site footer -->
+  
 
-    <footer class="site-footer ">
+   <!-- Site footer -->
+  <footer class="site-footer footer-bottom d-flex">
 
-      <div class="container">
-        <hr>
-        <div class="row">
-          <div class="col-xs-12 col-md-4">
-
-
-            <p class="copyright-text ">Copyright &copy; 2023 |
-              <a>Feedback</a>.
-            </p>
-          </div>
-
-          <div class="col-xs-6 col-md-4 ">
-            <h6 class="text-center">Ideation By</h6>
-
-            <ul class="footer-links text-center">
-
-              <li><a href="">Dr. Deepali Vora, Head CS IT</a></li>
+<div class="container">
+  <hr>
+  <div class="row">
+    <div class="col-xs-12 col-md-4">
 
 
-            </ul>
-          </div>
+      <p class="copyright-text ">Copyright &copy; 2023 |
+        <a>Feedback</a>.
+      </p>
+    </div>
 
-          <div class="col-xs-6 col-md-4 ">
-            <h6 class="text-right custom-developed-by">Developed By</h6>
-            <ul class="footer-links text-right custom-developed-by">
-              <li><a href="https://www.linkedin.com/in/swayam-pendgaonkar-ab4087232/">Swayam Pendgaonkar</a></li>
-              <li><a href="https://www.linkedin.com/in/sakshamgupta912/">Saksham Gupta</a></li>
-              <li><a href="https://www.linkedin.com/in/yajushreshtha-shukla/">Yajushreshtha Shukla</a></li>
-            </ul>
-          </div>
+    <div class="col-xs-6 col-md-4 ">
+      <h6 class="text-center">Ideation By</h6>
 
-        </div>
+      <ul class="footer-links text-center">
 
-      </div>
+        <li><a href="">Dr. Deepali Vora, Head CS IT</a></li>
 
-      </div>
-    </footer>
 
-  </section>
+      </ul>
+    </div>
 
+    <div class="col-xs-6 col-md-4 ">
+      <h6 class="text-right custom-developed-by">Developed By</h6>
+      <ul class="footer-links text-right custom-developed-by">
+        <li><a href="https://www.linkedin.com/in/swayam-pendgaonkar-ab4087232/">Swayam Pendgaonkar</a></li>
+        <li><a href="https://www.linkedin.com/in/sakshamgupta912/">Saksham Gupta</a></li>
+        <li><a href="https://www.linkedin.com/in/yajushreshtha-shukla/">Yajushreshtha Shukla</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+</div>
+
+</div>
+</footer>
+</section>
 
   <!-- Include Bootstrap JavaScript (jQuery and Popper.js are required) -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
