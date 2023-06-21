@@ -3,250 +3,190 @@ include "code.php";
 ?>
 <!DOCTYPE html>
 <html>
+
 <head>
-	<link rel="icon" href="./public/favicon.ico" type="image/x-icon">
+  <!-- Include Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
 
-	<title>Login Page</title>
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<link rel="stylesheet" type="text/css" href="css/style1.css">
+  <!-- Include Font Awesome CSS (for the icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Include Footer CSS -->
+  <link rel="stylesheet" href="./css/footer_style.css">
+
   <style>
-    body
-    {
-      overflow-y: hidden;
+    body {
+      background: #17212C;
+
     }
-    @media screen and (max-width:600px) {
-      html {
-        height: 100%;
-      }
 
-      body {
-        position: relative;
-        padding: 0;
-        margin: 0;
-        height: 100%;
-      }
+    section {
+      height: 100vh;
+    }
 
-      .Left-Gradient-Box {
-        margin: 0;
-        top: 0px;
-        width: 100%;
-        height: 55%;
+    .custom-container-1 {
+      background: #1C2631;
+      box-shadow: 0px 4px 59px -8px rgba(0, 0, 0, 0.25);
+      border-radius: 1.5rem;
+      height: 40rem;
+      width: 40rem;
 
-        /* to align the divs side by side */
-        top: 0px;
-        background-image: linear-gradient(180deg, rgba(73, 162, 71, 0.95) 0%, rgba(0, 255, 86, 0.21) 100%);
-        box-shadow: 10px 0px 45px 5px rgba(0, 0, 0, 0.25);
-      }
+    }
 
-      .Right-White-Box {
-        width: 100%;
-        
+    .card {
+      border-radius: 1.5rem;
+      background: #273444;
+      color: white;
 
-        /* to align the divs side by side */
-        box-sizing: border-box;
-        background-image: white;
-        position: relative;
-      }
+      width: 30rem;
 
-      .Welcome-text {
-        position: relative;
-        top:0;
-        left: 5%;
-        
-        font-family: 'Arial';
-        font-style: normal;
-        font-weight: 700;
-        font-size: 25px;
-        line-height: 50px;
+    }
 
-      }
+    .form-control{
+      color: white;
+    }
 
-      .contain {
-        position: relative;
-        
-        top:0;
-        text-align: center;
-        left: 0;
+    .custom-input-box {
+      background: #1C2631;
+      box-shadow: 4px 4px 19px 2px rgba(0, 0, 0, 0.25);
+      border-radius: 10px;
+      border: 0;
+    }
 
-      }
+    .custom-button {
+      background-color: #3D8BFD;
+      border-radius: 30px;
+      width: 120px;
 
-      .contain .text {
-        font-family: 'Arial';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 15px;
-        line-height: 23px;
-        
-        color: #000000;
-      }
 
-      .contain .RectangleForm {
-        
-        
-        width: 300px;
-        background: #FFFFFF;
-        border: 1px solid #000000;
-        box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.25);
-        border-radius: 39px;
+      font-weight: 700;
+      font-size: 15px;
+
+    }
 
 
 
-        
-        font-family: 'Arial';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 18px;
-        line-height: 46px;
+    .custom-anchor {
 
-        color: rgba(0, 0, 0, 0.782);
-
-
-
-      }
-      .formy{
-        width: 100%;
-      }
-
-      .contain .RectangleForm::placeholder {
-        text-align: left;
-        color: rgba(19, 3, 3, 0.35);
-
-      }
-
-      .RectangleFormLogin {
-        
-        
-        width: 300px;
-        border: 0px;
-        background: #55CC7D;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
-        border-radius: 39px;
-
-
-
-        padding-left: 20px;
-        font-family: 'Arial';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 25px;
-        line-height: 46px;
-
-        color: rgba(0, 0, 0, 0.782);
-      }
-
-
-    
-
-    footer {
-      bottom: 0px;
-    
-      flex-wrap: wrap;
-      justify-content: space-between;
-      position: relative;
-      width: 100%;
-      clear: both;
-      font-family: 'Arial';
       font-style: normal;
       font-weight: 700;
-      font-size: 16px;
-      line-height: 21px;
+      font-size: 15px;
+      line-height: 17px;
+      color: #3D8BFD;
     }
-
-    .FooterTop {
-      padding: 1%;
-      background-color: #D9D9D9;
-    }
-
-    .FTp1,
-    .FTp2,
-    .FTp3 {
-      flex-basis: calc((100% / 3) - 2%);
-    }
-
-    .FTp1 {
-      text-align: left;
-    }
-
-    .FTp2 {
-      text-align: center;
-    }
-
-    .FTp3 {
-      text-align: right;
-    }
-
-    .FooterTop {
-      padding: 1%;
-      background-color: #ffffff;
-    }
-
-    .FooterBottom {
-      padding-top: .5%;
-      justify-content: center;
-      background-color: #000000;
-      color: #FFFFFF;
-    }
-}
   </style>
-
-
 </head>
+
+
 <body>
-	<div class="Left-Gradient-Box">
-				<div class="svg-IconDesignLogin">
-                    <img src="./public/IconDesignLogin.svg" alt=Design >
+  <section>
+    <div class="container py-5 ">
+      <div class="row d-flex justify-content-center align-items-center ">
+        <div class=" col-12 col-md-8 col-lg-6 col-xl-5 custom-container-1 d-flex justify-content-center align-items-center">
+
+
+
+          <div class="card ">
+            <div class="card-body p-5 text-center">
+
+              <div class="container">
+
+
+                <h3 class="mb-1" style="text-align:start">Login</h3>
+
+                <div class="d-flex justify-content-start  mb-4">
+                  <label class="form-check-label" for="form1Example3" style="color: rgba(255, 255, 255, 0.29);">Sign in to your account to continue </label>
                 </div>
-	</div>
 
-	<div class="Right-White-Box">
+              </div>
 
-		<div class="Welcome-text">Hello,</br>Welcome Back</div>
-
-		
-			<div class="contain">
-				<h2 class="text">&nbsp;&nbsp;&nbsp;Log in </h2>
-				
-				<form action="code.php" method="post">
-					<div class="form-group">
-						<input type="text" name="username" class="RectangleForm" placeholder="Username">
-					</div>
-					<br/>
-					<div class="form-group">
-						<input type="password" name="password" class="RectangleForm" placeholder="Password">
-					</div>
-					<br/>
-					<p class="text-center" style='color:red'>
-						<?php echo $message; ?>
-					</p>
-					<br/>
-          <a href="forgot-password.php">Forgot password?</a>
-					<div class="form-group">
-						<input type="submit" name="btnLogin" class="RectangleFormLogin" value="Login">
-					</div>
-				</form>
-			
-
-		</div>
-	</div>
-	<script type="text/javascript" src="js.jquery.min.js"></script>
-	<script type="text/javascript" src="js.bootstrap.min.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
-
-	
-	
-	<footer class="FooterTop">
+              <form action="code.php" method="post">
+                  <div class="container  ">
+                      <div class="d-flex justify-content-start ml-1 mb-1 ">
+                        <label class="form-check-label" for="form1Example3" style="color:rgba(255, 255, 255, 0.4);"> Username </label>
+                      </div>
+                      <div class="form-outline mb-4  mx-auto">
+                        <input type="email" name="username" id="typeEmailX-2" class="form-control form-control-lg custom-input-box" placeholder="" />
+                      </div>
+                  </div>
 
 
-			<p class ="FTp1">Feedback | © COPYRIGHT 2023</p>
-            <p class ="FTp2">Ideation By: Head CSE <p>
-            <p class ="FTp3">Developed By: <a href="https://www.linkedin.com/in/swayam-pendgaonkar-ab4087232/" target="_blank" class="link" style="color:black">Swayam Pendgaonkar</a><br/>UI/UX: <a href="https://www.linkedin.com/in/sakshamgupta912/" target="_blank" class="link" style="color:black">Saksham Gupta</a> ,<a href="https://www.linkedin.com/in/yajushreshtha-shukla/" target="_blank" class="link" style="color:black">Yajushreshtha Shukla</a> </p>
-	</footer>
-	<footer class="FooterBottom">
-			<p class="bottomText">© Copyright.All Rights Reserved<p>
-	</footer>
+                  <div class="container">
+                    <div class="d-flex justify-content-start ml-1 mb-1  ">
+                      <label class="form-check-label" for="form1Example3" style="color:rgba(255, 255, 255, 0.4);"> Password </label>
+                    </div>
+                    <div class="form-outline mb-4 ">
+                      <input type="password" name="password" id="typePasswordX-2" class="form-control form-control-lg custom-input-box" placeholder="" />
+                      
+                    </div>
+                  </div>
 
+
+                  <div class="container d-flex justify-content-between align-items-center mt-5">
+                    <div><input type="submit" class="btn btn-primary custom-button"  name="btnLogin" value="Login"></button></div>
+                    
+                    <div> <a class="custom-anchor text-decoration-none" href="forgot-password.php">Forgot Password ?</a></div>
+                  </div>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Site footer -->
+
+    <footer class="site-footer ">
+
+      <div class="container">
+        <hr>
+        <div class="row">
+          <div class="col-xs-12 col-md-4">
+
+
+            <p class="copyright-text ">Copyright &copy; 2023 |
+              <a>Feedback</a>.
+            </p>
+          </div>
+
+          <div class="col-xs-6 col-md-4 ">
+            <h6 class="text-center">Ideation By</h6>
+
+            <ul class="footer-links text-center">
+
+              <li><a href="">Dr. Deepali Vora, Head CS IT</a></li>
+
+
+            </ul>
+          </div>
+
+          <div class="col-xs-6 col-md-4 ">
+            <h6 class="text-right custom-developed-by">Developed By</h6>
+            <ul class="footer-links text-right custom-developed-by">
+              <li><a href="https://www.linkedin.com/in/swayam-pendgaonkar-ab4087232/">Swayam Pendgaonkar</a></li>
+              <li><a href="https://www.linkedin.com/in/sakshamgupta912/">Saksham Gupta</a></li>
+              <li><a href="https://www.linkedin.com/in/yajushreshtha-shukla/">Yajushreshtha Shukla</a></li>
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
+
+      </div>
+    </footer>
+
+  </section>
+
+
+  <!-- Include Bootstrap JavaScript (jQuery and Popper.js are required) -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://unpkg.com/@popperjs/core@2.11.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
 </body>
+
+
+
 </html>
