@@ -17,7 +17,7 @@ $username_prefix = $username_parts[0];
 $text = strtolower($username_prefix); // convert all characters to lowercase
 $text_final = ucfirst($text);
 
-$query = "SELECT * FROM tbluser WHERE username = '$username'";
+$query = "SELECT * FROM login WHERE username = '$username'";
 $result = mysqli_query($conn, $query);
 
 
@@ -60,13 +60,13 @@ if (isset($_POST['submit1'])) {
         while ($row = fgetcsv($file)) {
             $username = $row[0];
 
-            // Check if the username already exists in tbluser
-            $sql = "SELECT COUNT(*) as count FROM tbluser WHERE username = '$username'";
+            // Check if the username already exists in login
+            $sql = "SELECT COUNT(*) as count FROM login WHERE username = '$username'";
             $result = mysqli_query($conn, $sql);
             $row_count = mysqli_fetch_assoc($result);
             $count = $row_count['count'];
 
-            // If the username does not exist, insert the row into tbluser
+            // If the username does not exist, insert the row into login
             if ($count == 0) {
                 $year_branch_class = $row[4]; // assuming year_class_batch is the 5th column
                 $parts = explode('-', $year_branch_class);
@@ -75,8 +75,8 @@ if (isset($_POST['submit1'])) {
 
 
 
-                // Insert data into tbluser table
-                $sql = "INSERT INTO tbluser (username, password, branch, role, crnt_year ,is_valid) VALUES ('$username', 'MTIzNA==', '$class','student','2023','1')";
+                // Insert data into login table
+                $sql = "INSERT INTO login (username, password, branch, role, crnt_year ,is_valid) VALUES ('$username', 'MTIzNA==', '$class','student','2023','1')";
                 mysqli_query($conn, $sql);
 
                 // // Insert data into student_data table
@@ -113,8 +113,8 @@ if (isset($_POST['submit'])) {
             $ybc = $row[2];
             $subject = $row[3];
 
-            // Check if the email already exists in tbluser
-            $user_sql = "SELECT COUNT(*) as count FROM tbluser WHERE username = '$email'";
+            // Check if the email already exists in login
+            $user_sql = "SELECT COUNT(*) as count FROM login WHERE username = '$email'";
             $user_result = mysqli_query($conn, $user_sql);
             $user_row_count = mysqli_fetch_assoc($user_result);
             $user_count = $user_row_count['count'];
@@ -125,19 +125,19 @@ if (isset($_POST['submit'])) {
             $teacher_row_count = mysqli_fetch_assoc($teacher_result);
             $teacher_count = $teacher_row_count['count'];
 
-            // If the email and year_branch_class already exist in both tbluser and teacher_data, skip the current row
+            // If the email and year_branch_class already exist in both login and teacher_data, skip the current row
             if ($user_count > 0 && $teacher_count > 0) {
                 continue;
             }
 
-            // If the email does not exist in tbluser, insert the row into tbluser and teacher_data
+            // If the email does not exist in login, insert the row into login and teacher_data
             if ($user_count == 0) {
-                // Insert the row into tbluser
+                // Insert the row into login
                 // Generate a random 4-digit alphanumeric password
                 $password = substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 4);
                 // Encode the password in base64
                 $password = base64_encode($password);
-                $user_insert_sql = "INSERT INTO tbluser (username, password, branch, role, crnt_year, is_valid) VALUES ('$email', '$password', '-', 'teacher','2023','1')";
+                $user_insert_sql = "INSERT INTO login (username, password, branch, role, crnt_year, is_valid) VALUES ('$email', '$password', '-', 'teacher','2023','1')";
                 mysqli_query($conn, $user_insert_sql);
             }
 
@@ -381,18 +381,18 @@ if (isset($_POST['on_off'])) {
     // if ($button_value == "on") {
     //     if($branch=="FY")
     //     {
-    //            $sql = "UPDATE tbluser SET is_valid=1 WHERE role='student' AND branch='$branch'";
+    //            $sql = "UPDATE login SET is_valid=1 WHERE role='student' AND branch='$branch'";
                
     //     }
     //     else{
-    //         $sql = "UPDATE tbluser SET is_valid=1 WHERE role='student' AND branch='$branch'";
+    //         $sql = "UPDATE login SET is_valid=1 WHERE role='student' AND branch='$branch'";
     //     }
         
     // }
 
     // // old code- If the "off" button is clicked, update the is_valid column to 0 for all rows where the role is "student"
     // if ($button_value == "off") {
-    //     $sql = "UPDATE tbluser SET is_valid=0 WHERE role='student' AND branch='$branch'";
+    //     $sql = "UPDATE login SET is_valid=0 WHERE role='student' AND branch='$branch'";
     // }
     
 
@@ -400,22 +400,22 @@ if (isset($_POST['on_off'])) {
 
     if ($button_value == "on") {
         if($branch1=='FY'){
-        $sql = "UPDATE tbluser SET is_valid=1 WHERE role='student' AND (branch='CSE' OR branch='AI' OR branch='Civil' OR branch='RNA' OR
+        $sql = "UPDATE login SET is_valid=1 WHERE role='student' AND (branch='CSE' OR branch='AI' OR branch='Civil' OR branch='RNA' OR
         branch='E\\&TC' OR branch='MECH')";
         }
         else{
-            $sql = "UPDATE tbluser SET is_valid=1 WHERE role='student' AND branch='$branch'";
+            $sql = "UPDATE login SET is_valid=1 WHERE role='student' AND branch='$branch'";
         }
     }
 
     // If the "off" button is clicked, update the is_valid column to 0 for all rows where the role is "student"
     if ($button_value == "off") {
         if($branch1=='FY'){
-        $sql = "UPDATE tbluser SET is_valid=0 WHERE role='student' AND (branch='CSE' OR branch='AI' OR branch='Civil' OR branch='RNA' OR
+        $sql = "UPDATE login SET is_valid=0 WHERE role='student' AND (branch='CSE' OR branch='AI' OR branch='Civil' OR branch='RNA' OR
         branch='E\\&TC' OR branch='MECH')";
         }
         else{
-            $sql = "UPDATE tbluser SET is_valid=0 WHERE role='student' AND branch='$branch'";
+            $sql = "UPDATE login SET is_valid=0 WHERE role='student' AND branch='$branch'";
         }
     }
 
@@ -447,12 +447,12 @@ if (isset($_POST['on_off'])) {
 
 //     // If the "on" button is clicked, update the is_valid column to 1 for all rows where the role is "teacher"
 //     if ($button_value == "on") {
-//         $sql = "UPDATE tbluser SET is_valid=1 WHERE role='teacher' ";
+//         $sql = "UPDATE login SET is_valid=1 WHERE role='teacher' ";
 //     }
 
 //     // If the "off" button is clicked, update the is_valid column to 0 for all rows where the role is "teacher"
 //     if ($button_value == "off") {
-//         $sql = "UPDATE tbluser SET is_valid=0 WHERE role='teacher' ";
+//         $sql = "UPDATE login SET is_valid=0 WHERE role='teacher' ";
 //     }
 
 //     // Execute the SQL query
@@ -484,8 +484,8 @@ if (isset($_POST['on_off'])) {
 //     // Add the CSV header row
 //     fputcsv($file, array('Username', 'Password'));
 
-//     // Query the tbluser table to get all teachers' usernames and decoded passwords
-//     $sql = "SELECT * FROM tbluser WHERE role = 'teacher'";
+//     // Query the login table to get all teachers' usernames and decoded passwords
+//     $sql = "SELECT * FROM login WHERE role = 'teacher'";
 //     $result = mysqli_query($conn, $sql);
 
 //     // Loop through each row in the result set and add it to the CSV file
@@ -500,7 +500,8 @@ if (isset($_POST['on_off'])) {
 // }
 
 ?>
-<!DOCTYPE html>
+
+<!-- <!DOCTYPE html>
 <html>
 
 <head>
@@ -509,232 +510,13 @@ if (isset($_POST['on_off'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="css/style1.css">
     <title>Coordinator</title>
-    <style>
-        html,
-        body {
-            height: 100%;
-        }
-
-        .wrapper {
-            min-height: 100%;
-            
-            position: relative;
-        }
-
-        body {
-            position: relative;
-            margin: 0;
-            background: linear-gradient(to bottom, rgba(71, 113, 162, 0.95) 0%, rgba(120, 72, 255, 0.21) 100%);
-
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-attachment: fixed;
-
-        }
-
-        .BOX {
-            position: relative;
-            background-color: aqua;
-            margin-left: auto;
-            margin-right: auto;
-            top: 10%;
-            width: 60%;
-            background: linear-gradient(180deg, #D9D9D9 0%, rgba(217, 217, 217, 0) 100%);
-            height: auto;
-            box-shadow: 0 0 2px;
-            border-radius: 58px;
-            padding-left: 2%;
-            padding-right: 2%;
-            padding-top: 2%;
-            padding-bottom: 2%;
-            margin-bottom: 100px;
-        }
-
-        .welcome {
-            position: relative;
-            font-family: 'Arial';
-            font-style: normal;
-            font-weight: 700;
-            font-size: 50px;
-            line-height: 74px;
-            margin: 0;
-            top: 10%;
-            text-align: center;
-
-
-            color: rgba(0, 0, 0, 0.74);
-
-        }
-
-        h5 {
-            font-family: 'Arial';
-            font-style: normal;
-            font-weight: 700;
-            font-size: 18px;
-            line-height: 28px;
-            margin: 0;
-            color: rgba(0, 0, 0, 0.74);
-        }
-
-        .DownloadButtom {
-            background: rgba(255, 0, 0, 0.46);
-            ;
-            border: 0px;
-
-            padding-left: 10px;
-            padding-right: 10px;
-            border-radius: 37px;
-
-            font-family: 'Arial';
-            font-style: normal;
-            font-weight: 700;
-            font-size: 15px;
-            line-height: 23px;
-        }
-
-        .ChooseFile[type="file"]::-webkit-file-upload-button {
-            background: rgba(186, 104, 200, 0.56);
-            ;
-            border: 0px;
-
-            padding-left: 10px;
-            padding-right: 10px;
-            border-radius: 37px;
-            font-family: 'Arial';
-            font-style: normal;
-            font-weight: 700;
-            font-size: 15px;
-            line-height: 23px;
-        }
-
-        .UploadButton {
-            background: rgba(82, 0, 255, 0.46);
-            ;
-            border: 0px;
-
-            padding-left: 10px;
-            padding-right: 10px;
-            border-radius: 10px;
-            font-family: 'Arial';
-            font-style: normal;
-            font-weight: 700;
-            font-size: 15px;
-            line-height: 23px;
-
-        }
-
-        .CoordinatorDesign1 img {
-            position: absolute;
-            z-index: -1;
-            width: 20%;
-        }
-
-        .CoordinatorDesign2 img {
-            right: 0;
-            position: absolute;
-            z-index: -1;
-            width: 15%;
-        }
-
-        .CoordinatorDesign3 img {
-            bottom: 0;
-            position: absolute;
-            z-index: -1;
-            width: 20%;
-        }
-
-        .CoordinatorDesign4 img {
-            bottom: 0;
-            right: 0;
-            position: absolute;
-            z-index: -1;
-            width: 15%;
-        }
-
-        .footer_new {
-            position: absolute;
-            display: flex;
-            flex-wrap: wrap;
-            bottom: 0;
-            height: 60px;
-            width: 100%;
-            color: black;
-            background-color: white;
-            box-sizing: border-box;
-            /* added */
-        }
-
-        @media (max-width: 768px) {
-            .wrapper {
-                padding-bottom: 200px;
-                /* add the height of the footer to the padding-bottom */
-            }
-
-            .BOX {
-                margin-bottom: 0;
-                /* remove the margin-bottom of the box */
-                border-radius: 0;
-                /* remove the border-radius of the box */
-            }
-
-            .footer_new {
-                position: absolute;
-                bottom: 0;
-                height: 160px;
-                font-size: smaller;
-                /* position the footer to the bottom of the screen */
-            }
-
-            .F1,
-            .F2,
-            .F3 {
-                flex-basis: calc((100% / 3) - 2%);
-                margin-bottom: 0;
-            }
-
-            .F1 {
-                text-align: left;
-            }
-
-            .F2 {
-                text-align: center;
-            }
-
-            .F3 {
-                text-align: right;
-            }
-
-        }
-
-        .F1,
-        .F2,
-        .F3 {
-            flex-basis: calc((100% / 3) - 2%);
-            margin-bottom: 0;
-        }
-
-        .F1 {
-            text-align: left;
-        }
-
-        .F2 {
-            text-align: center;
-        }
-
-        .F3 {
-            text-align: right;
-        }
-    </style>
+    
 
 
 </head>
 
 <body>
-    <div class="CoordinatorDesign1"> <img src="./public/CoordinatorDesign.1.svg"></img></div>
-    <div class="CoordinatorDesign2"> <img src="./public/CoordinatorDesign.2.svg"></img></div>
-    <div class="CoordinatorDesign3"> <img src="./public/CoordinatorDesign.3.svg"></img></div>
-    <div class="CoordinatorDesign4"> <img src="./public/CoordinatorDesign.4.svg"></img></div>
-    <div class="wrapper">
+   
         <h2 class="welcome">
             Welcome <?php echo $text_final; ?>
 
@@ -822,7 +604,7 @@ if (isset($_POST['on_off'])) {
                     </form>
             </h5> -->
 
-        </div>
+        <!-- </div>
         <footer class="footer_new">
             <p class='F1'>Feedback | © COPYRIGHT 2023</p>
             <p class='F2'>Ideation By: Head CSE
@@ -830,13 +612,189 @@ if (isset($_POST['on_off'])) {
             <p class='F3'>Developed By: <a href='https://www.linkedin.com/in/swayam-pendgaonkar-ab4087232/' target='_blank' class='link' style='color:black'>Swayam Pendgaonkar</a><br />UI/UX: <a href='https://www.linkedin.com/in/sakshamgupta912/' target='_blank' class='link' style='color:black'>Saksham Gupta</a> ,<a href='https://www.linkedin.com/in/yajushreshtha-shukla/' target='_blank' class='link' style='color:black'>Yajushreshtha Shukla</a> </p>
 
         </footer>
-    </div>
+    </div> -->
 
 
 
     <script type="text/javascript" src="js.jquery.min.js"></script>
     <script type="text/javascript" src="js.bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
-</body>
+<!-- </body>
 
+</html>  -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Coordinator</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <style>
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 20%;
+  background-color: #f2f2f2;
+}
+
+.main-content {
+  width: 80%;
+  background-color: #ffffff;
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  padding: 10px;
+}
+.tab-content:not(#tab1) {
+      display: none;
+    }
+
+  </style>
+</head>
+<body>
+<div align="right">
+                <form action="logout.php" method="POST" style="display: inline-block;">
+                    <a href="logout.php"><button type="submit" name="logout" class="button_css" style="display: inline-block;">Logout</button></a>
+                </form>
+
+                <a href="reset.php"><button type="button" class="button_css" style="display: inline-block;">Reset Password</button></a>
+            </div>
+  <div class="container">
+    <div class="sidebar">
+      <!-- Navigation Bar -->
+      <ul>
+        <li><a href="#tab1">Student</a></li>
+        <li><a href="#tab2">Teacher</a></li>
+        <li><a href="#tab3">Feedback</a></li>
+        <li><a href="#tab4">Guests</a></li>
+        <li><a href="#tab5">Passwords</a></li>
+      </ul>
+    </div>
+    <div class="main-content">
+      <!-- Content for Tab 1 -->
+      <div id="tab1" class="tab-content">
+        
+        <h2>Student Manager</h2>
+        <br>
+        Format CSV File for Teacher Data:
+        <a href="student_data_format.csv" download><button class="DownloadButtom">Download CSV</button></a>
+        <br><br>
+        <form method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+                    <label for="csvfile">Select CSV file for students:</label>
+                    <input class="ChooseFile" type="file" name="csvfile_student_data" id="csvfile"><br>
+                    <input class="UploadButton" type="submit" name="submit1" value="Upload">
+        </form>
+        <br>
+        <a href="student_edit.php"><button class="">Edit Students</button></a>
+        <br>
+        <br>
+        <form method="POST">
+                    Turn the student login ON or OFF:
+                    <button class="DownloadButtom" type="submit" name="on_off" value="on" style="background:green;">ON</button>
+                    <button class="DownloadButtom" type="submit" name="on_off" value="off" style="background:red;">OFF</button>
+        </form>
+      </div>
+      
+      <!-- Content for Tab 2 -->
+      <div id="tab2" class="tab-content">
+        <h2>Teacher Manager</h2>
+        <br>
+        Format CSV File for Teacher Data:
+                <a href="teacher_data_format.csv" download><button class="DownloadButtom">Download CSV</button></a>
+                <br><br>
+                <form method="POST" enctype="multipart/form-data">
+                    <label for="csvfile">Select CSV file for teachers:</label>
+                    <input class="ChooseFile" type="file" name="csvfile_teacher_data" id="csvfile"><br>
+                    <input class="UploadButton" type="submit" name="submit" value="Upload">
+                </form><br>
+        <a href="teacher_edit.php"><button class="">Edit Teachers</button></a>
+       <br><br>
+       <form method="POST">
+                    Turn the teacher login ON or OFF:
+                    <button class="DownloadButtom" type="submit" name="teacher_on_off" value="on" style="background:green;">ON</button>
+                    <button class="DownloadButtom" type="submit" name="teacher_on_off" value="off" style="background:red;">OFF</button>
+                </form>
+      </div>
+      
+      <!-- Content for Tab 3 -->
+      <div id="tab3" class="tab-content">
+        <h2>Feedback Manager</h2><br>
+        <form method="POST">
+                    Download Feedback for you branch
+                    (<?php echo $branch ?>) :
+                    <button class="DownloadButtom" type="submit" name="download_csv">Download CSV</button>
+                    <button class="DownloadButtom" type="submit" name="download_remark">Download Remark</button>
+                </form>
+                <br>
+                <form method="POST">
+                    Download File for students who have not submitted it
+                    (<?php echo $branch ?>) :
+                    <button class="DownloadButtom" type="submit" name="download_csv_not_submitted">Download CSV</button>
+                </form>
+        
+      </div>
+      <div id="tab4" class="tab-content">
+        <h2>Guest Manager</h2><br>
+        
+        
+      </div>
+      <div id="tab5" class="tab-content">
+        <h2>Password Manager</h2><br>
+        Click here to take action on passwords: <a href="send-mail.php"><button>Password Manager</button></a>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+ document.addEventListener("DOMContentLoaded", function() {
+  const tabs = document.querySelectorAll(".sidebar ul li a");
+  const mainContent = document.querySelector(".main-content");
+
+  tabs.forEach(function(tab) {
+    tab.addEventListener("click", function(e) {
+      e.preventDefault();
+
+      // Remove active class from all tabs
+      tabs.forEach(function(tab) {
+        tab.classList.remove("active");
+      });
+
+      // Add active class to the clicked tab
+      this.classList.add("active");
+
+      // Fetch and display the content for the selected tab
+      const tabId = this.getAttribute("href").substring(1);
+      fetchContent(tabId);
+    });
+  });
+
+  function fetchContent(tabId) {
+    // Hide all tab content divs
+    const tabContents = document.querySelectorAll(".tab-content");
+    tabContents.forEach(function(tabContent) {
+      tabContent.style.display = "none";
+    });
+
+    // Show the selected tab content
+    const selectedTabContent = document.getElementById(tabId);
+    selectedTabContent.style.display = "block";
+  }
+});
+
+
+  </script>
+</body>
 </html>
