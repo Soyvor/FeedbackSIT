@@ -100,7 +100,7 @@ include "code.php";
                         <label class="form-check-label" for="form1Example3" style="color:rgba(255, 255, 255, 0.4);"> Username </label>
                       </div>
                       <div class="form-outline mb-4  mx-auto">
-                        <input type="email" name="username" id="typeEmailX-2" class="form-control form-control-lg custom-input-box" placeholder="" />
+                        <input type="text" name="username" id="typeEmailX-2" class="form-control form-control-lg custom-input-box" placeholder="" />
                       </div>
                   </div>
 

@@ -10,7 +10,7 @@ if(isset($_POST["btnLogin"]))
     
 
 	$query = "SELECT * FROM login WHERE username='$username' AND is_valid='1'";
-	$result = mysqli_query($conn, $query); 
+	$result = mysqli_query($conn, $query);
 
 	if(mysqli_num_rows($result) > 0)
 	{
@@ -26,7 +26,7 @@ if(isset($_POST["btnLogin"]))
 				$_SESSION['usertype'] = "superadmin";
 				header('Location: admin.php');
 			}
-			else if($row["role"] == "coordinato")
+			else if($row["role"] == "coordinator")
 			{
 				$_SESSION['coordinator']= $row["username"];
 				$_SESSION['usertype'] = "coordinator";
@@ -34,9 +34,55 @@ if(isset($_POST["btnLogin"]))
 			}
 			else if($row["role"] == "student")
 			{
-				$_SESSION['student']= $row["username"];
-				$_SESSION['usertype'] = "student";
-				header('Location: student.php');
+				if($row["acad_year"]=="fy"){
+					$query = "SELECT * FROM fy_student WHERE prn='$username' AND is_valid='1'";
+					$result1 = mysqli_query($conn, $query);
+					if(mysqli_num_rows($result1)>0){
+						$_SESSION['student']= $row["username"];
+						$_SESSION['usertype'] = "student";
+						$_SESSION['branch_student']="FY";
+						header('Location: student.php');
+				}
+					else{
+						echo "<script>
+					if(window.confirm('First Year Student Login Turned OFF!')){
+						window.location.href = 'index.php';
+						
+					}
+					else{
+						window.location.href = 'index.php';
+					}
+				</script>";
+			
+						}
+				}
+				else{
+					$branch = $row["branch"];
+					$branch_name = $branch.""."_student";
+					$query = "SELECT * FROM $branch_name WHERE prn='$username' AND is_valid='1'";
+					$result2 = mysqli_query($conn, $query);
+					if(mysqli_num_rows($result2)>0){
+						$_SESSION['student']= $row["username"];
+						$_SESSION['usertype'] = "student";
+						$_SESSION['branch_student']=$branch;
+						header('Location: student.php');
+					}
+					else{
+							echo "<script>
+						if(window.confirm('Student Login Turned OFF!')){
+							window.location.href = 'index.php';
+							
+						}
+						else{
+							window.location.href = 'index.php';
+						}
+					</script>";
+				
+						}
+				}
+				
+				}
+				
 			}
 			else if($row["role"] == "teacher")
 			{
@@ -44,9 +90,8 @@ if(isset($_POST["btnLogin"]))
 				$_SESSION['usertype'] = "teacher";
 				header('Location: teacher.php');
 			}
-		    }
-            else
-    	{
+		    
+            else{
     	echo "<script>
                 if(window.confirm('Incorrect Username or Password!')){
                     window.location.href = 'index.php';
@@ -63,7 +108,7 @@ if(isset($_POST["btnLogin"]))
 	else
 	{
 		echo "<script>
-                if(window.confirm('Incorrect Username or Password!')){
+                if(window.confirm('Incorrect Username or Password! lol')){
                     window.location.href = 'index.php';
                 }
                 else{
