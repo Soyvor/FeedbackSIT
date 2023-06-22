@@ -29,7 +29,9 @@ if(isset($_POST["btnLogin"]))
 			else if($row["role"] == "coordinator")
 			{
 				$_SESSION['coordinator']= $row["username"];
+				$_SESSION['branch']= $row["branch"];
 				$_SESSION['usertype'] = "coordinator";
+				
 				header('Location: coordinator.php');
 			}
 			else if($row["role"] == "student")
@@ -76,7 +78,7 @@ if(isset($_POST["btnLogin"]))
 						else{
 							window.location.href = 'index.php';
 						}
-					</script>";
+								</script>";
 				
 						}
 				}

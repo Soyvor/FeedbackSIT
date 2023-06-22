@@ -8,6 +8,7 @@ if (!isset($_SESSION['coordinator'])) {
 }
 
 
+require "connection.php";
 
 require('PHPMailer-master/src/PHPMailer.php');
 require('PHPMailer-master/src/Exception.php');
@@ -19,10 +20,7 @@ use PHPMailer\PHPMailer\Exception;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Database connection
-    $conn = mysqli_connect("localhost", "root", "", "sit_feedback");
-    if (!$conn) {
-        die("Connection unsuccessful: " . mysqli_connect_error());
-    }
+    
 
     $role = $_POST['role'];
 

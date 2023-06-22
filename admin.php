@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_coordinator'])
 }
 
 // get all the coordinators from the database
-$sql = "SELECT * FROM login WHERE role = 'coordinato'";
+$sql = "SELECT * FROM login WHERE role = 'coordinator'";
 $result = mysqli_query($conn, $sql);
 
 

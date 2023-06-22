@@ -10,7 +10,10 @@ if (!isset($_SESSION['coordinator'])) {
 require_once "connection.php";
 
 $username = $_SESSION['coordinator'];
-$branch = $_SESSION['coordinator'];
+$branch = $_SESSION['branch'];
+$branch_student = $branch.''."_student";
+$branch_teacher = $branch.''."_teacher";
+$branch_feedback = $branch.''."_feedback";
 
 $username_parts = explode("@", $username);
 $username_prefix = $username_parts[0];
@@ -168,14 +171,14 @@ if (isset($_POST['download_csv'])) {
 
     
     // Retrieve feedback data for the given branch
-    if($branch1=='FY'){
-        $query = "SELECT * FROM feedback_report WHERE year_branch_class LIKE 'FY-%'";
-    }
-    else{
-        $query = "SELECT * FROM feedback_report WHERE year_branch_class LIKE '%-$branch-%'";
+    // if($branch1=='FY'){
+    //     $query = "SELECT * FROM feedback_report WHERE year_branch_class LIKE 'FY-%'";
+    // }
+    // else{
+    //     $query = "SELECT * FROM feedback_report WHERE year_branch_class LIKE '%-$branch-%'";
 
-    }
-    // $query = "SELECT * FROM feedback_report WHERE year_branch_class LIKE '%-$branch-%'";
+    // }
+    $query = "SELECT * FROM $branch_feedback";
     $result = mysqli_query($conn, $query);
 
     if (!$result) {
@@ -191,7 +194,7 @@ if (isset($_POST['download_csv'])) {
 
 
     // Add the CSV header row
-    fputcsv($output, array('Name', 'PRN', 'Year/Branch/Class', 'Teacher', 'Subject', 'Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Q7', 'Q8', 'Q9','Average'));
+    fputcsv($output, array('Name', 'PRN', 'Academic Year','Branch','Class', 'Teacher', 'Subject', 'Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Q7', 'Q8', 'Q9','Average'));
 
     // Loop through the feedback data and add each row to the CSV file
     if ($result && mysqli_num_rows($result) > 0) {
@@ -199,7 +202,9 @@ if (isset($_POST['download_csv'])) {
             // Process each row here
             $name = ucwords(strtolower($row['name']));
             $prn = $row['prn'];
-            $year_branch_class = $row['year_branch_class'];
+            $acad_year = $row['acad_year'];
+            $branch = $row['branch'];
+            $class = $row['class'];
             $teacher = ucwords(strtolower($row['teacher']));
             $subject = ucwords(strtolower($row['subject']));
             $q1 = $row['q1'];
@@ -213,7 +218,7 @@ if (isset($_POST['download_csv'])) {
             $q9 = $row['q9'];
             $average=$row['avg'];
             // Add the row to the CSV file
-            fputcsv($output, array($name, $prn, $year_branch_class, $teacher, $subject, $q1, $q2, $q3, $q4, $q5, $q6, $q7, $q8, $q9,$average));
+            fputcsv($output, array($name, $prn, $acad_year, $branch, $class, $teacher, $subject, $q1, $q2, $q3, $q4, $q5, $q6, $q7, $q8, $q9,$average));
         }
     }
 
@@ -289,17 +294,9 @@ if (isset($_POST['download_csv_not_submitted'])) {
     // Retrieve branch from the form
     // Retrieve feedback data for the given branch
 
-    if($branch1=='FY')
-    {
-        $query = "SELECT student_data.prn, student_data.year_branch_class, student_data.student_email
-          FROM student_data
-          WHERE student_data.year_branch_class LIKE 'FY-%'";
-    }
-    else{
-        $query = "SELECT student_data.prn, student_data.year_branch_class, student_data.student_email
-        FROM student_data
-        WHERE student_data.year_branch_class LIKE '%-$branch-%'";
-    }
+    
+        $query = "SELECT prn FROM $branch_student";
+    
   
 
     $result = mysqli_query($conn, $query);
@@ -315,15 +312,14 @@ if (isset($_POST['download_csv_not_submitted'])) {
     if ($result && mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
             $prn = $row['prn'];
-            $year_branch_class = $row['year_branch_class'];
 
             // Check if the student has submitted feedback
-            $feedback_query = "SELECT * FROM feedback_report WHERE prn='$prn'";
+            $feedback_query = "SELECT * FROM $branch_feedback WHERE prn='$prn'";
             $feedback_result = mysqli_query($conn, $feedback_query);
             if (!$feedback_result) {
                 die("Error executing query: " . mysqli_error($conn));
             }
-            if (mysqli_num_rows($feedback_result) == 0) {
+            else if (mysqli_num_rows($feedback_result) == 0) {
                 // The student has not submitted feedback, so add their PRN to the array
                 $prns[] = $prn;
             }
@@ -338,22 +334,24 @@ if (isset($_POST['download_csv_not_submitted'])) {
     header('Content-Disposition: attachment; filename=feedback_not_submitted.csv');
 
     // Add the CSV header row
-    fputcsv($output, array('PRN', 'Year/Branch/Class', 'Email'));
+    fputcsv($output, array('PRN', 'Academic Year','Branch','Class', 'Email'));
 
     // Loop through the list of PRNs and add each row to the CSV file
     foreach ($prns as $prn) {
         // Get the year/branch/class and email for the student
-        $query = "SELECT year_branch_class, student_email FROM student_data WHERE prn='$prn'";
+        $query = "SELECT acad_year, branch, class, email FROM $branch_student WHERE prn='$prn'";
         $result = mysqli_query($conn, $query);
         if (!$result) {
             die("Error executing query: " . mysqli_error($conn));
         }
         $row = mysqli_fetch_assoc($result);
-        $year_branch_class = $row['year_branch_class'];
-        $email = $row['student_email'];
+        $acad_year = $row['acad_year'];
+        $branch= $row['branch'];
+        $class = $row['class'];
+        $email = $row['email'];
 
         // Add the row to the CSV file
-        fputcsv($output, array($prn, $year_branch_class, $email));
+        fputcsv($output, array($prn, $acad_year,$branch,$class, $email));
     }
 
 
