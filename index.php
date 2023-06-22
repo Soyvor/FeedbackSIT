@@ -78,12 +78,8 @@ include "code.php";
 
 <body>
   <section>
-    <div class="container py-5 h-100">
+    <div class="container py-5 h-100 d-flex justify-content-center align-items-center ">
       <div class="row d-flex justify-content-center align-items-center ">
-       
-
-
-
           <div class="card ">
             <div class="card-body p-5 text-center">
 
