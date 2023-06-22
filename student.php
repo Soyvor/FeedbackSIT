@@ -5,21 +5,47 @@ if (!isset($_SESSION['student'])) {
 	exit;
 }
 
-
 require_once "connection.php";
 $username = $_SESSION['student']; //gives prn
+$branch = $_SESSION['branch_student'];
+$branch_check = $branch . '' . "_student";
+$branch_teacher = $branch . '' . "_teacher";
+$branch_feedback = $branch . '' . "_feedback";
+echo "$branch_check";
+echo "$username";
 
+if ($branch_check == "FY") {
+	$query = "SELECT * FROM fy_student WHERE prn='$username'";
+	$result = mysqli_query($conn, $query);
 
-$query = "SELECT * FROM student_data WHERE prn='$username'";
-$result = mysqli_query($conn, $query);
-
-if (mysqli_num_rows($result) > 0) {
-
-	while ($row = mysqli_fetch_assoc($result)) {
-		$name = ucwords($row["name"]);
+	if ($result) {
+		if (mysqli_num_rows($result) > 0) {
+			while ($row = mysqli_fetch_assoc($result)) {
+				$name = ucwords($row["name"]);
+			}
+		} else {
+			$name = 'Please Contact Coordinator!';
+		}
+	} else {
+		// Query execution failed
+		echo "Error: " . mysqli_error($conn);
 	}
 } else {
-	$name = 'Please Contact Coordinator!';
+	$query = "SELECT * FROM $branch_check WHERE prn='$username'";
+	$result = mysqli_query($conn, $query);
+
+	if ($result) {
+		if (mysqli_num_rows($result) > 0) {
+			while ($row = mysqli_fetch_assoc($result)) {
+				$name = ucwords($row["name"]);
+			}
+		} else {
+			$name = 'Please Contact Coordinator!';
+		}
+	} else {
+		// Query execution failed
+		echo "Error: " . mysqli_error($conn);
+	}
 }
 
 ?>
@@ -104,35 +130,51 @@ if (mysqli_num_rows($result) > 0) {
 
 
 						<?php
-						$query = "SELECT * FROM feedback_report WHERE prn='$username'";
+						$query = "SELECT * FROM $branch_feedback WHERE prn='$username'";
 						$result = mysqli_query($conn, $query);
 						$row = mysqli_fetch_assoc($result);
 
 
 						if (mysqli_num_rows($result) == 0) {
 							// Retrieve student information
-							$query = "SELECT * FROM student_data WHERE prn='$username'";
+							$query = "SELECT * FROM $branch_check WHERE prn='$username'";
 							$result = mysqli_query($conn, $query);
 							$row = mysqli_fetch_assoc($result);
 							$student_name = $row['name'];
-							$open_elective = $row['open_elective'];
-							$open_elective_arr = preg_split('/\s*,\s*/', $open_elective);
-							$specialization = $row['specialization'];
-							$specialization_arr = preg_split('/\s*,\s*/', $specialization);
-							$class_batch = $row['year_branch_class'];
-							$email = $row['student_email'];
-							$ph_no = $row['student_mobile'];
+							echo "$student_name";
+							$specialization = $row['open'];
+							$general = $row['general'];
+							$acad_year = $row["acad_year"];
+							$branch = $row["branch"];
+							$class = $row["class"];
+							echo " ";
+							echo "$general";
+							echo "$specialization";
 
-							$subjects_arr = array_merge($open_elective_arr, $specialization_arr);
 
-							// Build the query
-							$subject_condition = "subject IN ('" . implode("', '", $subjects_arr) . "')";
-							$year_branch_class_condition = "year_branch_class='$class_batch' AND is_valid='1'";
-							$year_branch_class_without_batch = substr($class_batch, 0, -1);
-							$year_branch_class_without_batch_condition = "year_branch_class='$year_branch_class_without_batch' AND is_valid='1'";
+							//$query_spec = "SELECT * FROM specialization WHERE course_name ='$specialization'";
 
-							// Construct the final query with both conditions
-							$query = "SELECT * FROM teacher_data WHERE ($year_branch_class_condition) OR ($year_branch_class_without_batch_condition AND $subject_condition)";
+							// // $subjects_arr = array_merge($open_elective_arr, $specialization_arr);
+
+							// // // Build the query
+							// // $subject_condition = "subject IN ('" . implode("', '", $subjects_arr) . "')";
+							// // $year_branch_class_condition = "year_branch_class='$class_batch' AND is_valid='1'";
+							// // $year_branch_class_without_batch = substr($class_batch, 0, -1);
+							// // $year_branch_class_without_batch_condition = "year_branch_class='$year_branch_class_without_batch' AND is_valid='1'";
+
+							// // Construct the final query with both conditions
+							//$query = "SELECT * FROM $branch_teacher WHERE (acad_year = '$acad_year' AND branch = '$branch' AND class = '$class') OR subject = '$general'";
+
+
+
+							$query = "SELECT name, subject
+							FROM specialization
+							WHERE course_name = '$specialization'
+							UNION
+							SELECT name, subject
+							FROM $branch_teacher
+							WHERE (acad_year = '$acad_year' AND branch = '$branch' AND class = '$class') OR subject = '$general'";
+				  
 
 							$result = mysqli_query($conn, $query);
 
@@ -142,10 +184,10 @@ if (mysqli_num_rows($result) > 0) {
 								$teacher_subject = $row['subject'];
 
 								// Retrieve questions from question_data table
-								$query = "SELECT * FROM question_data";
+								$query = "SELECT * FROM question";
 								$question_result = mysqli_query($conn, $query);
 								$question_number = 1;
-								
+
 
 
 
@@ -160,7 +202,7 @@ if (mysqli_num_rows($result) > 0) {
 
 								// Display questions and radio buttons
 								while ($question_row = mysqli_fetch_assoc($question_result)) {
-									$question = $question_row['question'];
+									$question = $question_row['questions'];
 									// echo "<p>Q$question_number. $question</p>";
 									echo "<tr><td style='padding: 10px;  font-family: Arial, Helvetica, sans-serif'><b>" . "Q" . "" . $question . "</b></td></tr>";
 									echo "<tr><td style='padding: 10px;  font-family: Arial, Helvetica, sans-serif'>";
@@ -177,7 +219,12 @@ if (mysqli_num_rows($result) > 0) {
 							echo "<tr style><td style='padding: 10px;  font-family: Arial, Helvetica, sans-serif'>Any Feedback: <input type='text' name='remark[$username]' size='35' ></td></tr>";
 							$_SESSION['prn'] = $username;
 							$_SESSION['student_name'] = $student_name;
-							$_SESSION['class_batch'] = $class_batch;
+							$_SESSION['acad_year'] = $acad_year;
+							$_SESSION['branch'] = $branch;
+							$_SESSION['class'] = $class;
+							$_SESSION['branch_feedback']=$branch_feedback;
+							$_SESSION['branch_check']=$branch_check;
+							$_SESSION['branch_teacher']=$branch_teacher;
 							$try = 0;
 							// Display submit button
 							echo "<tr><td align='center'><br><input type='submit' name='submit' value='Submit Feedback'></td></tr>";
@@ -199,32 +246,7 @@ if (mysqli_num_rows($result) > 0) {
 
 						echo "</div>";
 						if ($try == 0) {
-							echo "<footer class='FooterTop'>
-
-
-		<p class='FTp1'>Feedback | © COPYRIGHT 2023</p>
-		<p class='FTp2'>Ideation By: Head CSE
-		<p>
-		<p class='FTp3'>Developed By: <a href='https://www.linkedin.com/in/swayam-pendgaonkar-ab4087232/' target='_blank' class='link' style='color:black'>Swayam Pendgaonkar</a><br />UI/UX: <a href='https://www.linkedin.com/in/sakshamgupta912/' target='_blank' class='link' style='color:black'>Saksham Gupta</a> ,<a href='https://www.linkedin.com/in/yajushreshtha-shukla/' target='_blank' class='link' style='color:black'>Yajushreshtha Shukla</a> </p>
-	</footer>
-	<footer class='FooterBottom'>
-		<p class='bottomText'>© Copyright.All Rights Reserved
-		<p>
-	</footer>";
-						} else if ($try == 1) {
-							echo "
-		<footer class='FooterTop' style='position:fixed; background-color:white;'>
-
-
-	<p class='FTp1'>Feedback | © COPYRIGHT 2023</p>
-	<p class='FTp2'>Ideation By: Head CSE
-	<p>
-	<p class='FTp3'>Developed By: <a href='https://www.linkedin.com/in/swayam-pendgaonkar-ab4087232/' target='_blank' class='link' style='color:black'>Swayam Pendgaonkar</a><br />UI/UX: <a href='https://www.linkedin.com/in/sakshamgupta912/' target='_blank' class='link' style='color:black'>Saksham Gupta</a> ,<a href='https://www.linkedin.com/in/yajushreshtha-shukla/' target='_blank' class='link' style='color:black'>Yajushreshtha Shukla</a> </p>
-</footer>
-<footer class='FooterBottom' style='display:none'>
-	<p class='bottomText'>© Copyright.All Rights Reserved
-	<p>
-</footer>";
+							
 						}
 						?>
 			</div>
