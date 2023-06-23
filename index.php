@@ -42,7 +42,7 @@ include "code.php";
 
     }
 
-    .form-control{
+    .form-control {
       color: white;
     }
 
@@ -80,99 +80,99 @@ include "code.php";
   <section>
     <div class="container py-5 h-100 d-flex justify-content-center align-items-center ">
       <div class="row d-flex justify-content-center align-items-center ">
-          <div class="card ">
-            <div class="card-body p-5 text-center">
+        <div class="card ">
+          <div class="card-body p-5 text-center">
 
-              <div class="container">
+            <div class="container">
 
 
-                <h3 class="mb-1" style="text-align:start">Login</h3>
+              <h3 class="mb-1" style="text-align:start">Login</h3>
 
-                <div class="d-flex justify-content-start  mb-4">
-                  <label class="form-check-label" for="form1Example3" style="color: rgba(255, 255, 255, 0.29);">Sign in to your account to continue </label>
-                </div>
-
+              <div class="d-flex justify-content-start  mb-4">
+                <label class="form-check-label" for="form1Example3" style="color: rgba(255, 255, 255, 0.29);">Sign in to your account to continue </label>
               </div>
 
-              <form action="code.php" method="post">
-                  <div class="container  ">
-                      <div class="d-flex justify-content-start ml-1 mb-1 ">
-                        <label class="form-check-label" for="form1Example3" style="color:rgba(255, 255, 255, 0.4);"> Username </label>
-                      </div>
-                      <div class="form-outline mb-4  mx-auto">
-                        <input type="text" name="username" id="typeEmailX-2" class="form-control form-control-lg custom-input-box" placeholder="" />
-                      </div>
-                  </div>
-
-
-                  <div class="container">
-                    <div class="d-flex justify-content-start ml-1 mb-1  ">
-                      <label class="form-check-label" for="form1Example3" style="color:rgba(255, 255, 255, 0.4);"> Password </label>
-                    </div>
-                    <div class="form-outline mb-4 ">
-                      <input type="password" name="password" id="typePasswordX-2" class="form-control form-control-lg custom-input-box" placeholder="" />
-                      
-                    </div>
-                  </div>
-
-
-                  <div class="container d-flex justify-content-between align-items-center mt-5">
-                    <div><input type="submit" class="btn btn-primary custom-button"  name="btnLogin" value="Login"></button></div>
-                    
-                    <div> <a class="custom-anchor text-decoration-none" href="forgot-password.php">Forgot Password ?</a></div>
-                  </div>
-              </form>
             </div>
 
+            <form action="code.php" method="post">
+              <div class="container  ">
+                <div class="d-flex justify-content-start ml-1 mb-1 ">
+                  <label class="form-check-label" for="form1Example3" style="color:rgba(255, 255, 255, 0.4);"> Username </label>
+                </div>
+                <div class="form-outline mb-4  mx-auto">
+                  <input type="text" name="username" id="typeEmailX-2" class="form-control form-control-lg custom-input-box" placeholder="" />
+                </div>
+              </div>
+
+
+              <div class="container">
+                <div class="d-flex justify-content-start ml-1 mb-1  ">
+                  <label class="form-check-label" for="form1Example3" style="color:rgba(255, 255, 255, 0.4);"> Password </label>
+                </div>
+                <div class="form-outline mb-4 ">
+                  <input type="password" name="password" id="typePasswordX-2" class="form-control form-control-lg custom-input-box" placeholder="" />
+
+                </div>
+              </div>
+
+
+              <div class="container d-flex justify-content-between align-items-center mt-5">
+                <div><input type="submit" class="btn btn-primary custom-button" name="btnLogin" value="Login"></button></div>
+
+                <div> <a class="custom-anchor text-decoration-none" href="forgot-password.php">Forgot Password ?</a></div>
+              </div>
+            </form>
           </div>
-        
+
+        </div>
+
       </div>
     </div>
 
 
-  
-
-   <!-- Site footer -->
-  <footer class="site-footer footer-bottom d-flex">
-
-<div class="container">
-  <hr>
-  <div class="row">
-    <div class="col-xs-12 col-md-4">
 
 
-      <p class="copyright-text ">Copyright &copy; 2023 |
-        <a>Feedback</a>.
-      </p>
-    </div>
+    <!-- Site footer -->
+    <footer class="site-footer footer-bottom d-flex">
 
-    <div class="col-xs-6 col-md-4 ">
-      <h6 class="text-center">Ideation By</h6>
-
-      <ul class="footer-links text-center">
-
-        <li><a href="">Dr. Deepali Vora, Head CS IT</a></li>
+      <div class="container">
+        <hr>
+        <div class="row">
+          <div class="col-xs-12 col-md-4">
 
 
-      </ul>
-    </div>
+            <p class="copyright-text ">Copyright &copy; 2023 |
+              <a>Feedback</a>.
+            </p>
+          </div>
 
-    <div class="col-xs-6 col-md-4 ">
-      <h6 class="text-right custom-developed-by">Developed By</h6>
-      <ul class="footer-links text-right custom-developed-by">
-        <li><a href="https://www.linkedin.com/in/swayam-pendgaonkar-ab4087232/">Swayam Pendgaonkar</a></li>
-        <li><a href="https://www.linkedin.com/in/sakshamgupta912/">Saksham Gupta</a></li>
-        <li><a href="https://www.linkedin.com/in/yajushreshtha-shukla/">Yajushreshtha Shukla</a></li>
-      </ul>
-    </div>
+          <div class="col-xs-6 col-md-4 ">
+            <h6 class="text-center">Ideation By</h6>
 
-  </div>
+            <ul class="footer-links text-center">
 
-</div>
+              <li><a href="">Dr. Deepali Vora, Head CS IT</a></li>
 
-</div>
-</footer>
-</section>
+
+            </ul>
+          </div>
+
+          <div class="col-xs-6 col-md-4 ">
+            <h6 class="text-right custom-developed-by">Developed By</h6>
+            <ul class="footer-links text-right custom-developed-by">
+              <li><a href="https://www.linkedin.com/in/swayam-pendgaonkar-ab4087232/">Swayam Pendgaonkar</a></li>
+              <li><a href="https://www.linkedin.com/in/sakshamgupta912/">Saksham Gupta</a></li>
+              <li><a href="https://www.linkedin.com/in/yajushreshtha-shukla/">Yajushreshtha Shukla</a></li>
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
+
+      </div>
+    </footer>
+  </section>
 
   <!-- Include Bootstrap JavaScript (jQuery and Popper.js are required) -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
