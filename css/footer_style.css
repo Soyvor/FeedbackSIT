@@ -7,12 +7,12 @@
     padding: 10px 0 10px;
     font-size: 17px;
     line-height: 24px;
-    color: #737373;
+    color: white;
   }
 
 
   .site-footer hr {
-    border-top-color: #bbb;
+    border-top-color: white;
     opacity: 0.5
   }
 
@@ -29,7 +29,7 @@
   }
 
   .site-footer a {
-    color: #737373;
+    color: white;
   }
 
   .site-footer a:hover {
@@ -47,7 +47,7 @@
   }
 
   .footer-links a {
-    color: #737373
+    color: white;
   }
 
   .footer-links a:active,
@@ -97,6 +97,9 @@
 
     .custom-developed-by{
         text-align: center !important;
+      }
+      .custom-feedback{
+        text-align: center!important;
       }
 
     .site-footer {

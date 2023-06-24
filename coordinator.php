@@ -699,7 +699,8 @@ if (isset($_POST['on_off'])) {
         }
 
         .card {
-            min-height: 250px;
+            min-height: 190px;
+         
 
             background-color: #202E39;
             border-radius: 1.25rem;
@@ -711,7 +712,7 @@ if (isset($_POST['on_off'])) {
         }
 
         .container-fluid .main-content {
-            padding-right: 40vw;
+            padding-right: 35vw;
         }
 
         @media screen and (min-width: 768px) and (max-width: 1500px) {
@@ -728,7 +729,7 @@ if (isset($_POST['on_off'])) {
         }
 
         .btn {
-            
+
             border: 0;
             border-radius: 10px;
 
@@ -742,9 +743,8 @@ if (isset($_POST['on_off'])) {
 
         .btn-primary {
             background: #3D8BFD;
-          
+
         }
-    
     </style>
 
 
@@ -885,7 +885,7 @@ if (isset($_POST['on_off'])) {
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
-            <div class="container-fluid " style="background-color:#17212C;color: white; ">
+            <div class="container-fluid " style="background-color:#17212C;color: white; min-height:calc(100vh - 149px)">
 
 
 
@@ -901,14 +901,14 @@ if (isset($_POST['on_off'])) {
                                     <div class="row g-0">
                                         <div class="col-md-4 d-flex align-items-center justify-content-center px-1 py-1">
 
-                                            <img src="./public/DownloadIcon.svg" class=" rounded-circle " width="250px" alt="Download">
+                                            <img src="./public/DownloadIcon.svg" class="img-fluid rounded-circle " width="250px" alt="Download">
 
 
 
                                         </div>
                                         <div class="col-md-8">
                                             <div class="card-body">
-                                                <h5 class="card-title" style="font-size: 30px;">Download</h5>
+                                                <h5 class="card-title" style="font-size: 25px;">Download</h5>
                                                 <p class="card-text" style="font-size: 15px;">Download template for student data
                                                 </p>
 
@@ -928,14 +928,14 @@ if (isset($_POST['on_off'])) {
                                     <div class="row g-0">
                                         <div class="col-md-4 d-flex align-items-center justify-content-center px-1 py-1">
 
-                                            <img src="./public/EditIcon.svg" class=" rounded-circle " width="250px" alt="Edit Icon">
+                                            <img src="./public/EditIcon.svg" class=" img-fluid rounded-circle " width="250px" alt="Edit Icon">
 
 
 
                                         </div>
                                         <div class="col-md-8">
                                             <div class="card-body">
-                                                <h5 class="card-title" style="font-size: 30px;">Edit </h5>
+                                                <h5 class="card-title" style="font-size: 25px;">Edit </h5>
                                                 <p class="card-text" style="font-size: 15px;">Edit Student Data
                                                 </p>
 
@@ -953,11 +953,11 @@ if (isset($_POST['on_off'])) {
                                 <div class="card mb-3 d-flex justify-content-center align-items-center">
                                     <div class="row g-0">
                                         <div class="col-md-4 d-flex align-items-center justify-content-center px-1 py-1">
-                                            <img src="./public/UploadIcon.svg" class=" rounded-circle" width="250px" alt="Download">
+                                            <img src="./public/UploadIcon.svg" class=" img-fluid rounded-circle" width="250px" alt="Download">
                                         </div>
                                         <div class="col-md-8">
                                             <div class="card-body">
-                                                <h5 class="card-title" style="font-size: 30px;">Upload</h5>
+                                                <h5 class="card-title" style="font-size: 25px;">Upload</h5>
                                                 <p class="card-text" style="font-size: 15px;">Upload Data of Student (CSV Format Only)</p>
                                             </div>
                                         </div>
@@ -1003,11 +1003,11 @@ if (isset($_POST['on_off'])) {
                                 <div class="card mb-3 d-flex justify-content-center align-items-center">
                                     <div class="row g-0">
                                         <div class="col-md-4 d-flex align-items-center justify-content-center px-1 py-1">
-                                            <img src="./public/DisableIcon.svg" class=" rounded-circle" width="250px" alt="DisableIcon">
+                                            <img src="./public/DisableIcon.svg" class=" img-fluid rounded-circle" width="250px" alt="DisableIcon">
                                         </div>
                                         <div class="col-md-8">
                                             <div class="card-body">
-                                                <h5 class="card-title" style="font-size: 30px;">Disable</h5>
+                                                <h5 class="card-title" style="font-size: 25px;">Disable</h5>
                                                 <p class="card-text" style="font-size: 15px;">Turn the student login ON or OFF</p>
                                             </div>
                                         </div>
@@ -1059,14 +1059,14 @@ if (isset($_POST['on_off'])) {
                                     <div class="row g-0">
                                         <div class="col-md-4 d-flex align-items-center justify-content-center px-1 py-1">
 
-                                            <img src="./public/DownloadIcon.svg" class=" rounded-circle " width="250px" alt="Download">
+                                            <img src="./public/DownloadIcon.svg" class=" img-fluid rounded-circle " width="250px" alt="Download">
 
 
 
                                         </div>
                                         <div class="col-md-8">
                                             <div class="card-body">
-                                                <h5 class="card-title" style="font-size: 30px;">Download</h5>
+                                                <h5 class="card-title" style="font-size: 25px;">Download</h5>
                                                 <p class="card-text" style="font-size: 15px;">Download template for teacher data
                                                 </p>
 
@@ -1086,14 +1086,14 @@ if (isset($_POST['on_off'])) {
                                     <div class="row g-0">
                                         <div class="col-md-4 d-flex align-items-center justify-content-center px-1 py-1">
 
-                                            <img src="./public/EditIcon.svg" class=" rounded-circle " width="250px" alt="Edit Icon">
+                                            <img src="./public/EditIcon.svg" class=" img-fluid rounded-circle " width="250px" alt="Edit Icon">
 
 
 
                                         </div>
                                         <div class="col-md-8">
                                             <div class="card-body">
-                                                <h5 class="card-title" style="font-size: 30px;">Edit </h5>
+                                                <h5 class="card-title" style="font-size: 25px;">Edit </h5>
                                                 <p class="card-text" style="font-size: 15px;">Edit Teacher Data
                                                 </p>
 
@@ -1111,11 +1111,11 @@ if (isset($_POST['on_off'])) {
                                 <div class="card mb-3 d-flex justify-content-center align-items-center">
                                     <div class="row g-0">
                                         <div class="col-md-4 d-flex align-items-center justify-content-center px-1 py-1">
-                                            <img src="./public/UploadIcon.svg" class=" rounded-circle" width="250px" alt="Download">
+                                            <img src="./public/UploadIcon.svg" class=" img-fluid rounded-circle" width="250px" alt="Download">
                                         </div>
                                         <div class="col-md-8">
                                             <div class="card-body">
-                                                <h5 class="card-title" style="font-size: 30px;">Upload</h5>
+                                                <h5 class="card-title" style="font-size: 25px;">Upload</h5>
                                                 <p class="card-text" style="font-size: 15px;">Upload Data of Teacher (CSV Format Only)</p>
                                             </div>
                                         </div>
@@ -1160,11 +1160,11 @@ if (isset($_POST['on_off'])) {
                                 <div class="card mb-3 d-flex justify-content-center align-items-center">
                                     <div class="row g-0">
                                         <div class="col-md-4 d-flex align-items-center justify-content-center px-1 py-1">
-                                            <img src="./public/DisableIcon.svg" class=" rounded-circle" width="250px" alt="DisableIcon">
+                                            <img src="./public/DisableIcon.svg" class=" img-fluid rounded-circle" width="250px" alt="DisableIcon">
                                         </div>
                                         <div class="col-md-8">
                                             <div class="card-body">
-                                                <h5 class="card-title" style="font-size: 30px;">Disable</h5>
+                                                <h5 class="card-title" style="font-size: 25px;">Disable</h5>
                                                 <p class="card-text" style="font-size: 15px;">Turn the teacher login ON or OFF</p>
                                             </div>
                                         </div>
@@ -1216,14 +1216,14 @@ if (isset($_POST['on_off'])) {
                                         <div class="row g-0">
                                             <div class="col-md-4 d-flex align-items-center justify-content-center px-1 py-1">
 
-                                                <img src="./public/DownloadIcon.svg" class=" rounded-circle " width="250px" alt="Download">
+                                                <img src="./public/DownloadIcon.svg" class=" img-fluid rounded-circle " width="250px" alt="Download">
 
 
 
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="card-body">
-                                                    <h5 class="card-title" style="font-size: 30px;">Feedback Not Submitted</h5>
+                                                    <h5 class="card-title" style="font-size: 25px;">Feedback Not Submitted</h5>
                                                     <p class="card-text" style="font-size: 15px;">Download File for students who have not submitted Feedback
                                                     </p>
 
@@ -1244,14 +1244,14 @@ if (isset($_POST['on_off'])) {
                                         <div class="row g-0">
                                             <div class="col-md-4 d-flex align-items-center justify-content-center px-1 py-1">
 
-                                                <img src="./public/DownloadIcon.svg" class=" rounded-circle " width="250px" alt="Download">
+                                                <img src="./public/DownloadIcon.svg" class=" img-fluid rounded-circle " width="250px" alt="Download">
 
 
 
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="card-body">
-                                                    <h5 class="card-title" style="font-size: 30px;">Feedback Download</h5>
+                                                    <h5 class="card-title" style="font-size: 25px;">Feedback Download</h5>
                                                     <p class="card-text" style="font-size: 15px;"> Download Feedback File for your branch (witout remark)
                                                     </p>
 
@@ -1272,14 +1272,14 @@ if (isset($_POST['on_off'])) {
                                         <div class="row g-0">
                                             <div class="col-md-4 d-flex align-items-center justify-content-center px-1 py-1">
 
-                                                <img src="./public/DownloadIcon.svg" class=" rounded-circle " width="250px" alt="Download">
+                                                <img src="./public/DownloadIcon.svg" class=" img-fluid rounded-circle " width="250px" alt="Download">
 
 
 
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="card-body">
-                                                    <h5 class="card-title" style="font-size: 30px;">Remark Download</h5>
+                                                    <h5 class="card-title" style="font-size: 25px;">Remark Download</h5>
                                                     <p class="card-text" style="font-size: 15px;"> Download Remark File for your branch
                                                     </p>
 
@@ -1322,14 +1322,14 @@ if (isset($_POST['on_off'])) {
                                 <div class="row g-0 d-flex justify-content-center align-items-center">
                                     <div class="col-md-4 d-flex align-items-center justify-content-center px-1 py-1">
 
-                                        <img src="./public/SendIcon.svg" class=" rounded-circle " width="250px" alt="Edit Icon">
+                                        <img src="./public/SendIcon.svg" class=" img-fluid rounded-circle " width="250px" alt="Edit Icon">
 
 
 
                                     </div>
                                     <div class="col-md-8">
                                         <div class="card-body">
-                                            <h5 class="card-title" style="font-size: 30px;">Send Password </h5>
+                                            <h5 class="card-title" style="font-size: 25px;">Send Password </h5>
                                             <p class="card-text" style="font-size: 15px;">Send Password to teachers and and students of your branch
                                             </p>
 
@@ -1361,36 +1361,40 @@ if (isset($_POST['on_off'])) {
             <!-- ============================================================== -->
             <!-- ============================================================== -->
 
-            <footer class="site-footer footer-bottom d-flex">
+            <footer class="site-footer footer-bottom d-flex py-1">
 
-                <div class="container">
-                    <hr>
+                <div class="container" style="min-width:100%">
+                    <hr class="mt-3 mb-2" style="color: #CDCDCD;">
                     <div class="row">
-                        <div class="col-xs-12 col-md-4">
+                        <div class="col-xs-12 col-md-4 copyright-text">
 
 
-                            <p class="copyright-text ">Copyright &copy; 2023 |
-                                <a>Feedback</a>.
+                            <p style="font-size: 14px;font-weight: 700;color: #CDCDCD;;">Feedback |
+                                <a>Copyright &copy; 2023 </a>
                             </p>
                         </div>
 
-                        <div class="col-xs-6 col-md-4 ">
-                            <h6 class="text-center">Ideation By</h6>
+                        <div class="col-xs-12 col-md-4 ">
+
 
                             <ul class="footer-links text-center">
 
-                                <li><a href="">Dr. Deepali Vora, Head CS IT</a></li>
+                                <li><a style="font-size: 14px;font-weight: 700;color: #CDCDCD;;">Ideation By Dr. Deepali Vora, Head CS IT</a></li>
 
 
                             </ul>
                         </div>
 
-                        <div class="col-xs-6 col-md-4 ">
-                            <h6 class="text-right custom-developed-by">Developed By</h6>
+                        <div class="col-xs-12 col-md-4 ">
+
                             <ul class="footer-links text-right custom-developed-by">
-                                <li><a href="https://www.linkedin.com/in/swayam-pendgaonkar-ab4087232/">Swayam Pendgaonkar</a></li>
-                                <li><a href="https://www.linkedin.com/in/sakshamgupta912/">Saksham Gupta</a></li>
-                                <li><a href="https://www.linkedin.com/in/yajushreshtha-shukla/">Yajushreshtha Shukla</a></li>
+                                <li><a style="font-size: 14px;font-weight: 700;color: #CDCDCD;;">Developed By: </a>
+                                    <a href="https://www.linkedin.com/in/skp2208/" style="font-size: 14px;font-weight: 700;color: #CDCDCD;;">Swayam Pendgaonkar</a>
+                                </li>
+                                <li><a href="https://www.linkedin.com/in/sakshamgupta912/" style="font-size: 14px;font-weight: 700;color: #CDCDCD;;">Saksham Gupta </a>
+                                    <a href="https://www.linkedin.com/in/yajushreshtha-shukla/" style="font-size: 14px;font-weight: 700;color: #CDCDCD;;">Yajushreshtha Shukla</a>
+                                </li>
+
                             </ul>
                         </div>
 
