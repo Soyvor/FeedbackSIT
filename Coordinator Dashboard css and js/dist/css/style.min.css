@@ -144,7 +144,7 @@ h3 {
 
     .h3,
     h3 {
-        font-size: 1.5rem
+        font-size: 1rem;
     }
 }
 
@@ -12418,7 +12418,7 @@ html[dir=ltr] body .p-l-0 {
 .page-wrapper>.container-xl,
 .page-wrapper>.container-xxl {
     padding: 20px;
-    min-height: calc(100vh - 20px);
+    min-height: calc(100vh - 150px);
 }
 
 .footer {
