@@ -629,9 +629,9 @@ if (isset($_POST['on_off'])) {
     <meta name="description" content="Xtreme Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
     <meta name="robots" content="noindex,nofollow">
     <title>Coordinator Dashboard</title>
-    <link rel="canonical" href="https://www.wrappixel.com/templates/xtreme-admin-lite/" />
+ 
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="./Coordinator Dashboard css and js /assets/images/favicon.png">
+    <!-- <link rel="icon" type="image/png" sizes="16x16" href="./Coordinator Dashboard css and js /assets/images/favicon.png"> -->
     <!-- Custom CSS -->
     <link href="./Coordinator Dashboard css and js/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
     <!-- Custom CSS -->
@@ -855,7 +855,7 @@ if (isset($_POST['on_off'])) {
         <!-- ============================================================== -->
         <!-- Page wrapper  -->
         <!-- ============================================================== -->
-        <div class="page-wrapper" style="">
+        <div class="page-wrapper" >
             <!-- ============================================================== -->
             <!-- Bread crumb and right sidebar toggle -->
             <!-- ============================================================== -->
@@ -893,10 +893,10 @@ if (isset($_POST['on_off'])) {
                 <div id="tab1" class="tab-content">
                     <h2>Student Manager</h2>
                     <br>
-                    <div class="row main-content" style="">
+                    <div class="row main-content" >
                         <div class=" col-lg-6 col-xlg-6">
                             <a href=" student_data_format.csv " class=" card-link">
-                                <div class=" card mb-3 d-flex justify-content-center align-items-center" style="">
+                                <div class=" card mb-3 d-flex justify-content-center align-items-center" >
 
                                     <div class="row g-0">
                                         <div class="col-md-4 d-flex align-items-center justify-content-center px-1 py-1">
@@ -923,7 +923,7 @@ if (isset($_POST['on_off'])) {
 
                         <div class=" col-lg-6 col-xlg-6">
                             <a href=" student_edit.php " class=" card-link">
-                                <div class=" card mb-3 d-flex justify-content-center align-items-center" style="">
+                                <div class=" card mb-3 d-flex justify-content-center align-items-center" >
 
                                     <div class="row g-0">
                                         <div class="col-md-4 d-flex align-items-center justify-content-center px-1 py-1">
@@ -969,7 +969,7 @@ if (isset($_POST['on_off'])) {
                         <div class="modal fade " id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
                             <div class="modal-dialog ">
                                 <form method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
-                                    <div class="modal-content " style="background-color:#202E39;">
+                                    <div class="modal-content " style="background-color:#202E39;border-radius: 1rem">
 
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="uploadModalLabel">Upload Student Data </h5>
@@ -1019,7 +1019,7 @@ if (isset($_POST['on_off'])) {
                         <div class="modal fade " id="Student_Login_ON_OFF_Modal" tabindex="-1" aria-labelledby="Student_Login_ON_OFF_ModalLabel" aria-hidden="true">
                             <div class="modal-dialog ">
                                 <form method="POST">
-                                    <div class="modal-content " style="background-color:#202E39;">
+                                    <div class="modal-content " style="background-color:#202E39;border-radius: 1rem">
 
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="uploadModalLabel">Turn Student Login ON/OFF </h5>
@@ -1049,12 +1049,12 @@ if (isset($_POST['on_off'])) {
                 <div id="tab2" class="tab-content">
                     <h2>Teacher Manager</h2>
                     <br>
-                    <div class="row main-content" style="">
+                    <div class="row main-content" >
 
                         <!-- Column 1 -->
                         <div class=" col-lg-6 col-xlg-6">
                             <a href="teacher_data_format.csv " class=" card-link">
-                                <div class=" card mb-3 d-flex justify-content-center align-items-center" style="">
+                                <div class=" card mb-3 d-flex justify-content-center align-items-center" >
 
                                     <div class="row g-0">
                                         <div class="col-md-4 d-flex align-items-center justify-content-center px-1 py-1">
@@ -1081,7 +1081,7 @@ if (isset($_POST['on_off'])) {
 
                         <div class=" col-lg-6 col-xlg-6">
                             <a href=" teacher_edit.php " class=" card-link">
-                                <div class=" card mb-3 d-flex justify-content-center align-items-center" style="">
+                                <div class=" card mb-3 d-flex justify-content-center align-items-center" >
 
                                     <div class="row g-0">
                                         <div class="col-md-4 d-flex align-items-center justify-content-center px-1 py-1">
@@ -1127,7 +1127,7 @@ if (isset($_POST['on_off'])) {
                         <div class="modal fade " id="uploadTeacherModal" tabindex="-1" aria-labelledby="uploadTeacherModalLabel" aria-hidden="true">
                             <div class="modal-dialog ">
                                 <form method="POST" enctype="multipart/form-data">
-                                    <div class="modal-content " style="background-color:#202E39;">
+                                    <div class="modal-content " style="background-color:#202E39;border-radius: 1rem">
 
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="uploadModalLabel">Upload Teacher Data </h5>
@@ -1176,7 +1176,7 @@ if (isset($_POST['on_off'])) {
                         <div class="modal fade " id="Teacher_Login_ON_OFF_Modal" tabindex="-1" aria-labelledby="Teacher_Login_ON_OFF_ModalLabel" aria-hidden="true">
                             <div class="modal-dialog ">
                                 <form method="POST">
-                                    <div class="modal-content " style="background-color:#202E39;">
+                                    <div class="modal-content " style="background-color:#202E39;border-radius: 1rem">
 
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="uploadModalLabel">Turn Teacher Login ON/OFF </h5>
@@ -1205,13 +1205,13 @@ if (isset($_POST['on_off'])) {
                 <!-- Content for Tab 3 -->
                 <div id="tab3" class="tab-content">
                     <h2>Feedback Manager</h2><br>
-                    <div class="row main-content" style="">
+                    <div class="row main-content" >
 
                         <!-- Column 1 -->
                         <div class=" col-lg-6 col-xlg-6">
                             <form method="POST">
                                 <button class="px-0 card-link" type="submit" name="download_csv_not_submitted" style="background-color: transparent;border:0; text-align: left; outline: none;">
-                                    <div class=" card mb-3 d-flex justify-content-center align-items-center" style="">
+                                    <div class=" card mb-3 d-flex justify-content-center align-items-center" >
 
                                         <div class="row g-0">
                                             <div class="col-md-4 d-flex align-items-center justify-content-center px-1 py-1">
@@ -1239,7 +1239,7 @@ if (isset($_POST['on_off'])) {
                         <div class=" col-lg-6 col-xlg-6">
                             <form method="POST">
                                 <button class="px-0 card-link" type="submit" name="download_csv" style="background-color: transparent;border:0; text-align: left; outline: none;">
-                                    <div class=" card mb-3 d-flex justify-content-center align-items-center" style="">
+                                    <div class=" card mb-3 d-flex justify-content-center align-items-center" >
 
                                         <div class="row g-0">
                                             <div class="col-md-4 d-flex align-items-center justify-content-center px-1 py-1">
@@ -1267,7 +1267,7 @@ if (isset($_POST['on_off'])) {
                         <div class=" col-lg-6 col-xlg-6">
                             <form method="POST">
                                 <button class="px-0 card-link" type="submit" name="download_remark" style="background-color: transparent;border:0; text-align: left; outline: none;">
-                                    <div class=" card mb-3 d-flex justify-content-center align-items-center" style="">
+                                    <div class=" card mb-3 d-flex justify-content-center align-items-center" >
 
                                         <div class="row g-0">
                                             <div class="col-md-4 d-flex align-items-center justify-content-center px-1 py-1">
