@@ -227,7 +227,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 
-    <div class="container-fluid p-5" style="background-color:#17212C;color: white; min-height:calc(100vh - 149px)">
+    <div class="container-fluid p-5" style="background-color:#17212C;color: white; min-height:calc(100vh - 153px)">
 
         <!-- Success Modal -->
         <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
