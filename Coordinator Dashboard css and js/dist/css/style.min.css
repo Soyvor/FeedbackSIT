@@ -48,6 +48,10 @@
     --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0))
 }
+.modal-content{
+    border-radius: 1rem;
+}
+
 
 *,
 :after,
@@ -6636,7 +6640,7 @@ fieldset:disabled .btn {
 .modal-fullscreen .modal-content {
     height: 100%;
     border: 0;
-    border-radius: 0
+    border-radius: 1 rem;
 }
 
 .modal-fullscreen .modal-header {
@@ -6662,7 +6666,7 @@ fieldset:disabled .btn {
     .modal-fullscreen-sm-down .modal-content {
         height: 100%;
         border: 0;
-        border-radius: 0
+        border-radius: 1 rem;
     }
 
     .modal-fullscreen-sm-down .modal-header {
@@ -6689,7 +6693,7 @@ fieldset:disabled .btn {
     .modal-fullscreen-md-down .modal-content {
         height: 100%;
         border: 0;
-        border-radius: 0
+        border-radius: 1 rem;
     }
 
     .modal-fullscreen-md-down .modal-header {
@@ -6716,7 +6720,7 @@ fieldset:disabled .btn {
     .modal-fullscreen-lg-down .modal-content {
         height: 100%;
         border: 0;
-        border-radius: 0
+        border-radius: 1 rem;
     }
 
     .modal-fullscreen-lg-down .modal-header {
@@ -6743,7 +6747,7 @@ fieldset:disabled .btn {
     .modal-fullscreen-xl-down .modal-content {
         height: 100%;
         border: 0;
-        border-radius: 0
+        border-radius: 1 rem;
     }
 
     .modal-fullscreen-xl-down .modal-header {
