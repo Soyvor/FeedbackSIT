@@ -48,7 +48,15 @@ if (mysqli_num_rows($result) > 0) {
 if (isset($_POST['submit1'])) {
     if (!isset($_FILES['csvfile_student_data']) || empty($_FILES['csvfile_student_data']['name'])) {
         echo "<script>alert('File Not Selected! Please Upload A File');</script>";
-    } else {
+    } 
+    else {
+        // Check if the uploaded file is a CSV file
+        $file_name = $_FILES['csvfile_student_data']['name'];
+        $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+        if ($file_ext !== 'csv') {
+            echo "<script>alert('Invalid File Type! Please upload a CSV file.');</script>";
+        } else {
+    
         // Open uploaded file
         $file = fopen($_FILES['csvfile_student_data']['tmp_name'], 'r');
 
@@ -57,35 +65,47 @@ if (isset($_POST['submit1'])) {
         fgetcsv($file);
 
         // Connect to database
-
+        
 
         // Loop through each row of the CSV file
         while ($row = fgetcsv($file)) {
-            $username = $row[0];
+            // Sanitize and validate each field
+            $prn = sanitizeAndValidatePrn($row[0]);
+            $name = sanitizeAndValidateName($row[1]);
+            $email = sanitizeAndValidateEmail($row[2]);
+            $open = sanitizeAndValidateVarchar($row[3]);
+            $general = sanitizeAndValidateVarchar($row[4]);
+            $acad_year = sanitizeAndValidateAcadYear($row[5]);
+            $branch = sanitizeAndValidateBranch($row[6]);
+            $class = sanitizeAndValidateClass($row[7]);
+            $sem = sanitizeAndValidateSemester($row[8]);
+            $crnt_year = date('Y');
 
             // Check if the username already exists in login
-            $sql = "SELECT COUNT(*) as count FROM login WHERE username = '$username'";
+            $sql = "SELECT COUNT(*) as count FROM login WHERE username = '$prn'";
             $result = mysqli_query($conn, $sql);
             $row_count = mysqli_fetch_assoc($result);
             $count = $row_count['count'];
 
+            if ($name === false || $email === false || $open === false || $general === false || $acad_year === false || $branch === false || $class === false || $sem === false) {
+
+                continue; // Skip the row if any of the fields are invalid
+            }
             // If the username does not exist, insert the row into login
             if ($count == 0) {
-                $year_branch_class = $row[4]; // assuming year_class_batch is the 5th column
-                $parts = explode('-', $year_branch_class);
-                $class = $parts[1];
-                $class_batch = $parts[1] . '-' . $parts[2];
-
-
-
+                // Generate a random 4-digit alphanumeric password
+                $password = substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 4);
+                // Encode the password in base64
+                $password = base64_encode($password);
+                
                 // Insert data into login table
-                $sql = "INSERT INTO login (username, password, branch, role, crnt_year ,is_valid) VALUES ('$username', 'MTIzNA==', '$class','student','2023','1')";
+                $sql = "INSERT INTO login (username, email, password, role, acad_year, branch , class,semester, crnt_year ,is_valid)
+                 VALUES ('$prn','$email', '$password','student','$acad_year','$branch','$class','$sem','$crnt_year','1')";
                 mysqli_query($conn, $sql);
 
                 // // Insert data into student_data table
-                $name = mysqli_real_escape_string($conn, $row[1]);
-                $sql = "INSERT INTO student_data (prn, name, open_elective, specialization, year_branch_class, c_a_y, branch_batch, student_email, student_mobile, a_y, is_valid) VALUES ('$username','$name','$row[2]','$row[3]','$year_branch_class','$parts[0]','$class_batch','$row[5]','$row[6]','$row[7]','1')";
-
+                $sql = "INSERT INTO $branch_student (prn, name, email, open, general,  acad_year, branch , class, semester, crnt_year, is_valid) 
+                VALUES ('$prn','$name','$email','$open','$general','$acad_year','$branch','$class','$sem','$crnt_year','1')";
                 mysqli_query($conn, $sql);
             }
         }
@@ -95,9 +115,80 @@ if (isset($_POST['submit1'])) {
         fclose($file);
     }
 }
+}
 
+function sanitizeAndValidatePrn($prn)
+{
+    $prn = preg_replace('/[^0-9]/', '', $prn); // Remove non-digit characters
+    if (strlen($prn) !== 11 || !ctype_digit($prn)) {
+        echo "<script>alert('Invalid PRN: $prn');</script>";
+        // Handle the error (e.g., log, display, etc.)
+        return false;
+    }
+    else{
+        return $prn;
+    }
+    
+}
 
+function sanitizeAndValidateName($name)
+{
+    $name = trim(preg_replace('/[^a-zA-Z ]/', '', $name)); // Remove non-alphabet and space characters and trim spaces
+    return $name;
+}
 
+function sanitizeAndValidateEmail($email)
+{
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "<script>alert('Invalid email: $email');</script>";
+        // Handle the error (e.g., log, display, etc.)
+        return false; // Skip the iteration if the email is invalid
+    }
+    else{
+    return $email;
+}
+}
+
+function sanitizeAndValidateVarchar($varchar)
+{
+    $varchar = preg_replace('/[^a-zA-Z ]/', '', $varchar); // Remove non-alphabet and space characters
+    return $varchar;
+}
+
+function sanitizeAndValidateAcadYear($acad_year)
+{
+    $allowedYears = ['fy', 'sy', 'ty', 'fly'];
+    if (!in_array(strtolower($acad_year), $allowedYears)) {
+        echo "<script>alert('Invalid academic year: $acad_year');</script>";
+        // Handle the error (e.g., log, display, etc.)
+        return false; // Skip the iteration if the academic year is invalid
+    }
+    else{
+    return strtolower($acad_year);}
+}
+
+function sanitizeAndValidateBranch($branch)
+{
+    $branch = preg_replace('/[^a-zA-Z]/', '', $branch); // Remove non-alphabet characters
+    return strtolower($branch);
+}
+
+function sanitizeAndValidateClass($class)
+{
+    $class = preg_replace('/[^a-zA-Z0-9]/', '', $class); // Remove non-alphabet characters
+    return strtolower($class);
+}
+
+function sanitizeAndValidateSemester($sem)
+{
+    if (!ctype_digit($sem) || $sem < 1 || $sem > 8) {
+        echo "<script>alert('Invalid semester: $sem');</script>";
+        // Handle the error (e.g., log, display, etc.)
+        return false; // Skip the iteration if the semester is invalid
+    }
+    else{
+    return $sem;
+}}
 
 if (isset($_POST['submit'])) {
     if (!isset($_FILES['csvfile_teacher_data']) || empty($_FILES['csvfile_teacher_data']['name'])) {
@@ -112,9 +203,12 @@ if (isset($_POST['submit'])) {
         // Loop through each row in the CSV file
         while ($row = fgetcsv($file)) {
             //Get the email from the CSV row
-            $email = $row[0];
-            $ybc = $row[2];
-            $subject = $row[3];
+            $email = sanitizeAndValidateEmail($row[0]);
+            $name = sanitizeAndValidateVarchar($row[1]);
+            $subject = sanitizeAndValidateVarchar($row[2]);
+            $acad_year = sanitizeAndValidateAcadYear($row[3]);
+            $branch = sanitizeAndValidateBranch($row[4]);
+            $class = sanitizeAndValidateClass($row[5]);
 
             // Check if the email already exists in login
             $user_sql = "SELECT COUNT(*) as count FROM login WHERE username = '$email'";
@@ -123,7 +217,7 @@ if (isset($_POST['submit'])) {
             $user_count = $user_row_count['count'];
 
             // Check if the email and year_branch_class already exists in teacher_data
-            $teacher_sql = "SELECT COUNT(*) as count FROM teacher_data WHERE email = '$email' AND year_branch_class = '$ybc' AND subject = '$subject'";
+            $teacher_sql = "SELECT COUNT(*) as count FROM $branch_teacher WHERE email = '$email' AND acad_year = '$acad_year' AND branch = '$branch' AND class = '$class' AND subject = '$subject'";
             $teacher_result = mysqli_query($conn, $teacher_sql);
             $teacher_row_count = mysqli_fetch_assoc($teacher_result);
             $teacher_count = $teacher_row_count['count'];
@@ -140,16 +234,16 @@ if (isset($_POST['submit'])) {
                 $password = substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 4);
                 // Encode the password in base64
                 $password = base64_encode($password);
-                $user_insert_sql = "INSERT INTO login (username, password, branch, role, crnt_year, is_valid) VALUES ('$email', '$password', '-', 'teacher','2023','1')";
+                $user_insert_sql = "INSERT INTO login (username, email, password, role ,  acad_year, branch, class, crnt_year, is_valid)
+                 VALUES ('$email','$email', '$password', 'teacher','','','','2023','1')";
                 mysqli_query($conn, $user_insert_sql);
             }
 
             // If the email and year_branch_class does not exist in teacher_data, insert the row into teacher_data
             if ($teacher_count == 0) {
-                $name = $row[1];
-                $subject = $row[3];
                 $year = date('Y');
-                $teacher_insert_sql = "INSERT INTO teacher_data (email, name, year_branch_class, subject, c_year, is_valid) VALUES ('$email','$name','$ybc','$subject','$year','1')";
+                $teacher_insert_sql = "INSERT INTO $branch_teacher (email, name, subject, acad_year, branch, class, is_valid)
+                 VALUES ('$email','$name','$subject','$acad_year','$branch','$class','1')";
                 mysqli_query($conn, $teacher_insert_sql);
             }
         }
