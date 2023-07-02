@@ -22,38 +22,6 @@ if (isset($_SESSION['success_message'])) {
 // Check if search email is provided
 $searchEmail = isset($_GET['search_email']) ? $_GET['search_email'] : '';
 
-// Check if delete email(s) is provided
-if (isset($_POST['delete_email'])) {
-    $deleteEmail = $_POST['delete_email'];
-
-    // Split the email(s) separated by commas
-    $emailList = explode(",", $deleteEmail);
-    $emailList = array_map('trim', $emailList);
-
-    // Generate placeholders for the email(s)
-    $placeholders = rtrim(str_repeat('?,', count($emailList)), ',');
-
-    // Prepare the delete statement
-    $deleteStmt = $conn->prepare("DELETE FROM $branch_teacher WHERE email IN ($placeholders)");
-
-    // Bind the email(s) to the placeholders
-    $deleteStmt->bind_param(str_repeat('s', count($emailList)), ...$emailList);
-
-    // Execute the delete statement
-    if ($deleteStmt->execute()) {
-        $_SESSION['success_message'] = "Teacher(s) deleted successfully!";
-    } else {
-        $_SESSION['error_message'] = "Error deleting teacher(s): " . $deleteStmt->error;
-    }
-
-    // Close the delete statement
-    $deleteStmt->close();
-
-    // Redirect back to the current page
-    header("Location: $_SERVER[PHP_SELF]");
-    exit;
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -108,6 +76,35 @@ if (isset($_POST['delete_email'])) {
                 xhr.send("id=" + id + "&email=" + email + "&name=" + name + "&subject=" + subject + "&acad_year=" + acad_year + "&branch=" + branch + "&class=" + class_);
             }
         }
+
+        function deleteRows() {
+            var checkboxes = document.getElementsByName("delete[]");
+            var selectedIds = [];
+
+            // Get the selected row IDs
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                    selectedIds.push(checkboxes[i].value);
+                }
+            }
+
+            // Send AJAX request to delete rows from the database
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "teacher_delete_process.php", true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    if (xhr.responseText === "success") {
+                        alert("Selected Rows Deleted Successfully!");
+                        // Refresh the page after deletion
+                        location.reload();
+                    } else {
+                        alert("Error deleting rows: " + xhr.responseText);
+                    }
+                }
+            };
+            xhr.send("ids=" + JSON.stringify(selectedIds));
+        }
     </script>
 </head>
 
@@ -116,12 +113,6 @@ if (isset($_POST['delete_email'])) {
         <label for="search_email">Search by Email:</label>
         <input type="text" name="search_email" id="search_email" value="<?php echo $searchEmail; ?>">
         <input type="submit" value="Search">
-    </form>
-
-    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
-        <label for="delete_email">Delete by Email:</label>
-        <input type="text" name="delete_email" id="delete_email" placeholder="Enter email(s) separated by commas">
-        <input type="submit" value="Delete">
     </form>
 
     <table id="data-table">
@@ -134,6 +125,7 @@ if (isset($_POST['delete_email'])) {
                 <th>Academic Year</th>
                 <th>Branch</th>
                 <th>Class</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -168,10 +160,11 @@ if (isset($_POST['delete_email'])) {
                               <td>$acad_year</td>
                               <td>$branch</td>
                               <td>$class</td>
+                              <td><input type='checkbox' name='delete[]' value='$id'></td>
                             </tr>";
                 }
             } else {
-                echo "<tr><td colspan='7'>No entries found.</td></tr>";
+                echo "<tr><td colspan='8'>No entries found.</td></tr>";
             }
             ?>
         </tbody>
@@ -199,6 +192,7 @@ if (isset($_POST['delete_email'])) {
     ?>
 
     <button onclick="saveChanges()">Save Changes</button>
+    <button onclick="deleteRows()">Delete Rows</button>
 </body>
 
 </html>
