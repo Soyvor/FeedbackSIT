@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_coordinator'])) {
 
 
 		// insert the new coordinator into the database
-		$sql = "INSERT INTO login (username, password, branch, role, crnt_year, is_valid) VALUES ('$email', '$encoded_string', '$branch','coordinato','2023','1')";
+		$sql = "INSERT INTO login (username, password, branch, role, crnt_year, is_valid) VALUES ('$email', '$encoded_string', '$branch','coordinator','2023','1')";
 		if (mysqli_query($conn, $sql)) {
 			echo "<script>alert('Coordinator added successfully!');</script>";
 		} else {
@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_coordinator'])
 	$email = $_POST['email'];
 
 	// delete the coordinator from the database
-	$sql = "DELETE FROM tbluser WHERE username='$email'";
+	$sql = "DELETE FROM login WHERE username='$email'";
 	if (mysqli_query($conn, $sql)) {
 		echo "<script>alert('Coordinator deleted successfully!');</script>";
 	} else {
@@ -79,7 +79,7 @@ if (isset($_POST['download_passwords'])) {
 	// Add the CSV header row
 	fputcsv($file, array('Username', 'Password'));
 
-	// Query the tbluser table to get all teachers' usernames and decoded passwords
+	// Query the login table to get all teachers' usernames and decoded passwords
 	$query2 = "SELECT * FROM login WHERE role = 'teacher'";
 	$result = mysqli_query($conn, $query2);
 
@@ -108,12 +108,12 @@ if (isset($_POST['teacher_on_off'])) {
 
 	// If the "on" button is clicked, update the is_valid column to 1 for all rows where the role is "teacher"
 	if ($button_value == "on") {
-		$sql = "UPDATE tbluser SET is_valid=1 WHERE role='teacher' ";
+		$sql = "UPDATE login SET is_valid=1 WHERE role='teacher' ";
 	}
 
 	// If the "off" button is clicked, update the is_valid column to 0 for all rows where the role is "teacher"
 	if ($button_value == "off") {
-		$sql = "UPDATE tbluser SET is_valid=0 WHERE role='teacher' ";
+		$sql = "UPDATE login SET is_valid=0 WHERE role='teacher' ";
 	}
 
 	// Execute the SQL query

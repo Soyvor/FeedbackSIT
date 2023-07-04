@@ -17,14 +17,14 @@ $name_array = explode(".", $username);
 // Capitalize the first letter of each name part and join with a space
 $final = ucwords(implode(" ", $name_array));
 
-$query_name = "SELECT * FROM teacher_data WHERE email = '$user_name' LIMIT 1";
+$query_name = "SELECT * FROM login WHERE username = '$user_name' LIMIT 1";
 
 // execute the query and fetch the result
 $result = mysqli_query($conn, $query_name);
 $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
 // extract the name value from the row and store it in $name variable
-$name = $row['name'];
+// $name = $row['name'];
 
 
 
@@ -35,41 +35,30 @@ $username = $user_name;
 // Define an empty array to store unique combinations of email, branch, and subject
 $unique_entries = array();
 
-// Prepare a SELECT query to retrieve the email, year_branch_class, and subject columns from the teacher_data table
-$query = "SELECT email, year_branch_class, subject FROM teacher_data WHERE email = ?";
+$branch_tables = array("cs_teacher", "mech_teacher"); // Add more branch-specific tables as needed
 
-// Prepare the query statement with a bound parameter for the username variable
-$stmt = $conn->prepare($query);
-$stmt->bind_param("s", $username);
-
-// Execute the query
-$stmt->execute();
-
-// Bind the query results to variables
-$stmt->bind_result($email, $year_branch_class, $subject);
-
-// Loop over each row in the query results
-while ($stmt->fetch()) {
-	// Extract the branch from the year_branch_class string (assuming branch is always the second substring separated by "-")
-	$branch_parts = explode("-", $year_branch_class);
-	$branch = $branch_parts[0] . '-' . $branch_parts[1];
-
-	// Check if the combination of email, branch, and subject already exists in the unique_entries array
-	if (!in_array(array($email, $branch, $subject), $unique_entries)) {
-		// If the combination doesn't exist, add it to the array
-		$unique_entries[] = array($email, $branch, $subject);
+foreach ($branch_tables as $branch_table) {
+	$query = "SELECT email, subject, branch, acad_year FROM $branch_table WHERE email = ?";
+	$stmt = $conn->prepare($query);
+	$stmt->bind_param("s", $username);
+	$stmt->execute();
+	$stmt->bind_result($email, $subject, $branch, $acad_year);
+	while ($stmt->fetch()) {
+		if (!in_array(array($email, $branch, $subject, $acad_year), $unique_entries)) {
+			$unique_entries[] = array($email, $branch, $subject, $acad_year);
+		}
 	}
+	$stmt->close();
 }
 
-// Close the query statement
-$stmt->close();
-
-// Define an array to store the averages for each unique combination of email, branch, and subject
 $avg_avg = array();
 
+$query_name = "SELECT * FROM cs_teacher WHERE email = '$email' LIMIT 1";
 
-
-
+// execute the query and fetch the result
+$result = mysqli_query($conn, $query_name);
+$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+$name = $row['name'];
 
 
 
@@ -274,19 +263,16 @@ $avg_avg = array();
 			<p><?php
 				// Start the table and output the header row
 				echo "<table>";
-				echo "<tr><th>Email</th><th>Branch</th><th>Subject</th><th>Average Feedback Score</th></tr>";
+				echo "<tr><th>Email</th><th>Year - Branch</th><th>Subject</th><th>Average Feedback Score</th></tr>";
 
 				// Loop over each unique combination of email, branch, and subject
 				foreach ($unique_entries as $entry) {
-					// Extract the email, branch, and subject values from the current entry
 					$email = $entry[0];
 					$branch = $entry[1];
 					$subject = $entry[2];
-
-					$query_match = "SELECT * FROM feedback_report where teacher ='$name' and year_branch_class LIKE '$branch-%' and subject ='$subject'";
+					$acad_year = $entry[3];
+					$query_match = "SELECT * FROM cs_feedback WHERE teacher = '$name' AND branch = '$branch' AND acad_year = '$acad_year' AND subject = '$subject'";
 					$result_match = mysqli_query($conn, $query_match);
-
-					// Calculate the average of the 'avg' column for the matched rows
 					$sum = 0;
 					$count = 0;
 					while ($row = mysqli_fetch_assoc($result_match)) {
@@ -294,9 +280,10 @@ $avg_avg = array();
 						$count++;
 					}
 					$average = ($count > 0) ? ($sum / $count) : 0;
-
+					$avg_avg[] = $average;
+				
 					// Output the row for this combination of email, branch, and subject
-					echo "<tr><td>$email</td><td>$branch</td><td>$subject</td><td>$average</td></tr>";
+					echo "<tr><td>$email</td><td>$acad_year-$branch</td><td>$subject</td><td>$average</td></tr>";
 				}
 
 				// End the table
