@@ -85,7 +85,7 @@ if(isset($_POST["btnLogin"]))
 				
 				}
 				
-			}
+			
 			else if($row["role"] == "teacher")
 			{
 				$_SESSION['Teacher']= $row["username"];
@@ -105,7 +105,7 @@ if(isset($_POST["btnLogin"]))
              </script>";
         
     }
-        }   
+        } }  
 	}
 	else
 	{
