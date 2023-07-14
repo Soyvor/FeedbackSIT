@@ -26,7 +26,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $crnt_year = sanitizeInput($_POST["crnt_year"]);
 
   // Update the data in the database
-  $updateQuery = "UPDATE $branch_student SET prn = '$prn', name = '$name', email = '$email', open = '$open', general = '$general', acad_year = '$acad_year', branch = '$branch', class = '$class', semester = '$semester', crnt_year = '$crnt_year' WHERE id = $id";
+  $updateQuery = "UPDATE `$branch_student` SET `prn` = '$prn', `name` = '$name', `email` = '$email', `open` = '$open', `general` = '$general', `acad_year` = '$acad_year', `branch` = '$branch', `class` = '$class', `semester` = '$semester', `crnt_year` = '$crnt_year' WHERE `id` = $id";
+
   if ($conn->query($updateQuery) === TRUE) {
     echo "success";
 } else {

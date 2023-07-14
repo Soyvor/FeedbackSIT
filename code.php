@@ -110,7 +110,7 @@ if(isset($_POST["btnLogin"]))
 	else
 	{
 		echo "<script>
-                if(window.confirm('Incorrect Username or Password! lol')){
+                if(window.confirm('Incorrect Username or Password!')){
                     window.location.href = 'index.php';
                 }
                 else{
