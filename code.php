@@ -105,7 +105,18 @@ if(isset($_POST["btnLogin"]))
              </script>";
         
     }
-        } }  
+        }
+		else{
+			echo "<script>
+                if(window.confirm('Incorrect Username or Password!')){
+                    window.location.href = 'index.php';
+                }
+                else{
+                    window.location.href = 'index.php';
+                }
+             </script>";
+		}
+	 }  
 	}
 	else
 	{
