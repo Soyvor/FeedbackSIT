@@ -132,8 +132,6 @@ if ($branch_check == "FY") {
     </style>
 
     <style>
-   
-
         input[type="radio"] {
             appearance: none;
             -webkit-appearance: none;
@@ -161,7 +159,7 @@ if ($branch_check == "FY") {
             animation: appear 0.4s;
         }
 
- 
+
 
         @keyframes appear {
             0% {
@@ -326,14 +324,21 @@ if ($branch_check == "FY") {
 
                 </div>
 
+                <?php if (!$try) : ?>
+                    <button class='slide-prev btn btn-primary me-1' style="border-radius: 22px;margin:10px;margin-left:0px">Previous Slide</button>
+                    <button class='slide-next btn btn-primary' style="border-radius: 22px;margin:15px;margin-left:0px">Next Slide</button>
+                    <button class='btn btn-danger' style="max-width:150px;border-radius: 22px" onclick="checkAllRadio()">Submit Feedback</button>
+                <?php endif; ?>
 
 
 
-                <input class="form-submit" type='submit' name='submit' value='Submit Feedback' style="display:none">
+                <!-- <input class="form-submit" type='submit' name='submit' value='Submit Feedback' style="display:none">
                 <button class='slide-prev btn btn-primary me-1' style="border-radius: 22px;margin:10px;margin-left:0px">Previous Slide</button>
-                <button class='slide-next btn btn-primary' style="border-radius: 22px;margin:15px;margin-left:0px">Next Slide</button>
+                <button class='slide-next btn btn-primary' style="border-radius: 22px;margin:15px;margin-left:0px">Next Slide</button> -->
             </form>
+            <?php if (!$try) : ?>
             <button class='btn btn-danger' style="max-width:150px;border-radius: 22px" onclick="checkAllRadio()">Submit Feedback</button>
+            <?php endif; ?>
 
 
         </div>
@@ -382,39 +387,36 @@ if ($branch_check == "FY") {
                 e.preventDefault();
 
                 console.log("");
-                
+
 
                 var activeSlide = document.querySelector('.slick-active');
-                if (activeSlide.classList.contains("anything_else"))
-                {
-                        alert('Click Submit Button')
-                }
-                else
-                {
-                    var radioButtons = activeSlide.querySelectorAll('input[type="radio"]');
-                var isFilled = true;
-                var count = 0;
-
-                radioButtons.forEach(function(radioButton) {
-                    if (radioButton.checked === true) {
-                        count++;
-                    }
-                });
-
-
-                if (count < total_questions) { // 9 questions 
-
-
-                    alert('Please fill in all the radio buttons on the active slide.');
-                    return false; // Prevent carousel slide if any radio button is not filled
+                if (activeSlide.classList.contains("anything_else")) {
+                    alert('Click Submit Button')
                 } else {
+                    var radioButtons = activeSlide.querySelectorAll('input[type="radio"]');
+                    var isFilled = true;
+                    var count = 0;
 
-                    $('.my-slider').slick('slickNext');
+                    radioButtons.forEach(function(radioButton) {
+                        if (radioButton.checked === true) {
+                            count++;
+                        }
+                    });
 
 
+                    if (count < total_questions) { // 9 questions 
+
+
+                        alert('Please fill in all the radio buttons on the active slide.');
+                        return false; // Prevent carousel slide if any radio button is not filled
+                    } else {
+
+                        $('.my-slider').slick('slickNext');
+
+
+                    }
                 }
-                }
-               
+
             });
 
         });

@@ -705,7 +705,7 @@ if (isset($_POST['on_off'])) {
 
 <script type="text/javascript" src="js.jquery.min.js"></script>
 <script type="text/javascript" src="js.bootstrap.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+<script type="text/javascript" src="./js/popper.min.js"></script>
 <!-- </body>
 
 </html>  -->
@@ -737,7 +737,7 @@ if (isset($_POST['on_off'])) {
 
 
     <!-- jQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="./js/jquery-3.6.0.min.js"></script>
 
     <!-- Bootstrap JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.min.js"></script>
@@ -843,7 +843,7 @@ if (isset($_POST['on_off'])) {
 
 
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="./js/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
             // Hide all tab contents except the first one
@@ -1527,7 +1527,7 @@ if (isset($_POST['on_off'])) {
     <script src="./Coordinator Dashboard css and js/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
     <script src="./Coordinator Dashboard css and js/dist/js/pages/dashboards/dashboard1.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js">
+    <script src="./js/jquery-3.6.0.min.js">
     </script>
 
 
