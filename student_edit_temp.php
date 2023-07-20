@@ -227,7 +227,7 @@ if (isset($_POST['delete_prn'])) {
 
         }
 
-        button {}
+       
 
         .form {
             border-radius: 10px;
@@ -246,7 +246,7 @@ if (isset($_POST['delete_prn'])) {
     <!-- Include Footer CSS -->
     <link rel="stylesheet" href="./css/footer_style.css">
 
-    
+
 </head>
 
 <body>
@@ -257,29 +257,29 @@ if (isset($_POST['delete_prn'])) {
 
     <div class="modal fade" id="uploadModal">
         <div class="modal-dialog">
-            
+
             <div class="modal-content " style="background-color:#202E39;border-radius: 1rem">
-    
+
                 <div class="modal-header" style="color:white">
                     <h5 class="modal-title" id="uploadModalLabel">Instructions to edit data </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="color:white"></button>
                 </div>
                 <div class="modal-body">
-    
-                   <ul style="color: white;">
-                     <li>Choose the cell you want to edit</li>
-                     <li>Click on the cell till you see text cursor</li>
-                     <li>You can delete and write data in that cell</li>
-                     <li>After changes click on the Save Button to save changes in the database</li>
-                   </ul>
-    
+
+                    <ul style="color: white;">
+                        <li>Choose the cell you want to edit</li>
+                        <li>Click on the cell till you see text cursor</li>
+                        <li>You can delete and write data in that cell</li>
+                        <li>After changes click on the Save Button to save changes in the database</li>
+                    </ul>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Close</button>
-    
-            
-    
-    
+
+
+
+
                 </div>
             </div>
         </div>
@@ -293,7 +293,7 @@ if (isset($_POST['delete_prn'])) {
     <div class="container ">
 
         <div class="row d-flex my-3 ">
-            <div class="div col-6" style="align-self:left">
+            <div class="div col-6">
 
                 <form method="GET" action="" class=" ">
                     <!-- <input type="text" name="search_prn" placeholder="Search by PRN" value="<?php echo $searchPRN; ?>">
@@ -323,14 +323,11 @@ if (isset($_POST['delete_prn'])) {
 
 
                 </form>
-            </div>
-            <br />
-            <!-- Delete Form -->
-            <div class="div col-6  style=" align-self:right">
 
-                <form method="POST" action="" class="">
+                <!-- Delete Form -->
+                <form method="POST" action="" class="mt-2">
 
-                    <div class="input-group justify-content-end">
+                    <div class="input-group ">
                         <div class="form-outline">
                             <input id="form1" class="form-control" type="text" name="delete_prn" placeholder="Enter PRN(s) to delete" style="border-radius: 10px 0px 0px 10px;" />
                         </div>
@@ -345,9 +342,13 @@ if (isset($_POST['delete_prn'])) {
 
 
                     </div>
-
                 </form>
+
             </div>
+
+            <br />
+        
+          
 
 
         </div>
