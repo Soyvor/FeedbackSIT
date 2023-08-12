@@ -78,8 +78,61 @@ $name = $row['name'];
 
 	<meta name="viewport" content="width=device-width, initial-scale=0">
 
+
+	<style>
+    /* Styling for Navigation Sidebar */
+    .sidebar {
+        width: 20%;
+        background-color: #f4f4f4;
+        height: 100vh; /* Adjust the height as needed */
+        float: left;
+    }
+
+    .sidebar ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .sidebar ul li {
+        padding: 10px;
+        text-align: center;
+    }
+
+    .sidebar ul li a {
+        text-decoration: none;
+        color: #333;
+        display: block;
+    }
+
+    /* Styling for Main Content */
+    .content {
+        width: 80%;
+        float: right;
+    }
+</style>
+
+
+
+	<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const viewFeedbackButton = document.getElementById("view-feedback-btn");
+        const assignGuestButton = document.getElementById("assign-guest-btn");
+        const viewFeedbackPage = document.querySelector(".view-feedback-page");
+        const assignGuestPage = document.querySelector(".assign-guest-page");
+
+        viewFeedbackButton.addEventListener("click", function() {
+            viewFeedbackPage.style.display = "block";
+            assignGuestPage.style.display = "none";
+        });
+
+        assignGuestButton.addEventListener("click", function() {
+            assignGuestPage.style.display = "block";
+            viewFeedbackPage.style.display = "none";
+        });
+    });
+</script>
 </head>
-<style>
+<!-- <style>
 	html,
 	body {
 		height: 100%;
@@ -238,7 +291,7 @@ $name = $row['name'];
 			height: 200px;
 		}
 	}
-</style>
+</style> -->
 
 <body>
 
@@ -249,17 +302,24 @@ $name = $row['name'];
 		Welcome <?php echo $final; ?>
 
 	</h2>
+	<div class="sidebar">
+        <ul>
+            <li><a href="#" id="view-feedback-btn">View Feedback</a></li>
+            <li><a href="#" id="assign-guest-btn">Assign Guest</a></li>
+            <!-- Add other navigation links here -->
+        </ul>
+    </div>
 	<div class="wrapper">
 		<div class="BOX">
 
-			<div align="right">
-				<form action="logout.php" method="POST" style="display: inline-block;">
-					<a href="logout.php"><button type="submit" name="logout" class="button_css" style="display: inline-block;">Logout</button></a>
-				</form>
-
-				<a href="reset.php"><button type="button" class="button_css" style="display: inline-block;">Reset Password</button></a>
-			</div>
+		<div align="right">
+            <form action="logout.php" method="POST" style="display: inline-block;">
+                <a href="logout.php"><button type="submit" name="logout" class="button_css" style="display: inline-block;">Logout</button></a>
+            </form>
+            <a href="reset.php"><button type="button" class="button_css" style="display: inline-block;">Reset Password</button></a>
+        </div>
 			<br>
+			<div class="view-feedback-page">
 			<p><?php
 				// Start the table and output the header row
 				echo "<table>";
@@ -290,8 +350,11 @@ $name = $row['name'];
 				echo "</table>";
 				?>
 			</p>
+			</div>
 		</div>
-
+		<div class="assign-guest-page" style="display: none;">
+        <!-- Content for the Assign Guest page -->
+    </div>
 	</div>
 	<footer class="footer_new">
 		<p class='F1'>Feedback | © COPYRIGHT 2023</p>
