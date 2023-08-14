@@ -2,8 +2,8 @@
 session_start();
 require_once "connection.php";
 if (!isset($_SESSION["Teacher"])) {
-	header("Location: index.php");
-	exit;
+    header("Location: index.php");
+    exit;
 }
 
 $username = $_SESSION["Teacher"];
@@ -38,17 +38,17 @@ $unique_entries = array();
 $branch_tables = array("cs_teacher", "mech_teacher"); // Add more branch-specific tables as needed
 
 foreach ($branch_tables as $branch_table) {
-	$query = "SELECT email, subject, branch, acad_year FROM $branch_table WHERE email = ?";
-	$stmt = $conn->prepare($query);
-	$stmt->bind_param("s", $username);
-	$stmt->execute();
-	$stmt->bind_result($email, $subject, $branch, $acad_year);
-	while ($stmt->fetch()) {
-		if (!in_array(array($email, $branch, $subject, $acad_year), $unique_entries)) {
-			$unique_entries[] = array($email, $branch, $subject, $acad_year);
-		}
-	}
-	$stmt->close();
+    $query = "SELECT email, subject, branch, acad_year FROM $branch_table WHERE email = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $stmt->bind_result($email, $subject, $branch, $acad_year);
+    while ($stmt->fetch()) {
+        if (!in_array(array($email, $branch, $subject, $acad_year), $unique_entries)) {
+            $unique_entries[] = array($email, $branch, $subject, $acad_year);
+        }
+    }
+    $stmt->close();
 }
 
 $avg_avg = array();
@@ -66,306 +66,414 @@ $name = $row['name'];
 ?>
 
 <!DOCTYPE html>
-<html>
+<html dir="ltr" lang="en">
 
 <head>
-	<link rel="icon" href="./public/favicon.ico" type="image/x-icon">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, Xtreme lite admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, Xtreme admin lite design, Xtreme admin lite dashboard bootstrap 5 dashboard template">
+    <meta name="description" content="Xtreme Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
+    <meta name="robots" content="noindex,nofollow">
+    <title>Teacher Dashboard</title>
 
-	<title>Teacher Feedback</title>
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<link rel="stylesheet" type="text/css" href="css/style1.css">
+    <!-- Favicon icon -->
+    <!-- <link rel="icon" type="image/png" sizes="16x16" href="./Coordinator Dashboard css and js /assets/images/favicon.png"> -->
+    <!-- Custom CSS -->
+    <link href="./Coordinator Dashboard css and js/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="./Coordinator Dashboard css and js/dist/css/style.min.css" rel="stylesheet">
 
-	<meta name="viewport" content="width=device-width, initial-scale=0">
-
-
-	<style>
-    /* Styling for Navigation Sidebar */
-    .sidebar {
-        width: 20%;
-        background-color: #f4f4f4;
-        height: 100vh; /* Adjust the height as needed */
-        float: left;
-    }
-
-    .sidebar ul {
-        list-style-type: none;
-        padding: 0;
-    }
-
-    .sidebar ul li {
-        padding: 10px;
-        text-align: center;
-    }
-
-    .sidebar ul li a {
-        text-decoration: none;
-        color: #333;
-        display: block;
-    }
-
-    /* Styling for Main Content */
-    .content {
-        width: 80%;
-        float: right;
-    }
-</style>
+    <!-- Include Footer CSS -->
+    <link rel="stylesheet" href="./css/footer_style.css">
 
 
 
-	<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const viewFeedbackButton = document.getElementById("view-feedback-btn");
-        const assignGuestButton = document.getElementById("assign-guest-btn");
-        const viewFeedbackPage = document.querySelector(".view-feedback-page");
-        const assignGuestPage = document.querySelector(".assign-guest-page");
+    <!-- jQuery -->
+    <script src="./js/jquery-3.6.0.min.js"></script>
 
-        viewFeedbackButton.addEventListener("click", function() {
-            viewFeedbackPage.style.display = "block";
-            assignGuestPage.style.display = "none";
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.min.js"></script>
+
+    <style>
+        .custom-in-card-circle {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            background: #47535C;
+            ;
+            box-shadow: 0px 0px 28px 5px rgba(0, 0, 0, 0.30);
+
+        }
+
+        .tab-content:not(#tab1) {
+            display: none;
+        }
+
+        .sidebar-item a.active-nav {
+            color: red;
+            font-weight: bold;
+
+        }
+
+        .active {
+            background: rgba(217, 217, 217, 0.09);
+            box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.25);
+        }
+
+
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @media (max-width: 1170px) {
+            .active {
+                background-color: transparent;
+                box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
+            }
+        }
+
+        .card-link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .card-link:hover {
+            text-decoration: none;
+            color: inherit;
+
+        }
+
+        .card {
+            min-height: 190px;
+
+
+            background-color: #202E39;
+            border-radius: 1.25rem;
+        }
+
+        .card:hover {
+            background-color: #3e5569;
+            box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.25);
+        }
+
+
+
+
+
+        .btn {
+
+            border: 0;
+            border-radius: 10px;
+
+            min-width: 110px;
+            border-radius: 22px;
+
+            color: #FFF;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .btn-primary {
+            background: #3D8BFD;
+
+        }
+
+        .table thead th {
+            color: white;
+            font-size: medium;
+            /* Example background color */
+        }
+
+        td {
+            color: #516773;
+        }
+
+        .table-scroll {
+            overflow-x: auto;
+            overflow-y: auto;
+            max-width: 100%;
+        }
+    </style>
+
+
+
+    <script src="./js/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Hide all tab contents except the first one
+            $('.tab-content:not(:first)').hide();
+
+            // Add click event handler to the sidebar items
+            $('.sidebar-item').click(function() {
+                // Remove active class from all sidebar items
+                $('.sidebar-item').removeClass('active');
+                // Add active class to the clicked sidebar item
+                $(this).addClass('active');
+
+                // Hide all tab contents
+                $('.tab-content').hide();
+
+                // Show the corresponding tab content based on the clicked item
+                var tabToShow = $(this).attr('data-tab');
+                $('#' + tabToShow).show();
+            });
         });
+    </script>
 
-        assignGuestButton.addEventListener("click", function() {
-            assignGuestPage.style.display = "block";
-            viewFeedbackPage.style.display = "none";
-        });
-    });
-</script>
 </head>
-<!-- <style>
-	html,
-	body {
-		height: 100%;
-	}
-
-	body {
-		position: relative;
-		margin: 0;
-		background: linear-gradient(180deg, rgba(253, 92, 92, 0.89) 0%, rgba(255, 168, 0, 0.38) 100%);
-
-		background-repeat: no-repeat;
-		background-size: cover;
-		background-attachment: fixed;
-		padding-bottom: 200px;
-
-	}
-
-	.wrapper {
-		min-height: 80%;
-		top: 10%;
-		/* change the value as per your requirements */
-
-		position: relative;
-	}
-
-	.BOX {
-		position: relative;
-		background-color: aqua;
-		margin-left: auto;
-		margin-right: auto;
-
-		width: 60%;
-		background: linear-gradient(180deg, #F7B5B5 0%, rgba(227, 157, 141, 0.177083) 60.42%, rgba(161, 148, 172, 0) 100%);
-		height: auto;
-		box-shadow: 0 0 2px;
-		border-radius: 58px;
-		padding-left: 2%;
-		padding-right: 2%;
-		padding-top: 2%;
-		padding-bottom: 2%;
-		z-index: 1;
-	}
-
-	.welcome {
-		position: relative;
-		font-family: "Arial";
-		font-style: normal;
-		font-weight: 700;
-		font-size: 50px;
-		line-height: 74px;
-		margin: 0;
-		top: 10%;
-		text-align: center;
-
-
-		color: rgba(0, 0, 0, 0.74);
-
-	}
-
-	p {
-		font-family: "Arial";
-		font-style: normal;
-
-		font-size: 18px;
-		line-height: 28px;
-		margin: 0;
-		color: rgba(0, 0, 0, 0.74);
-	}
-
-	.leftDesign {
-		position: absolute;
-		top: 5%;
-		left: -150px;
-		background: linear-gradient(180deg, rgba(255, 0, 122, 0.46) 0%, rgba(233, 17, 17, 0) 100%);
-		;
-		height: 400px;
-		width: 400px;
-		border-radius: 50%;
-		z-index: -1;
-
-
-	}
-
-	.rightDesign {
-		position: absolute;
-		top: -100px;
-
-		right: -10%;
-		background: linear-gradient(180deg, rgba(255, 0, 122, 0.46) 0%, rgba(233, 17, 17, 0) 100%);
-		;
-		height: 400px;
-		width: 400px;
-		border-radius: 50%;
-		z-index: -1;
-	}
-
-	table {
-		position: relative;
-		border-collapse: collapse;
-		width: 80%;
-		margin-left: auto;
-		margin-right: auto;
-		margin-bottom: 20px;
-		border: 1px solid #ddd;
-	}
-
-	th,
-	td {
-		padding: 8px;
-		text-align: left;
-		border: 1px solid #ddd;
-	}
-
-	th {
-		background-color: #f2f2f2;
-	}
-
-	.footer_new {
-		position: absolute;
-		display: flex;
-		flex-wrap: wrap;
-		bottom: 0;
-		height: 60px;
-		width: 100%;
-		color: black;
-		background-color: white;
-		box-sizing: border-box;
-		/* added */
-	}
-
-	.F1,
-	.F2,
-	.F3 {
-		flex-basis: calc((100% / 3) - 2%);
-		margin-bottom: 0;
-	}
-
-	.F1 {
-		text-align: left;
-	}
-
-	.F2 {
-		text-align: center;
-	}
-
-	.F3 {
-		text-align: right;
-	}
-
-	@media screen and (max-width:600px) {
-		body {
-			padding-bottom: 100px;
-		}
-
-		.footer_new {
-			height: 200px;
-		}
-	}
-</style> -->
 
 <body>
-
-	<div class="leftDesign"></div>
-	<div class="rightDesign"></div>
-
-	<h2 class="welcome">
-		Welcome <?php echo $final; ?>
-
-	</h2>
-	<div class="sidebar">
-        <ul>
-            <li><a href="#" id="view-feedback-btn">View Feedback</a></li>
-            <li><a href="#" id="assign-guest-btn">Assign Guest</a></li>
-            <!-- Add other navigation links here -->
-        </ul>
-    </div>
-	<div class="wrapper">
-		<div class="BOX">
-
-		<div align="right">
-            <form action="logout.php" method="POST" style="display: inline-block;">
-                <a href="logout.php"><button type="submit" name="logout" class="button_css" style="display: inline-block;">Logout</button></a>
-            </form>
-            <a href="reset.php"><button type="button" class="button_css" style="display: inline-block;">Reset Password</button></a>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
         </div>
-			<br>
-			<div class="view-feedback-page">
-			<p><?php
-				// Start the table and output the header row
-				echo "<table>";
-				echo "<tr><th>Email</th><th>Year - Branch</th><th>Subject</th><th>Average Feedback Score</th></tr>";
-
-				// Loop over each unique combination of email, branch, and subject
-				foreach ($unique_entries as $entry) {
-					$email = $entry[0];
-					$branch = $entry[1];
-					$subject = $entry[2];
-					$acad_year = $entry[3];
-					$query_match = "SELECT * FROM cs_feedback WHERE teacher = '$name' AND branch = '$branch' AND acad_year = '$acad_year' AND subject = '$subject'";
-					$result_match = mysqli_query($conn, $query_match);
-					$sum = 0;
-					$count = 0;
-					while ($row = mysqli_fetch_assoc($result_match)) {
-						$sum += $row['avg'];
-						$count++;
-					}
-					$average = ($count > 0) ? ($sum / $count) : 0;
-					$avg_avg[] = $average;
-				
-					// Output the row for this combination of email, branch, and subject
-					echo "<tr><td>$email</td><td>$acad_year-$branch</td><td>$subject</td><td>$average</td></tr>";
-				}
-
-				// End the table
-				echo "</table>";
-				?>
-			</p>
-			</div>
-		</div>
-		<div class="assign-guest-page" style="display: none;">
-        <!-- Content for the Assign Guest page -->
     </div>
-	</div>
-	<footer class="footer_new">
-		<p class='F1'>Feedback | © COPYRIGHT 2023</p>
-		<p class='F2'>Ideation By: Head CSE
-		<p>
-		<p class='F3'>Developed By: <a href='https://www.linkedin.com/in/swayam-pendgaonkar-ab4087232/' target='_blank' class='link' style='color:black'>Swayam Pendgaonkar</a><br />UI/UX: <a href='https://www.linkedin.com/in/sakshamgupta912/' target='_blank' class='link' style='color:black'>Saksham Gupta</a> ,<a href='https://www.linkedin.com/in/yajushreshtha-shukla/' target='_blank' class='link' style='color:black'>Yajushreshtha Shukla</a> </p>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full" data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+        <!-- Hamburger Mobile View -->
+        <a class="m-2 nav-toggler waves-effect waves-light d-md-none" style="position: absolute;z-index:100;" href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
 
-	</footer>
-	<script type="text/javascript" src="js.jquery.min.js"></script>
-	<script type="text/javascript" src="js.bootstrap.min.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+        <aside class="left-sidebar pt-0" data-sidebarbg="skin6" style="background: #202E39;">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+                        <!-- User Profile-->
+                        <li>
+                            <!-- User Profile-->
+                            <div class="user-profile d-flex no-block dropdown ">
+                                <div class="user-content hide-menu m-l-10">
+                                    <a href="#" class="" id="Userdd" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class=" user-email"> <?php echo $final; ?></span>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- End User Profile-->
+                        </li>
+
+
+                        <!-- User Profile -->
+                        <li class="sidebar-item item1 active" data-tab="tab1">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false">
+                                <i class="mdi mdi-clipboard-text"></i><span class="hide-menu">View Feedback</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item item2" data-tab="tab2">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false">
+                                <i class="mdi mdi-account-star"></i><span class="hide-menu">Assign Guest</span>
+                            </a>
+                        </li>
+
+
+                    </ul>
+
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </aside>
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+
+            <div class="page-breadcrumb py-2" style=" background: #212f3e;;
+            box-shadow: 0px 4px 66px 0px rgba(0, 0, 0, 0.15);">
+                <div class="row  align-items-center">
+                    <div class="col-3">
+                        <h4 class="page-title op-5" style="color:white ;font-size:25px">Dashboard</h4>
+                    </div>
+                    <div class="col-9">
+                        <div class="text-end upgrade-btn">
+
+                            <form action="logout.php" method="POST" style="display: inline;">
+                                <a href="logout.php"><button type="submit" name="logout" class="btn btn-primary text-white">Logout</button></a>
+                            </form>
+
+                            <a href="reset.php" class="btn btn-primary text-white" target="_blank">Reset Password</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid " style="background-color:#17212C;color: white; min-height:calc(100vh - 149px)">
+
+
+
+                <!-- Content for Tab 1 -->
+                <div id="tab1" class="tab-content">
+                    <h2>Feedback</h2>
+                    <br>
+                    <div class="row main-content">
+                        <div class="table-scroll">
+                            <?php
+                            // Start the table and output the header row
+                            echo '<table class="table table-hover">';
+                            echo '<thead><tr><th>Email</th><th>Year - Branch</th><th>Subject</th><th>Average Feedback Score</th></tr></thead>';
+                            echo '<tbody>';
+
+                            // Loop over each unique combination of email, branch, and subject
+                            foreach ($unique_entries as $entry) {
+                                $email = $entry[0];
+                                $branch = $entry[1];
+                                $subject = $entry[2];
+                                $acad_year = $entry[3];
+                                $query_match = "SELECT * FROM cs_feedback WHERE teacher = '$name' AND branch = '$branch' AND acad_year = '$acad_year' AND subject = '$subject'";
+                                $result_match = mysqli_query($conn, $query_match);
+                                $sum = 0;
+                                $count = 0;
+                                while ($row = mysqli_fetch_assoc($result_match)) {
+                                    $sum += $row['avg'];
+                                    $count++;
+                                }
+                                $average = ($count > 0) ? ($sum / $count) : 0;
+                                $avg_avg[] = $average;
+
+                                // Output the row for this combination of email, branch, and subject
+                                echo "<tr class='table-row-hover'><td>$email</td><td>$acad_year-$branch</td><td>$subject</td><td>$average</td></tr>";
+                            }
+
+
+
+                            // End the table
+                            echo '</tbody></table>';
+                            ?>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+                <div id="tab2" class="tab-content">
+                    <h2>Guest Manager</h2>
+                    <br>
+                    <div class="row main-content">
+
+
+
+
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+                <!-- ============================================================== -->
+                <!-- Recent comment and chats -->
+                <!-- ============================================================== -->
+
+
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+
+            <footer class="site-footer footer-bottom d-flex py-1">
+
+                <div class="container" style="min-width:100%">
+                    <hr class="mt-3 mb-2" style="color: #CDCDCD;">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-4 copyright-text">
+
+
+                            <p style="font-size: 14px;font-weight: 700;color: #CDCDCD;;">Feedback |
+                                <a>Copyright &copy; 2023 </a>
+                            </p>
+                        </div>
+
+                        <div class="col-xs-12 col-md-4 ">
+
+
+                            <ul class="footer-links text-center">
+
+                                <li><a style="font-size: 14px;font-weight: 700;color: #CDCDCD;;">Ideation By Dr. Deepali Vora, Head CS IT</a></li>
+
+
+                            </ul>
+                        </div>
+
+                        <div class="col-xs-12 col-md-4 ">
+
+                            <ul class="footer-links text-right custom-developed-by">
+                                <li><a style="font-size: 14px;font-weight: 700;color: #CDCDCD;;">Developed By: </a>
+                                    <a href="https://www.linkedin.com/in/skp2208/" style="font-size: 14px;font-weight: 700;color: #CDCDCD;;">Swayam Pendgaonkar</a>
+                                </li>
+                                <li><a href="https://www.linkedin.com/in/sakshamgupta912/" style="font-size: 14px;font-weight: 700;color: #CDCDCD;;">Saksham Gupta </a>
+                                    <a href="https://www.linkedin.com/in/yajushreshtha-shukla/" style="font-size: 14px;font-weight: 700;color: #CDCDCD;;">Yajushreshtha Shukla</a>
+                                </li>
+
+                            </ul>
+                        </div>
+
+                    </div>
+
+                </div>
+
+        </div>
+        </footer>
+
+    </div>
+
+
+    </div>
+
+
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="./Coordinator Dashboard css and js/assets/libs/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="./Coordinator Dashboard css and js/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./Coordinator Dashboard css and js/dist/js/app-style-switcher.js"></script>
+    <!--Wave Effects -->
+    <script src="./Coordinator Dashboard css and js/dist/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="./Coordinator Dashboard css and js/dist/js/sidebarmenu.js"></script>
+    <!--Custom JavaScript -->
+    <script src="./Coordinator Dashboard css and js/dist/js/custom.js"></script>
+    <!--This page JavaScript -->
+    <!--chartis chart-->
+    <script src="./Coordinator Dashboard css and js/assets/libs/chartist/dist/chartist.min.js"></script>
+    <script src="./Coordinator Dashboard css and js/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+    <script src="./Coordinator Dashboard css and js/dist/js/pages/dashboards/dashboard1.js"></script>
+
+    <script src="./js/jquery-3.6.0.min.js">
+    </script>
+
+
 </body>
 
 </html>
