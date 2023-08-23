@@ -54,7 +54,8 @@ foreach ($branch_tables as $branch_table) {
 $avg_avg = array();
 
 $query_name = "SELECT * FROM cs_teacher WHERE email = '$email' LIMIT 1";
-
+$final_email = $email;
+$branch_final = $branch;
 // execute the query and fetch the result
 $result = mysqli_query($conn, $query_name);
 $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -369,18 +370,160 @@ $name = $row['name'];
 
 
                 <div id="tab2" class="tab-content">
-                    <h2>Guest Manager</h2>
-                    <br>
-                    <div class="row main-content">
+    <h2>Guest Manager</h2>
+    <br>
+    <div class="row main-content">
+        <form action="" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+            <label for="guestName">Guest Name:</label>
+            <input type="text" name="guestName" required>
+            <br>
+            <label for="guestDate">Guest Date:</label>
+            <input type="date" name="guestDate" required>
+            <br>
+            <label for="guestTopic">Guest Topic:</label>
+            <input type="text" name="guestTopic" required>
+            <br>
+            <label for="branch">Branch:</label>
+            <input type="text" name="branch" required>
+            <br>
+            <label for="csvfile_guest_data">Select CSV file for students:</label>
+            <input class="ChooseFile" type="file" name="csvfile_guest_data" id="csvfile_guest_data"><br>
+            <input class="UploadButton" type="submit" name="submit1" value="Upload">
+        </form>
+    </div>
+</div>
+
+
+<?php
+if (isset($_POST['submit1'])) {
+    // Get form inputs
+    $guestName = $_POST['guestName'];
+    $guestDate = $_POST['guestDate'];
+    $guestTopic = $_POST['guestTopic'];
+    $branch = $_POST['branch'];
+
+    // Insert guest data into guest table
+    $insertGuestQuery = "INSERT INTO guest (guest_name, guest_date, guest_topic, branch) 
+                         VALUES ('$guestName', '$guestDate', '$guestTopic', '$branch')";
+    mysqli_query($conn, $insertGuestQuery);
+
+    // Process uploaded CSV file
+    if (!empty($_FILES['csvfile_guest_data']['name'])) {
+        $file_name = $_FILES['csvfile_guest_data']['name'];
+        $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+
+        if ($file_ext !== 'csv') {
+            echo "<script>alert('Invalid File Type! Please upload a CSV file.');</script>";
+        } else {
+            // Open uploaded file
+            $file = fopen($_FILES['csvfile_guest_data']['tmp_name'], 'r');
+
+            // Skip first line (header)
+            fgetcsv($file);
+
+            // Get the ID of the inserted guest
+            $guestId = mysqli_insert_id($conn);
+
+            // Loop through each row of the CSV file
+            while ($row = fgetcsv($file)) {
+                // Sanitize and validate each field
+                $studentEmail = sanitizeAndValidateEmail($row[1]);
+                
+                // Insert student-guest relationship into guest_student table
+                $insertGuestStudentQuery = "INSERT INTO guest_student (guest_id, student_email) 
+                                           VALUES ('$guestId', '$studentEmail')";
+                mysqli_query($conn, $insertGuestStudentQuery);
+            }
+
+            echo "<script>alert('File Uploaded successfully!');</script>";
+
+            // Close file
+            fclose($file);
+        }
+    }
+}
+
+
+// Your sanitizeAndValidate functions go here...
 
 
 
 
-                    </div>
-                </div>
+function sanitizeAndValidatePrn($prn)
+{
+    $prn = preg_replace('/[^0-9]/', '', $prn); // Remove non-digit characters
+    if (strlen($prn) !== 11 || !ctype_digit($prn)) {
+        echo "<script>alert('Invalid PRN: $prn');</script>";
+        // Handle the error (e.g., log, display, etc.)
+        return false;
+    }
+    else{
+        return $prn;
+    }
+    
+}
+
+function sanitizeAndValidateName($name)
+{
+    $name = trim(preg_replace('/[^a-zA-Z ]/', '', $name)); // Remove non-alphabet and space characters and trim spaces
+    return $name;
+}
+
+function sanitizeAndValidateEmail($email)
+{
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "<script>alert('Invalid email: $email');</script>";
+        // Handle the error (e.g., log, display, etc.)
+        return false; // Skip the iteration if the email is invalid
+    }
+    else{
+    return $email;
+}
+}
+
+function sanitizeAndValidateVarchar($varchar)
+{
+    $varchar = preg_replace('/[^a-zA-Z ]/', '', $varchar); // Remove non-alphabet and space characters
+    return $varchar;
+}
+
+function sanitizeAndValidateAcadYear($acad_year)
+{
+    $allowedYears = ['fy', 'sy', 'ty', 'fly'];
+    if (!in_array(strtolower($acad_year), $allowedYears)) {
+        echo "<script>alert('Invalid academic year: $acad_year');</script>";
+        // Handle the error (e.g., log, display, etc.)
+        return false; // Skip the iteration if the academic year is invalid
+    }
+    else{
+    return strtolower($acad_year);}
+}
+
+function sanitizeAndValidateBranch($branch)
+{
+    $branch = preg_replace('/[^a-zA-Z]/', '', $branch); // Remove non-alphabet characters
+    return strtolower($branch);
+}
+
+function sanitizeAndValidateClass($class)
+{
+    $class = preg_replace('/[^a-zA-Z0-9]/', '', $class); // Remove non-alphabet characters
+    return strtolower($class);
+}
+
+function sanitizeAndValidateSemester($sem)
+{
+    if (!ctype_digit($sem) || $sem < 1 || $sem > 8) {
+        echo "<script>alert('Invalid semester: $sem');</script>";
+        // Handle the error (e.g., log, display, etc.)
+        return false; // Skip the iteration if the semester is invalid
+    }
+    else{
+    return $sem;
+}}
 
 
-
+?>
 
 
 
