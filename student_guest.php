@@ -22,6 +22,7 @@ if ($branch_check == "FY") {
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
                 $name = ucwords($row["name"]);
+                $student_email = $row["email"];
             }
         } else {
             $name = 'Please Contact Coordinator!';
@@ -38,6 +39,7 @@ if ($branch_check == "FY") {
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
                 $name = ucwords($row["name"]);
+                $student_email = $row["email"];
             }
         } else {
             $name = 'Please Contact Coordinator!';
@@ -215,88 +217,45 @@ if ($branch_check == "FY") {
                     <?php
 
 
-                    $query = "SELECT * FROM $branch_feedback WHERE prn='$username'";
-                    $result = mysqli_query($conn, $query);
-                    $row = mysqli_fetch_assoc($result);
+$query = "SELECT * FROM guest_student WHERE student_email='$student_email'";
+$result = mysqli_query($conn, $query);
+$slideNumber=0;
 
+if (mysqli_num_rows($result) == 0) {
+    echo "Please attend a guest lecture to give feedback.";
+} else {
+    $row = mysqli_fetch_assoc($result);
+    if ($row['is_valid'] == 0) {
+        echo "Feedback Already Filled.";
+    } else {
+        $guest_id = $row['guest_id'];
+        $query = "SELECT * FROM guest WHERE id='$guest_id' AND is_valid='1'";
+        $result = mysqli_query($conn, $query);
+        if (mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+            $guest_name = $row['guest_name'];
+            $guest_date = $row['guest_date'];
+            $guest_topic = $row['guest_topic'];
 
-                    if (mysqli_num_rows($result) == 0) {
-                        // Retrieve student information
-                        $query = "SELECT * FROM $branch_check WHERE prn='$username'";
-                        $result = mysqli_query($conn, $query);
-                        $row = mysqli_fetch_assoc($result);
-                        $student_name = $row['name'];
+            echo "Guest Name: $guest_name<br>";
+            echo "Guest Date: $guest_date<br>";
+            echo "Guest Topic: $guest_topic<br>";
 
-                        $specialization = $row['open'];
-                        $general = $row['general'];
-                        $acad_year = $row["acad_year"];
-                        $branch = $row["branch"];
-                        $class = $row["class"];
-                        // echo " ";
-                        // echo "$general";
-                        // echo "$specialization";
+            // Retrieve questions from question table
+            $query = "SELECT questions FROM question WHERE type='guest'";
+            $result = mysqli_query($conn, $query);
+            $question_number = 1;
 
-                        //$query_spec = "SELECT * FROM specialization WHERE course_name ='$specialization'";
-
-                        // // $subjects_arr = array_merge($open_elective_arr, $specialization_arr);
-
-                        // // // Build the query
-                        // // $subject_condition = "subject IN ('" . implode("', '", $subjects_arr) . "')";
-                        // // $year_branch_class_condition = "year_branch_class='$class_batch' AND is_valid='1'";
-                        // // $year_branch_class_without_batch = substr($class_batch, 0, -1);
-                        // // $year_branch_class_without_batch_condition = "year_branch_class='$year_branch_class_without_batch' AND is_valid='1'";
-
-                        // // Construct the final query with both conditions
-                        //$query = "SELECT * FROM $branch_teacher WHERE (acad_year = '$acad_year' AND branch = '$branch' AND class = '$class') OR subject = '$general'";
-
-
-                        $query = "SELECT name, subject
-							FROM specialization
-							WHERE course_name = '$specialization'
-							UNION
-							SELECT name, subject
-							FROM $branch_teacher
-							WHERE (acad_year = '$acad_year' AND branch = '$branch' AND class = '$class') OR subject = '$general'";
-
-
-                        $result = mysqli_query($conn, $query);
-
-                        $slideNumber = 1;
-
-                        // Display feedback form for each teacher
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            $teacher_name = $row['name'];
-                            $teacher_subject = $row['subject'];
-
-                            echo "<div class='carousel-item " . ($slideNumber == 1 ? " active" : "") . "'>";
-
-
-                            // Retrieve questions from question_data table
-                            $query = "SELECT * FROM question where type='feedback'";
-                            $question_result = mysqli_query($conn, $query);
-                            $question_number = 1;
-
-                            // Display teacher and subject
-
-                            echo "<div style='border-radius: 10px 10px 0px 0px;
-                            background: #425361;text-align:center;padding-top:2px;padding-bottom:1px;color:white'><h4>" . $teacher_name . "</h4>";
-                            echo "<h6>" . " ( " . $teacher_subject . " )</h6>";
-                            echo "</div>";
-
-                            echo "<div class='p-2'>";
-                            // Display questions and radio buttons
-                            while ($question_row = mysqli_fetch_assoc($question_result)) {
-                                $question = $question_row['questions'];
-                                // echo "<p>Q$question_number. $question</p>";
-                                echo "<tr><td style='padding: 10px;  '><p style='margin:0; font-size: 17px  '>" . "Q) " . "" . $question . "</p></td></tr>";
-
-                                echo "<input type='radio' name='feedback[$teacher_name][$teacher_subject][$question_number]' value='1' required> 1  ";
-                                echo "<input type='radio' name='feedback[$teacher_name][$teacher_subject][$question_number]' value='2' required> 2  ";
-                                echo "<input type='radio' name='feedback[$teacher_name][$teacher_subject][$question_number]' value='3' required> 3  ";
-                                echo "<input type='radio' name='feedback[$teacher_name][$teacher_subject][$question_number]' value='4' required> 4  ";
-                                echo "<input type='radio' name='feedback[$teacher_name][$teacher_subject][$question_number]' value='5' required> 5  <br></td></tr>";
-                                $question_number++;
-                            }
+            while ($row = mysqli_fetch_assoc($result)) {
+                $question = $row['questions'];
+                echo "$question_number. $question<br>";
+                echo "<input type='radio' name='feedback[$guest_id][$question_number]' value='1' required> 1  ";
+                echo "<input type='radio' name='feedback[$guest_id][$question_number]' value='2' required> 2  ";
+                echo "<input type='radio' name='feedback[$guest_id][$question_number]' value='3' required> 3  ";
+                echo "<input type='radio' name='feedback[$guest_id][$question_number]' value='4' required> 4  ";
+                echo "<input type='radio' name='feedback[$guest_id][$question_number]' value='5' required> 5  <br>";
+                $question_number++;
+            }}
 
 
                             echo "</div>";
@@ -307,21 +266,18 @@ if ($branch_check == "FY") {
                         echo "<div class='anything_else'> <label style='margin:10px'>Feedback:</label><input style='margin:10px' type='text' name='remark[$username]' size='35'></div>";
 
 
-                        $_SESSION['prn'] = $username;
-                        $_SESSION['student_name'] = $student_name;
-                        $_SESSION['acad_year'] = $acad_year;
-                        $_SESSION['branch'] = $branch;
-                        $_SESSION['class'] = $class;
-                        $_SESSION['branch_feedback'] = $branch_feedback;
-                        $_SESSION['branch_check'] = $branch_check;
-                        $_SESSION['branch_teacher'] = $branch_teacher;
+                        // $_SESSION['prn'] = $username;
+                        // $_SESSION['student_name'] = $student_name;
+                        // $_SESSION['acad_year'] = $acad_year;
+                        // $_SESSION['branch'] = $branch;
+                        // $_SESSION['class'] = $class;
+                        // $_SESSION['branch_feedback'] = $branch_feedback;
+                        // $_SESSION['branch_check'] = $branch_check;
+                        // $_SESSION['branch_teacher'] = $branch_teacher;
                         $try = 0;
 
                         $slideNumber++;
-                    } else {
-                        $try = 1;
-                        echo "You have already submitted the form!";
-                    }
+}
                     ?>
 
                 </div>
