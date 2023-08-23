@@ -78,10 +78,7 @@ if ($branch_check == "FY") {
 
         }
 
-        .container {
-            min-height: calc(100vh);
-
-        }
+       
 
         .wrapper {
             padding: 70px 0;
@@ -125,26 +122,34 @@ if ($branch_check == "FY") {
             font-size: 26px;
         }
 
+        .container {
+            min-height: calc(80vh);
 
+        }
+
+        @media screen and (max-width: 768px) {
+            .container {
+            min-height: calc(20vh);
+
+        }
+        }
 
         /* Add the following styles to hide the arrows */
         .slick-arrow {}
     </style>
 
     <style>
-   
-
         input[type="radio"] {
             appearance: none;
             -webkit-appearance: none;
             width: 20px;
             height: 20px;
-            border: 1px solid #fff;
+            border: 3.5px solid #fff;
             border-radius: 50%;
             margin-right: 10px;
             background-color: transparent;
             position: relative;
-            top: 6px;
+            top: 6.5px;
         }
 
         input[type="radio"]:checked::before {
@@ -153,6 +158,7 @@ if ($branch_check == "FY") {
             width: 12px;
             height: 12px;
             background-color: #273444;
+            border: 2px solid #000;
             border-radius: 50%;
             position: absolute;
             top: 50%;
@@ -161,7 +167,7 @@ if ($branch_check == "FY") {
             animation: appear 0.4s;
         }
 
- 
+
 
         @keyframes appear {
             0% {
@@ -195,6 +201,15 @@ if ($branch_check == "FY") {
 </head>
 
 <body>
+
+    <div class="d-flex justify-content-end m-2">
+
+        <div><a href="logout.php"><button type="submit" name="logout" class="btn btn-primary text-white  " style="border-radius: 22px;">Logout</button></a></div>
+        <div><a href="reset.php"><button type="submit" name="logout" class="btn btn-primary text-white mx-1" style="border-radius: 22px;">Reset Password</button></a></div>
+
+
+    </div>
+
 
 
     <div class="container d-flex align-items-center justify-content-center px-0 mb-3">
@@ -290,11 +305,11 @@ if ($branch_check == "FY") {
                                 // echo "<p>Q$question_number. $question</p>";
                                 echo "<tr><td style='padding: 10px;  '><p style='margin:0; font-size: 17px  '>" . "Q) " . "" . $question . "</p></td></tr>";
 
-                                echo "<input type='radio' name='feedback[$teacher_name][$teacher_subject][$question_number]' value='1' required> 1  ";
-                                echo "<input type='radio' name='feedback[$teacher_name][$teacher_subject][$question_number]' value='2' required> 2  ";
-                                echo "<input type='radio' name='feedback[$teacher_name][$teacher_subject][$question_number]' value='3' required> 3  ";
-                                echo "<input type='radio' name='feedback[$teacher_name][$teacher_subject][$question_number]' value='4' required> 4  ";
-                                echo "<input type='radio' name='feedback[$teacher_name][$teacher_subject][$question_number]' value='5' required> 5  <br></td></tr>";
+                                echo "1 <input type='radio' name='feedback[$teacher_name][$teacher_subject][$question_number]' value='1' required>";
+                                echo "2 <input type='radio' name='feedback[$teacher_name][$teacher_subject][$question_number]' value='2' required>";
+                                echo "3 <input type='radio' name='feedback[$teacher_name][$teacher_subject][$question_number]' value='3' required>";
+                                echo "4 <input type='radio' name='feedback[$teacher_name][$teacher_subject][$question_number]' value='4' required>";
+                                echo "5 <input type='radio' name='feedback[$teacher_name][$teacher_subject][$question_number]' value='5' required> <br></td></tr>";
                                 $question_number++;
                             }
 
@@ -320,7 +335,7 @@ if ($branch_check == "FY") {
                         $slideNumber++;
                     } else {
                         $try = 1;
-                        echo "You have already submitted the form!";
+                        echo "<h2 style='text-align:center; '>You have already submitted the form!</h2>";
                     }
                     ?>
 
@@ -330,10 +345,23 @@ if ($branch_check == "FY") {
 
 
                 <input class="form-submit" type='submit' name='submit' value='Submit Feedback' style="display:none">
-                <button class='slide-prev btn btn-primary me-1' style="border-radius: 22px;margin:10px;margin-left:0px">Previous Slide</button>
-                <button class='slide-next btn btn-primary' style="border-radius: 22px;margin:15px;margin-left:0px">Next Slide</button>
+                <!-- <button class='slide-prev btn btn-primary me-1' style="border-radius: 22px;margin:5px;margin-left:0px">Previous Slide</button>
+                <button class='slide-next btn btn-primary' style="border-radius: 22px;margin:5px;margin-left:0px">Next Slide</button> -->
+
+                <?php
+                if ($try != 1) {
+                    // Show the "Next" and "Previous" buttons
+                    echo '<button class="slide-prev btn btn-primary me-1" style="border-radius: 22px;margin:5px;margin-left:0px">Previous Slide</button>';
+                    echo '<button class="slide-next btn btn-primary" style="border-radius: 22px;margin:5px;margin-left:0px">Next Slide</button>';
+                    
+                }
+                ?>
             </form>
-            <button class='btn btn-danger' style="max-width:150px;border-radius: 22px" onclick="checkAllRadio()">Submit Feedback</button>
+            <?php 
+            if($try!=1)
+                echo ' <button class="btn btn-danger" style="max-width:150px;border-radius: 22px" onclick="checkAllRadio()">Submit Feedback</button>';
+            ?>
+            <!-- <button class='btn btn-danger' style="max-width:150px;border-radius: 22px" onclick="checkAllRadio()">Submit Feedback</button> -->
 
 
         </div>
@@ -349,7 +377,7 @@ if ($branch_check == "FY") {
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="./slick/slick.min.js"></script>
     <script type="text/javascript">
-        var total_questions = 1;
+        var total_questions = 9;
 
 
 
@@ -382,39 +410,36 @@ if ($branch_check == "FY") {
                 e.preventDefault();
 
                 console.log("");
-                
+
 
                 var activeSlide = document.querySelector('.slick-active');
-                if (activeSlide.classList.contains("anything_else"))
-                {
-                        alert('Click Submit Button')
-                }
-                else
-                {
-                    var radioButtons = activeSlide.querySelectorAll('input[type="radio"]');
-                var isFilled = true;
-                var count = 0;
-
-                radioButtons.forEach(function(radioButton) {
-                    if (radioButton.checked === true) {
-                        count++;
-                    }
-                });
-
-
-                if (count < total_questions) { // 9 questions 
-
-
-                    alert('Please fill in all the radio buttons on the active slide.');
-                    return false; // Prevent carousel slide if any radio button is not filled
+                if (activeSlide.classList.contains("anything_else")) {
+                    alert('Click Submit Button')
                 } else {
+                    var radioButtons = activeSlide.querySelectorAll('input[type="radio"]');
+                    var isFilled = true;
+                    var count = 0;
 
-                    $('.my-slider').slick('slickNext');
+                    radioButtons.forEach(function(radioButton) {
+                        if (radioButton.checked === true) {
+                            count++;
+                        }
+                    });
 
 
+                    if (count < total_questions) { // 9 questions 
+
+
+                        alert('Please fill in all the radio buttons on the active slide.');
+                        return false; // Prevent carousel slide if any radio button is not filled
+                    } else {
+
+                        $('.my-slider').slick('slickNext');
+
+
+                    }
                 }
-                }
-               
+
             });
 
         });
