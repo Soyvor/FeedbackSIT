@@ -50,7 +50,10 @@ if ($branch_check == "FY") {
     }
 }
 
-
+$query = "SELECT * FROM $branch_check WHERE prn='$username'";
+                            $result = mysqli_query($conn, $query);
+                            $row = mysqli_fetch_assoc($result);
+                            $student_name = $row['name'];
 
 
 
@@ -61,7 +64,7 @@ if ($branch_check == "FY") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Guest Feedback</title>
     <link rel="stylesheet" type="text/css" href="./slick/slick.css">
     <link rel="stylesheet" href="./slick/slick-theme.css" integrity="sha512-6lLUdeQ5uheMFbWm3CP271l14RsX1xtx+J5x2yeIDkkiBpeVTNhTqijME7GgRKKi6hCqovwCoBTlRBEC20M8Mg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
@@ -219,12 +222,12 @@ if ($branch_check == "FY") {
 
         <div class="row py-0 d-flex justify-content-center wrapper " style="width: 100%">
             <div style="text-align: center;">
-                <p style="color:white;font-size:30px;margin:0 ">Welcome <?php echo $username; ?> !</h>
+                <p style="color:white;font-size:30px;margin:0 ">Welcome <?php echo $student_name; ?> </h>
 
 
 
             </div>
-            <form method="post" action="submit_feedback.php" style="display:inline-block;background:none">
+            <form method="post" action="submit_feedback_guest.php" style="display:inline-block;background:none">
 
                 <div class="my-slider px-0 py-3">
 
@@ -244,29 +247,7 @@ if ($branch_check == "FY") {
                             echo "<h2 style='text-align:center; '>Feedback Already Filled.</h2>";
                         } else {
                             $try=0;
-                            // Retrieve student information
-
-                            $query = "SELECT * FROM $branch_check WHERE prn='$username'";
-                            $result = mysqli_query($conn, $query);
-                            $row = mysqli_fetch_assoc($result);
-                            $student_name = $row['name'];
-
-                            $specialization = $row['open'];
-                            $general = $row['general'];
-                            $acad_year = $row["acad_year"];
-                            $branch = $row["branch"];
-                            $class = $row["class"];
-
-                            $query = "SELECT name, subject
-							FROM specialization
-							WHERE course_name = '$specialization'
-							UNION
-							SELECT name, subject
-							FROM $branch_teacher
-							WHERE (acad_year = '$acad_year' AND branch = '$branch' AND class = '$class') OR subject = '$general'";
-
-
-                            $result = mysqli_query($conn, $query);
+                            
 
                             $slideNumber = 1;
 
@@ -285,14 +266,14 @@ if ($branch_check == "FY") {
 
 
                                 // Retrieve questions from question_data table
-                                $query = "SELECT * FROM question where type='feedback'";
+                                $query = "SELECT * FROM question where type='guest'";
                                 $question_result = mysqli_query($conn, $query);
                                 $question_number = 1;
 
                                 // Display teacher and subject
 
                                 echo "<div style='border-radius: 10px 10px 0px 0px;
-                            background: #425361;text-align:center;padding-top:2px;padding-bottom:1px;color:white'><h4>" .  $guest_name . "</h4>";
+                            background: #425361;text-align:center;padding-top:2px;padding-bottom:1px;color:white'><h4>" .  $guest_name ." ".$guest_topic." ".$guest_date. "</h4>";
 
                                 echo "</div>";
 
@@ -319,6 +300,16 @@ if ($branch_check == "FY") {
 
                                 echo "<div class='anything_else'> <label style='margin:10px'>Feedback:</label><input style='margin:10px' type='text' name='remark[$username]' size='35'></div>";
 
+                                $query = "SELECT * FROM $branch_check WHERE prn='$username'";
+                            $result = mysqli_query($conn, $query);
+                            $row = mysqli_fetch_assoc($result);
+                            $student_name = $row['name'];
+
+                            $specialization = $row['open'];
+                            $general = $row['general'];
+                            $acad_year = $row["acad_year"];
+                            $branch = $row["branch"];
+                            $class = $row["class"];
 
                                 $_SESSION['prn'] = $username;
                                 $_SESSION['student_name'] = $student_name;
@@ -328,6 +319,11 @@ if ($branch_check == "FY") {
                                 $_SESSION['branch_feedback'] = $branch_feedback;
                                 $_SESSION['branch_check'] = $branch_check;
                                 $_SESSION['branch_teacher'] = $branch_teacher;
+                                $_SESSION['guest_id']=$guest_id;
+                                $_SESSION['student_email']=$student_email;
+                                $_SESSION['guest_topic']=$guest_topic;
+                                $_SESSION['guest_date']=$guest_date;
+                                $_SESSION['guest_name']=$guest_name;
                                 $try = 0;
 
                                 $slideNumber++;
@@ -348,13 +344,13 @@ if ($branch_check == "FY") {
                 <!-- <button class='slide-prev btn btn-primary me-1' style="border-radius: 22px;margin:5px;margin-left:0px">Previous Slide</button>
                 <button class='slide-next btn btn-primary' style="border-radius: 22px;margin:5px;margin-left:0px">Next Slide</button> -->
 
-                <?php
+                <!-- <?php
                 if ($try != 1) {
                     // Show the "Next" and "Previous" buttons
                     echo '<button class="slide-prev btn btn-primary me-1" style="border-radius: 22px;margin:5px;margin-left:0px">Previous Slide</button>';
                     echo '<button class="slide-next btn btn-primary" style="border-radius: 22px;margin:5px;margin-left:0px">Next Slide</button>';
                 }
-                ?>
+                ?> -->
             </form>
             <?php
             if ($try != 1)

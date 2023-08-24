@@ -48,7 +48,10 @@ if ($branch_check == "FY") {
     }
 }
 
-
+$query = "SELECT * FROM $branch_check WHERE prn='$username'";
+                            $result = mysqli_query($conn, $query);
+                            $row = mysqli_fetch_assoc($result);
+                            $student_name = $row['name'];
 
 
 
@@ -218,7 +221,7 @@ if ($branch_check == "FY") {
 
         <div class="row py-0 d-flex justify-content-center wrapper " style="width: 100%">
             <div style="text-align: center;">
-                <p style="color:white;font-size:30px;margin:0 ">Welcome <?php echo $username; ?> !</h>
+                <p style="color:white;font-size:30px;margin:0 ">Welcome <?php echo $student_name; ?> !</h>
 
 
 
