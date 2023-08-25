@@ -337,25 +337,43 @@ $name = $row['name'];
                             echo '<tbody>';
 
                             // Loop over each unique combination of email, branch, and subject
+                            $feedbackTables = ['cs_feedback', 'mech_feedback']; // Add more table names as needed
+
                             foreach ($unique_entries as $entry) {
                                 $email = $entry[0];
                                 $branch = $entry[1];
                                 $subject = $entry[2];
                                 $acad_year = $entry[3];
-                                $query_match = "SELECT * FROM cs_feedback WHERE teacher = '$name' AND branch = '$branch' AND acad_year = '$acad_year' AND subject = '$subject'";
-                                $result_match = mysqli_query($conn, $query_match);
-                                $sum = 0;
-                                $count = 0;
-                                while ($row = mysqli_fetch_assoc($result_match)) {
-                                    $sum += $row['avg'];
-                                    $count++;
-                                }
-                                $average = ($count > 0) ? ($sum / $count) : 0;
-                                $avg_avg[] = $average;
+                                $found = false; // Flag to track if valid results are found for this entry
+                                
+                                foreach ($feedbackTables as $table) {
+                                    $query_match = "SELECT * FROM $table WHERE teacher = '$name' AND branch = '$branch' AND acad_year = '$acad_year' AND subject = '$subject'";
+                                    $result_match = mysqli_query($conn, $query_match);
+                                    $sum = 0;
+                                    $count = 0;
+                                    
+                                    if (mysqli_num_rows($result_match) > 0) {
+                                        $found = true; // Mark as found if at least one valid result exists
+                                        
+                                        while ($row = mysqli_fetch_assoc($result_match)) {
+                                            $sum += $row['avg'];
+                                            $count++;
+                                        }
+                                        
+                                        $average = ($count > 0) ? ($sum / $count) : 0;
 
-                                // Output the row for this combination of email, branch, and subject
-                                echo "<tr class='table-row-hover'><td>$email</td><td>$acad_year-$branch</td><td>$subject</td><td>$average</td></tr>";
+                                        // Output the row for this combination of email, branch, and subject
+                                        echo "<tr class='table-row-hover'><td>$email</td><td>$acad_year-$branch</td><td>$subject</td><td>$average</td></tr>";
+                                    }
+                                }
+                                
+                                // Output the row only if valid results were found
+                                if (!$found) {
+                                    echo "<tr class='table-row-hover'><td>$email</td><td>$acad_year-$branch</td><td>$subject</td><td>No data</td><td>0</td></tr>";
+                                }
                             }
+
+
 
 
 
@@ -390,6 +408,49 @@ $name = $row['name'];
             <input class="ChooseFile" type="file" name="csvfile_guest_data" id="csvfile_guest_data"><br>
             <input class="UploadButton" type="submit" name="submit1" value="Upload">
         </form>
+<?php
+        echo "<table>";
+echo "<tr><th>Guest Name</th><th>Guest Topic</th><th>Guest Date</th><th>Feedback</th><th>Download Feedback</th><th>Turn Off/On Button</th></tr>";
+
+$query_guests = "SELECT * FROM guest WHERE teacher_email = '$final_email'";
+$result_guests = mysqli_query($conn, $query_guests);
+
+while ($guest_row = mysqli_fetch_assoc($result_guests)) {
+    $guest_id = $guest_row['id'];
+    $guest_name = $guest_row['guest_name'];
+    $guest_topic = $guest_row['guest_topic'];
+    $guest_date = $guest_row['guest_date'];
+
+    // Get feedback details for this guest
+    $query_feedback = "SELECT AVG(avg) AS average, COUNT(*) AS count FROM guest_feedback WHERE guest_id = '$guest_id'";
+    $result_feedback = mysqli_query($conn, $query_feedback);
+    $feedback_row = mysqli_fetch_assoc($result_feedback);
+    $average_feedback = $feedback_row['average'];
+    $feedback_count = $feedback_row['count'];
+
+    echo "<tr>";
+    echo "<td>$guest_name</td><td>$guest_topic</td><td>$guest_date</td>";
+    echo "<td>Average: $average_feedback<br>Feedback Count: $feedback_count</td>";
+    echo "<td><a href='download_guest_feedback.php?guest_id=$guest_id&guest_name=$guest_name'>Download</a></td>";
+
+    echo "<td><a href='toggle_guest_status.php?guest_id=$guest_id'>Turn On/Off</a></td>";
+    echo "</tr>";
+}
+
+echo "</table>";
+?>
+<script>
+    <?php
+    if (isset($_SESSION['update_success'])) {
+        if ($_SESSION['update_success']) {
+            echo "alert('Guest status updated successfully');";
+        } else {
+            echo "alert('Error updating guest status');";
+        }
+        unset($_SESSION['update_success']); // Clear the session variable
+    }
+    ?>
+</script>
     </div>
 </div>
 
@@ -403,8 +464,8 @@ if (isset($_POST['submit1'])) {
     $branch = $_POST['branch'];
 
     // Insert guest data into guest table
-    $insertGuestQuery = "INSERT INTO guest (guest_name, guest_date, guest_topic, branch) 
-                         VALUES ('$guestName', '$guestDate', '$guestTopic', '$branch')";
+    $insertGuestQuery = "INSERT INTO guest (guest_name, guest_date, guest_topic, teacher_email, branch, is_valid) 
+                         VALUES ('$guestName', '$guestDate', '$guestTopic','$final_email', '$branch',1)";
     mysqli_query($conn, $insertGuestQuery);
 
     // Process uploaded CSV file
@@ -427,11 +488,11 @@ if (isset($_POST['submit1'])) {
             // Loop through each row of the CSV file
             while ($row = fgetcsv($file)) {
                 // Sanitize and validate each field
-                $studentEmail = sanitizeAndValidateEmail($row[1]);
+                $studentEmail = sanitizeAndValidateEmail($row[0]);
                 
                 // Insert student-guest relationship into guest_student table
-                $insertGuestStudentQuery = "INSERT INTO guest_student (guest_id, student_email) 
-                                           VALUES ('$guestId', '$studentEmail')";
+                $insertGuestStudentQuery = "INSERT INTO guest_student (guest_id, student_email, is_valid) 
+                                           VALUES ('$guestId', '$studentEmail',1)";
                 mysqli_query($conn, $insertGuestStudentQuery);
             }
 
