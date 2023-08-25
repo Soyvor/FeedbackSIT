@@ -234,102 +234,110 @@ $query = "SELECT * FROM $branch_check WHERE prn='$username'";
                     <?php
 
 
-                    $query = "SELECT * FROM guest_student WHERE student_email='$student_email'";
-                    $result = mysqli_query($conn, $query);
-                    $row = mysqli_fetch_assoc($result);
+                $query = "SELECT * FROM guest_student WHERE student_email='$student_email'";
+                $result = mysqli_query($conn, $query);
 
+                $isValidFound = false; // Flag to track if at least one valid instance is found
 
-                    if (mysqli_num_rows($result) != 0) {
-
-
-                        if ($row['is_valid'] == 0) {
-                            $try = 1;
-                            echo "<h2 style='text-align:center; '>Feedback Already Filled.</h2>";
-                        } else {
-                            $try=0;
-                            
-
-                            $slideNumber = 1;
-
-                            // Display feedback form for each teacher
-
-                            $guest_id = $row['guest_id'];
-                            $query = "SELECT * FROM guest WHERE id='$guest_id' AND is_valid='1'";
-                            $result = mysqli_query($conn, $query);
-                            if (mysqli_num_rows($result) > 0) {
-                                $row = mysqli_fetch_assoc($result);
-                                $guest_name = $row['guest_name'];
-                                $guest_date = $row['guest_date'];
-                                $guest_topic = $row['guest_topic'];
-
-                                echo "<div class='carousel-item " . ($slideNumber == 1 ? " active" : "") . "'>";
-
-
-                                // Retrieve questions from question_data table
-                                $query = "SELECT * FROM question where type='guest'";
-                                $question_result = mysqli_query($conn, $query);
-                                $question_number = 1;
-
-                                // Display teacher and subject
-
-                                echo "<div style='border-radius: 10px 10px 0px 0px;
-                            background: #425361;text-align:center;padding-top:2px;padding-bottom:1px;color:white'><h4>" .  $guest_name ." ".$guest_topic." ".$guest_date. "</h4>";
-
-                                echo "</div>";
-
-                                echo "<div class='p-2'>";
-                                // Display questions and radio buttons
-                                while ($question_row = mysqli_fetch_assoc($question_result)) {
-                                    $question = $question_row['questions'];
-                                    // echo "<p>Q$question_number. $question</p>";
-                                    echo "<tr><td style='padding: 10px;  '><p style='margin:0; font-size: 17px  '>" . "Q) " . "" . $question . "</p></td></tr>";
-
-                                    echo "1 <input type='radio' name='feedback[$guest_id][$question_number]' value='1' required>";
-                                    echo "2 <input type='radio' name='feedback[$guest_id][$question_number]' value='2' required>";
-                                    echo "3 <input type='radio' name='feedback[$guest_id][$question_number]' value='3' required>";
-                                    echo "4 <input type='radio' name='feedback[$guest_id][$question_number]' value='4' required>";
-                                    echo "5 <input type='radio' name='feedback[$guest_id][$question_number]' value='5' required> <br></td></tr>";
-                                    $question_number++;
-                                }
-
-
-                                echo "</div>";
-                                echo "</div>";
-
-                                $slideNumber++;
-
-                                echo "<div class='anything_else'> <label style='margin:10px'>Feedback:</label><input style='margin:10px' type='text' name='remark[$username]' size='35'></div>";
-
-                                $query = "SELECT * FROM $branch_check WHERE prn='$username'";
-                            $result = mysqli_query($conn, $query);
-                            $row = mysqli_fetch_assoc($result);
-                            $student_name = $row['name'];
-
-                            $specialization = $row['open'];
-                            $general = $row['general'];
-                            $acad_year = $row["acad_year"];
-                            $branch = $row["branch"];
-                            $class = $row["class"];
-
-                                $_SESSION['prn'] = $username;
-                                $_SESSION['student_name'] = $student_name;
-                                $_SESSION['acad_year'] = $acad_year;
-                                $_SESSION['branch'] = $branch;
-                                $_SESSION['class'] = $class;
-                                $_SESSION['branch_feedback'] = $branch_feedback;
-                                $_SESSION['branch_check'] = $branch_check;
-                                $_SESSION['branch_teacher'] = $branch_teacher;
-                                $_SESSION['guest_id']=$guest_id;
-                                $_SESSION['student_email']=$student_email;
-                                $_SESSION['guest_topic']=$guest_topic;
-                                $_SESSION['guest_date']=$guest_date;
-                                $_SESSION['guest_name']=$guest_name;
-                                $try = 0;
-
-                                $slideNumber++;
-                            }
+                if (mysqli_num_rows($result) != 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        if ($row['is_valid'] == 1) {
+                            $isValidFound = true;
+                            break; // No need to continue checking once a valid instance is found
                         }
+                    }
+
+                    if (!$isValidFound) {
+                        $try = 1;
+                        echo "<h2 style='text-align:center; '>Feedback Already Filled.</h2>";
                     } else {
+                        $try=0;
+                        
+
+                        $slideNumber = 1;
+
+                        // Display feedback form for each teacher
+
+                        $guest_id = $row['guest_id'];
+                        $query = "SELECT * FROM guest WHERE id='$guest_id' AND is_valid='1'";
+                        $result = mysqli_query($conn, $query);
+                        if (mysqli_num_rows($result) > 0) {
+                            $row = mysqli_fetch_assoc($result);
+                            $guest_name = $row['guest_name'];
+                            $guest_date = $row['guest_date'];
+                            $guest_topic = $row['guest_topic'];
+
+                            echo "<div class='carousel-item " . ($slideNumber == 1 ? " active" : "") . "'>";
+
+
+                            // Retrieve questions from question_data table
+                            $query = "SELECT * FROM question where type='guest'";
+                            $question_result = mysqli_query($conn, $query);
+                            $question_number = 1;
+
+                            // Display teacher and subject
+
+                            echo "<div style='border-radius: 10px 10px 0px 0px;
+                        background: #425361;text-align:center;padding-top:2px;padding-bottom:1px;color:white'><h4>" .  $guest_name ." ".$guest_topic." ".$guest_date. "</h4>";
+
+                            echo "</div>";
+
+                            echo "<div class='p-2'>";
+                            // Display questions and radio buttons
+                            while ($question_row = mysqli_fetch_assoc($question_result)) {
+                                $question = $question_row['questions'];
+                                // echo "<p>Q$question_number. $question</p>";
+                                echo "<tr><td style='padding: 10px;  '><p style='margin:0; font-size: 17px  '>" . "Q) " . "" . $question . "</p></td></tr>";
+
+                                echo "1 <input type='radio' name='feedback[$guest_id][$question_number]' value='1' required>";
+                                echo "2 <input type='radio' name='feedback[$guest_id][$question_number]' value='2' required>";
+                                echo "3 <input type='radio' name='feedback[$guest_id][$question_number]' value='3' required>";
+                                echo "4 <input type='radio' name='feedback[$guest_id][$question_number]' value='4' required>";
+                                echo "5 <input type='radio' name='feedback[$guest_id][$question_number]' value='5' required> <br></td></tr>";
+                                $question_number++;
+                            }
+
+
+                            echo "</div>";
+                            echo "</div>";
+
+                            $slideNumber++;
+
+                            echo "<div class='anything_else'> <label style='margin:10px'>Feedback:</label><input style='margin:10px' type='text' name='remark[$username]' size='35'></div>";
+
+                            $query = "SELECT * FROM $branch_check WHERE prn='$username'";
+                        $result = mysqli_query($conn, $query);
+                        $row = mysqli_fetch_assoc($result);
+                        $student_name = $row['name'];
+
+                        $specialization = $row['open'];
+                        $general = $row['general'];
+                        $acad_year = $row["acad_year"];
+                        $branch = $row["branch"];
+                        $class = $row["class"];
+
+                            $_SESSION['prn'] = $username;
+                            $_SESSION['student_name'] = $student_name;
+                            $_SESSION['acad_year'] = $acad_year;
+                            $_SESSION['branch'] = $branch;
+                            $_SESSION['class'] = $class;
+                            $_SESSION['branch_feedback'] = $branch_feedback;
+                            $_SESSION['branch_check'] = $branch_check;
+                            $_SESSION['branch_teacher'] = $branch_teacher;
+                            $_SESSION['guest_id']=$guest_id;
+                            $_SESSION['student_email']=$student_email;
+                            $_SESSION['guest_topic']=$guest_topic;
+                            $_SESSION['guest_date']=$guest_date;
+                            $_SESSION['guest_name']=$guest_name;
+                            $try = 0;
+
+                            $slideNumber++;
+                        }
+                    }
+
+                }
+
+                    else {
                         $try = 1;
                         echo "<h2 style='text-align:center; '>Please attend a guest lecture to give feedback.</h2>";
                     }

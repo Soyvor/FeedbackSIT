@@ -26,31 +26,7 @@ echo "$branch_student";
 
 if (isset($_POST["submit"])) {
     // Retrieve student information
-//     $query = "SELECT * FROM $branch_student WHERE prn='$prn'";
-//    $result = mysqli_query($conn, $query);
-//    $row = mysqli_fetch_assoc($result);
-//    $student_name = $row['name'];
-//    echo "$student_name";
-//    $specialization = $row['open'];
-//    $general = $row['general'];
-//    $acad_year = $row["acad_year"];
-//    $branch = $row["branch"];
-//    $class = $row["class"];
 
-
-//    echo "$guest_id";
-//    echo "$guest_name";
-//    echo "$guest_topic";
-   
-
-    // if (!$result) {
-    //     die("Error executing query: " . mysqli_error($conn));
-    // }
-
-    // // Loop through each teacher
-    // if (mysqli_num_rows($result) > 0) {
-    //     while ($row = mysqli_fetch_assoc($result)) {
-    //         // Process each row here
             
 
             $values = array(
