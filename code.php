@@ -43,7 +43,7 @@ if(isset($_POST["btnLogin"]))
 						$_SESSION['student']= $row["username"];
 						$_SESSION['usertype'] = "student";
 						$_SESSION['branch_student']="FY";
-						header('Location: student.php');
+						header('Location: student_redirection.php');
 				}
 					else{
 						echo "<script>
@@ -67,7 +67,7 @@ if(isset($_POST["btnLogin"]))
 						$_SESSION['student']= $row["username"];
 						$_SESSION['usertype'] = "student";
 						$_SESSION['branch_student']=$branch;
-						header('Location: student.php');
+						header('Location: student_redirection.php');
 					}
 					else{
 							echo "<script>
