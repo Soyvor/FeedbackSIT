@@ -339,7 +339,7 @@ $name = $row['name'];
                         <div class="table-scroll">
                             <?php
                             // Start the table and output the header row
-                            echo '<table class="table table-hover">';
+                            echo '<table class="table ">';
                             echo '<thead><tr><th>Email</th><th>Year - Branch</th><th>Subject</th><th>Average Feedback Score</th></tr></thead>';
                             echo '<tbody>';
 
