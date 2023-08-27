@@ -189,7 +189,7 @@ $name = $row['name'];
         }
 
         td {
-            color: #516773;
+            color: #FFF;
         }
 
         .table-scroll {
@@ -276,6 +276,13 @@ $name = $row['name'];
                             </a>
                         </li>
 
+                        <li class="sidebar-item item2" data-tab="tab3">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false">
+                                <i class="mdi mdi-eye"></i><span class="hide-menu">View Guest Feedback</span>
+                            </a>
+                        </li>
+
+
 
                     </ul>
 
@@ -345,28 +352,28 @@ $name = $row['name'];
                                 $subject = $entry[2];
                                 $acad_year = $entry[3];
                                 $found = false; // Flag to track if valid results are found for this entry
-                                
+
                                 foreach ($feedbackTables as $table) {
                                     $query_match = "SELECT * FROM $table WHERE teacher = '$name' AND branch = '$branch' AND acad_year = '$acad_year' AND subject = '$subject'";
                                     $result_match = mysqli_query($conn, $query_match);
                                     $sum = 0;
                                     $count = 0;
-                                    
+
                                     if (mysqli_num_rows($result_match) > 0) {
                                         $found = true; // Mark as found if at least one valid result exists
-                                        
+
                                         while ($row = mysqli_fetch_assoc($result_match)) {
                                             $sum += $row['avg'];
                                             $count++;
                                         }
-                                        
+
                                         $average = ($count > 0) ? ($sum / $count) : 0;
 
                                         // Output the row for this combination of email, branch, and subject
                                         echo "<tr class='table-row-hover'><td>$email</td><td>$acad_year-$branch</td><td>$subject</td><td>$average</td></tr>";
                                     }
                                 }
-                                
+
                                 // Output the row only if valid results were found
                                 if (!$found) {
                                     echo "<tr class='table-row-hover'><td>$email</td><td>$acad_year-$branch</td><td>$subject</td><td>No data</td><td>0</td></tr>";
@@ -388,203 +395,264 @@ $name = $row['name'];
 
 
                 <div id="tab2" class="tab-content">
-    <h2>Guest Manager</h2>
-    <br>
-    <div class="row main-content">
-        <form action="" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
-            <label for="guestName">Guest Name:</label>
-            <input type="text" name="guestName" required>
-            <br>
-            <label for="guestDate">Guest Date:</label>
-            <input type="date" name="guestDate" required>
-            <br>
-            <label for="guestTopic">Guest Topic:</label>
-            <input type="text" name="guestTopic" required>
-            <br>
-            <label for="branch">Branch:</label>
-            <input type="text" name="branch" required>
-            <br>
-            <label for="csvfile_guest_data">Select CSV file for students:</label>
-            <input class="ChooseFile" type="file" name="csvfile_guest_data" id="csvfile_guest_data"><br>
-            <input class="UploadButton" type="submit" name="submit1" value="Upload">
-        </form>
-<?php
-        echo "<table>";
-echo "<tr><th>Guest Name</th><th>Guest Topic</th><th>Guest Date</th><th>Feedback</th><th>Download Feedback</th><th>Turn Off/On Button</th></tr>";
-
-$query_guests = "SELECT * FROM guest WHERE teacher_email = '$final_email'";
-$result_guests = mysqli_query($conn, $query_guests);
-
-while ($guest_row = mysqli_fetch_assoc($result_guests)) {
-    $guest_id = $guest_row['id'];
-    $guest_name = $guest_row['guest_name'];
-    $guest_topic = $guest_row['guest_topic'];
-    $guest_date = $guest_row['guest_date'];
-
-    // Get feedback details for this guest
-    $query_feedback = "SELECT AVG(avg) AS average, COUNT(*) AS count FROM guest_feedback WHERE guest_id = '$guest_id'";
-    $result_feedback = mysqli_query($conn, $query_feedback);
-    $feedback_row = mysqli_fetch_assoc($result_feedback);
-    $average_feedback = $feedback_row['average'];
-    $feedback_count = $feedback_row['count'];
-
-    echo "<tr>";
-    echo "<td>$guest_name</td><td>$guest_topic</td><td>$guest_date</td>";
-    echo "<td>Average: $average_feedback<br>Feedback Count: $feedback_count</td>";
-    echo "<td><a href='download_guest_feedback.php?guest_id=$guest_id&guest_name=$guest_name'>Download</a></td>";
-
-    echo "<td><a href='toggle_guest_status.php?guest_id=$guest_id'>Turn On/Off</a></td>";
-    echo "</tr>";
-}
-
-echo "</table>";
-?>
-<script>
-    <?php
-    if (isset($_SESSION['update_success'])) {
-        if ($_SESSION['update_success']) {
-            echo "alert('Guest status updated successfully');";
-        } else {
-            echo "alert('Error updating guest status');";
-        }
-        unset($_SESSION['update_success']); // Clear the session variable
-    }
-    ?>
-</script>
-    </div>
-</div>
+                    <h2>Guest Manager</h2>
+                    <br>
+                    <div class="row main-content">
+                        <!-- <form action="" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+                            <label for="guestName">Guest Name:</label>
+                            <input type="text" name="guestName" required>
+                            <br>
+                            <label for="guestDate">Guest Date:</label>
+                            <input type="date" name="guestDate" required>
+                            <br>
+                            <label for="guestTopic">Guest Topic:</label>
+                            <input type="text" name="guestTopic" required>
+                            <br>
+                            <label for="branch">Branch:</label>
+                            <input type="text" name="branch" required>
+                            <br>
+                            <label for="csvfile_guest_data">Select CSV file for students:</label>
+                            <input class="ChooseFile" type="file" name="csvfile_guest_data" id="csvfile_guest_data"><br>
+                            <input class="UploadButton" type="submit" name="submit1" value="Upload">
+                        </form> -->
+                        <form action="" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+                            <div class="form-group">
+                                <label for="guestName">Guest Name:</label>
+                                <input type="text" class="form-control" name="guestName" required style="max-width:400px">
+                            </div>
+                            <div class="form-group">
+                                <label for="guestDate">Guest Date:</label>
+                                <input type="date" class="form-control" name="guestDate" required style="max-width:400px">
+                            </div>
+                            <div class="form-group">
+                                <label for="guestTopic">Guest Topic:</label>
+                                <input type="text" class="form-control" name="guestTopic" required style="max-width:400px">
+                            </div>
+                            <div class="form-group">
+                                <label for="branch">Branch:</label>
+                                <input type="text" class="form-control" name="branch" required style="max-width:400px">
+                            </div>
+                            <div class="form-group">
+                                <label for="csvfile_guest_data">Select CSV file for students:</label>
+                                <input class="form-control-file" type="file" name="csvfile_guest_data" id="csvfile_guest_data">
+                            </div>
+                            <button type="submit" class="btn btn-primary" name="submit1">Upload</button>
+                        </form>
 
 
-<?php
-if (isset($_POST['submit1'])) {
-    // Get form inputs
-    $guestName = $_POST['guestName'];
-    $guestDate = $_POST['guestDate'];
-    $guestTopic = $_POST['guestTopic'];
-    $branch = $_POST['branch'];
 
-    // Insert guest data into guest table
-    $insertGuestQuery = "INSERT INTO guest (guest_name, guest_date, guest_topic, teacher_email, branch, is_valid) 
+                        <script>
+                            <?php
+                            if (isset($_SESSION['update_success'])) {
+                                if ($_SESSION['update_success']) {
+                                    echo "alert('Guest status updated successfully');";
+                                } else {
+                                    echo "alert('Error updating guest status');";
+                                }
+                                unset($_SESSION['update_success']); // Clear the session variable
+                            }
+                            ?>
+                        </script>
+                    </div>
+                </div>
+
+                <div id="tab3" class="tab-content">
+                    <h2>Guest Feedback</h2>
+                    <br>
+                    <div class="row main-content">
+                        <div class="table-scroll">
+
+
+
+                            <?php
+
+                            echo '<table class="table ">';
+                            echo '<thead>';
+                            echo '<tr>';
+                            echo '<th>Guest Name</th>';
+                            echo '<th>Guest Topic</th>';
+                            echo '<th>Guest Date</th>';
+                            echo '<th>Feedback</th>';
+                            echo '<th>Download Feedback</th>';
+                            echo '<th>Turn ON/OFF</th>';
+                            echo '</tr>';
+                            echo '</thead>';
+                            echo '<tbody>';
+
+                            $query_guests = "SELECT * FROM guest WHERE teacher_email = '$final_email'";
+                            $result_guests = mysqli_query($conn, $query_guests);
+
+                            while ($guest_row = mysqli_fetch_assoc($result_guests)) {
+                                $guest_id = $guest_row['id'];
+                                $guest_name = $guest_row['guest_name'];
+                                $guest_topic = $guest_row['guest_topic'];
+                                $guest_date = $guest_row['guest_date'];
+
+                                // Get feedback details for this guest
+                                $query_feedback = "SELECT AVG(avg) AS average, COUNT(*) AS count FROM guest_feedback WHERE guest_id = '$guest_id'";
+                                $result_feedback = mysqli_query($conn, $query_feedback);
+                                $feedback_row = mysqli_fetch_assoc($result_feedback);
+                                $average_feedback = $feedback_row['average'];
+                                $feedback_count = $feedback_row['count'];
+
+                                echo "<tr>";
+                                echo "<td>$guest_name</td><td>$guest_topic</td><td>$guest_date</td>";
+                                echo "<td>Average: $average_feedback<br>Feedback Count: $feedback_count</td>";
+                                echo "<td><button onclick=\"location.href='download_guest_feedback.php?guest_id=$guest_id&guest_name=$guest_name'\">Download</button></td>";
+
+                                echo "<td><button onclick=\"location.href='toggle_guest_status.php?guest_id=$guest_id'\">Turn ON/OFF</button></td>";
+
+                                echo "</tr>";
+                                
+                            }
+
+
+                            echo "</table>";
+                            ?>
+                            <script>
+                                <?php
+                                if (isset($_SESSION['update_success'])) {
+                                    if ($_SESSION['update_success']) {
+                                        echo "alert('Guest status updated successfully');";
+                                    } else {
+                                        echo "alert('Error updating guest status');";
+                                    }
+                                    unset($_SESSION['update_success']); // Clear the session variable
+                                }
+                                ?>
+                            </script>
+                        </div>
+                    </div>
+                </div>
+
+
+                <?php
+                if (isset($_POST['submit1'])) {
+                    // Get form inputs
+                    $guestName = $_POST['guestName'];
+                    $guestDate = $_POST['guestDate'];
+                    $guestTopic = $_POST['guestTopic'];
+                    $branch = $_POST['branch'];
+
+                    // Insert guest data into guest table
+                    $insertGuestQuery = "INSERT INTO guest (guest_name, guest_date, guest_topic, teacher_email, branch, is_valid) 
                          VALUES ('$guestName', '$guestDate', '$guestTopic','$final_email', '$branch',1)";
-    mysqli_query($conn, $insertGuestQuery);
+                    mysqli_query($conn, $insertGuestQuery);
 
-    // Process uploaded CSV file
-    if (!empty($_FILES['csvfile_guest_data']['name'])) {
-        $file_name = $_FILES['csvfile_guest_data']['name'];
-        $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+                    // Process uploaded CSV file
+                    if (!empty($_FILES['csvfile_guest_data']['name'])) {
+                        $file_name = $_FILES['csvfile_guest_data']['name'];
+                        $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
 
-        if ($file_ext !== 'csv') {
-            echo "<script>alert('Invalid File Type! Please upload a CSV file.');</script>";
-        } else {
-            // Open uploaded file
-            $file = fopen($_FILES['csvfile_guest_data']['tmp_name'], 'r');
+                        if ($file_ext !== 'csv') {
+                            echo "<script>alert('Invalid File Type! Please upload a CSV file.');</script>";
+                        } else {
+                            // Open uploaded file
+                            $file = fopen($_FILES['csvfile_guest_data']['tmp_name'], 'r');
 
-            // Skip first line (header)
-            fgetcsv($file);
+                            // Skip first line (header)
+                            fgetcsv($file);
 
-            // Get the ID of the inserted guest
-            $guestId = mysqli_insert_id($conn);
+                            // Get the ID of the inserted guest
+                            $guestId = mysqli_insert_id($conn);
 
-            // Loop through each row of the CSV file
-            while ($row = fgetcsv($file)) {
-                // Sanitize and validate each field
-                $studentEmail = sanitizeAndValidateEmail($row[0]);
-                
-                // Insert student-guest relationship into guest_student table
-                $insertGuestStudentQuery = "INSERT INTO guest_student (guest_id, student_email, is_valid) 
+                            // Loop through each row of the CSV file
+                            while ($row = fgetcsv($file)) {
+                                // Sanitize and validate each field
+                                $studentEmail = sanitizeAndValidateEmail($row[0]);
+
+                                // Insert student-guest relationship into guest_student table
+                                $insertGuestStudentQuery = "INSERT INTO guest_student (guest_id, student_email, is_valid) 
                                            VALUES ('$guestId', '$studentEmail',1)";
-                mysqli_query($conn, $insertGuestStudentQuery);
-            }
+                                mysqli_query($conn, $insertGuestStudentQuery);
+                            }
 
-            echo "<script>alert('File Uploaded successfully!');</script>";
+                            echo "<script>alert('File Uploaded successfully!');</script>";
 
-            // Close file
-            fclose($file);
-        }
-    }
-}
-
-
-// Your sanitizeAndValidate functions go here...
+                            // Close file
+                            fclose($file);
+                        }
+                    }
+                }
 
 
+                // Your sanitizeAndValidate functions go here...
 
 
-function sanitizeAndValidatePrn($prn)
-{
-    $prn = preg_replace('/[^0-9]/', '', $prn); // Remove non-digit characters
-    if (strlen($prn) !== 11 || !ctype_digit($prn)) {
-        echo "<script>alert('Invalid PRN: $prn');</script>";
-        // Handle the error (e.g., log, display, etc.)
-        return false;
-    }
-    else{
-        return $prn;
-    }
-    
-}
-
-function sanitizeAndValidateName($name)
-{
-    $name = trim(preg_replace('/[^a-zA-Z ]/', '', $name)); // Remove non-alphabet and space characters and trim spaces
-    return $name;
-}
-
-function sanitizeAndValidateEmail($email)
-{
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo "<script>alert('Invalid email: $email');</script>";
-        // Handle the error (e.g., log, display, etc.)
-        return false; // Skip the iteration if the email is invalid
-    }
-    else{
-    return $email;
-}
-}
-
-function sanitizeAndValidateVarchar($varchar)
-{
-    $varchar = preg_replace('/[^a-zA-Z ]/', '', $varchar); // Remove non-alphabet and space characters
-    return $varchar;
-}
-
-function sanitizeAndValidateAcadYear($acad_year)
-{
-    $allowedYears = ['fy', 'sy', 'ty', 'fly'];
-    if (!in_array(strtolower($acad_year), $allowedYears)) {
-        echo "<script>alert('Invalid academic year: $acad_year');</script>";
-        // Handle the error (e.g., log, display, etc.)
-        return false; // Skip the iteration if the academic year is invalid
-    }
-    else{
-    return strtolower($acad_year);}
-}
-
-function sanitizeAndValidateBranch($branch)
-{
-    $branch = preg_replace('/[^a-zA-Z]/', '', $branch); // Remove non-alphabet characters
-    return strtolower($branch);
-}
-
-function sanitizeAndValidateClass($class)
-{
-    $class = preg_replace('/[^a-zA-Z0-9]/', '', $class); // Remove non-alphabet characters
-    return strtolower($class);
-}
-
-function sanitizeAndValidateSemester($sem)
-{
-    if (!ctype_digit($sem) || $sem < 1 || $sem > 8) {
-        echo "<script>alert('Invalid semester: $sem');</script>";
-        // Handle the error (e.g., log, display, etc.)
-        return false; // Skip the iteration if the semester is invalid
-    }
-    else{
-    return $sem;
-}}
 
 
-?>
+                function sanitizeAndValidatePrn($prn)
+                {
+                    $prn = preg_replace('/[^0-9]/', '', $prn); // Remove non-digit characters
+                    if (strlen($prn) !== 11 || !ctype_digit($prn)) {
+                        echo "<script>alert('Invalid PRN: $prn');</script>";
+                        // Handle the error (e.g., log, display, etc.)
+                        return false;
+                    } else {
+                        return $prn;
+                    }
+                }
+
+                function sanitizeAndValidateName($name)
+                {
+                    $name = trim(preg_replace('/[^a-zA-Z ]/', '', $name)); // Remove non-alphabet and space characters and trim spaces
+                    return $name;
+                }
+
+                function sanitizeAndValidateEmail($email)
+                {
+                    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                        echo "<script>alert('Invalid email: $email');</script>";
+                        // Handle the error (e.g., log, display, etc.)
+                        return false; // Skip the iteration if the email is invalid
+                    } else {
+                        return $email;
+                    }
+                }
+
+                function sanitizeAndValidateVarchar($varchar)
+                {
+                    $varchar = preg_replace('/[^a-zA-Z ]/', '', $varchar); // Remove non-alphabet and space characters
+                    return $varchar;
+                }
+
+                function sanitizeAndValidateAcadYear($acad_year)
+                {
+                    $allowedYears = ['fy', 'sy', 'ty', 'fly'];
+                    if (!in_array(strtolower($acad_year), $allowedYears)) {
+                        echo "<script>alert('Invalid academic year: $acad_year');</script>";
+                        // Handle the error (e.g., log, display, etc.)
+                        return false; // Skip the iteration if the academic year is invalid
+                    } else {
+                        return strtolower($acad_year);
+                    }
+                }
+
+                function sanitizeAndValidateBranch($branch)
+                {
+                    $branch = preg_replace('/[^a-zA-Z]/', '', $branch); // Remove non-alphabet characters
+                    return strtolower($branch);
+                }
+
+                function sanitizeAndValidateClass($class)
+                {
+                    $class = preg_replace('/[^a-zA-Z0-9]/', '', $class); // Remove non-alphabet characters
+                    return strtolower($class);
+                }
+
+                function sanitizeAndValidateSemester($sem)
+                {
+                    if (!ctype_digit($sem) || $sem < 1 || $sem > 8) {
+                        echo "<script>alert('Invalid semester: $sem');</script>";
+                        // Handle the error (e.g., log, display, etc.)
+                        return false; // Skip the iteration if the semester is invalid
+                    } else {
+                        return $sem;
+                    }
+                }
+
+
+                ?>
 
 
 

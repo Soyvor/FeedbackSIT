@@ -288,91 +288,92 @@ mysqli_close($conn);
 	<!-- <img src="./public/IconDesignAdmin.1.svg" class="DesginLeft"></img>
 	<img src="./public/IconDesignAdmin.2.svg" class="DesginRight"></img> -->
 	Copy code
-<body>
-	<div class="row" style="height: 100vh;">
-        <!-- Navigation Sidebar -->
-        <div class="col-2 bg-light">
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link active" id="admin-tab" data-toggle="tab" href="#admin-content">Admin</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="user-manual-tab" data-toggle="tab" href="#user-manual-content">User Manual</a>
-                </li>
-            </ul>
-        </div>
 
-        <!-- Tab Content -->
-        <div class="col-10">
-            <div class="tab-content">
-                <!-- Admin Tab Content -->
-                <div class="tab-pane fade show active" id="admin-content">
-				<div class="BOX">
+	<body>
+		<div class="row" style="height: 100vh;">
+			<!-- Navigation Sidebar -->
+			<div class="col-2 bg-light">
+				<ul class="nav flex-column">
+					<li class="nav-item">
+						<a class="nav-link active" id="admin-tab" data-toggle="tab" href="#admin-content">Admin</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="user-manual-tab" data-toggle="tab" href="#user-manual-content">User Manual</a>
+					</li>
+				</ul>
+			</div>
 
-<div align="right">
-	<form action="logout.php" method="POST">
+			<!-- Tab Content -->
+			<div class="col-10">
+				<div class="tab-content">
+					<!-- Admin Tab Content -->
+					<div class="tab-pane fade show active" id="admin-content">
+						<div class="BOX">
 
-		<a href="logout.php"><button type="button" class="button_css">Logout</button></a>
-	</form>
-	<a href="reset.php"><button type="button" class="button_css">Reset Password</button></a>
-</div>
-<h2 class="text-center" style="position:relative;top:10px;font-style: normal;font-weight: 700;">
-	Welcome SuperAdmin
-	<?php echo $text_final; ?> 
-</h2>
-<br>
+							<div align="right">
+								<form action="logout.php" method="POST">
 
- <!-- form to add a new coordinator  -->
-<form method="POST" align="center" style="top:120px;left: 50%;transform: translate(-50%, -50%);position:relative;left:50%">
-	<table>
-		<tr>
+									<a href="logout.php"><button type="button" class="button_css">Logout</button></a>
+								</form>
+								<a href="reset.php"><button type="button" class="button_css">Reset Password</button></a>
+							</div>
+							<h2 class="text-center" style="position:relative;top:10px;font-style: normal;font-weight: 700;">
+								Welcome SuperAdmin
+								<?php echo $text_final; ?>
+							</h2>
+							<br>
 
-			<input class="InputField" type="email" placeholder="Email" id="email" name="email" required>
-		</tr>
-		<br>
-		<tr>
+							<!-- form to add a new coordinator  -->
+							<form method="POST" align="center" style="top:120px;left: 50%;transform: translate(-50%, -50%);position:relative;left:50%">
+								<table>
+									<tr>
 
-			<input class="InputField" type="password" placeholder="Password" id="password" name="password" required>
-		</tr>
-		<br>
-		<tr>
+										<input class="InputField" type="email" placeholder="Email" id="email" name="email" required>
+									</tr>
+									<br>
+									<tr>
 
-			<input class="InputField" type="password" placeholder="Confirm Password" id="confirm_password" name="confirm_password" required>
-		</tr>
-		<br>
-		<tr>
+										<input class="InputField" type="password" placeholder="Password" id="password" name="password" required>
+									</tr>
+									<br>
+									<tr>
 
-			<input class="InputField" type="text" placeholder="Branch" id="branch" name="branch" required>
-		</tr>
-		<br>
-		<br>
-		<tr>
+										<input class="InputField" type="password" placeholder="Confirm Password" id="confirm_password" name="confirm_password" required>
+									</tr>
+									<br>
+									<tr>
 
-			<button class="AddCoordinatorButton" type="submit" name="add_coordinator">Add Coordinator</button>
-		</tr>
-	</table>
-</form>
+										<input class="InputField" type="text" placeholder="Branch" id="branch" name="branch" required>
+									</tr>
+									<br>
+									<br>
+									<tr>
 
-<br><br>
-<?php
-// display the coordinators in a table
-echo "<table style='border-collapse: collapse;' align='center'>";
-echo "<tr><th style='padding: 10px; border: 1px solid black;'>Sr.No. </th><th style='padding: 10px; border: 1px solid black;'>Email</th><th style='padding: 10px; border: 1px solid black;'>Branch</th><th style='padding: 10px; border: 1px solid black;'>Action</th></tr>";
-$index = 1;
-while ($row = mysqli_fetch_assoc($result)) {
-	$email = $row['username'];
-	$branch = $row['branch'];
+										<button class="AddCoordinatorButton" type="submit" name="add_coordinator">Add Coordinator</button>
+									</tr>
+								</table>
+							</form>
 
-	echo "<tr id='row-$index'><td style='padding: 10px; border: 1px solid black;'>$index</td><td style='padding: 10px; border: 1px solid black;' ondblclick='editColumn($index, \"email\", \"$email\")'>$email</td><td style='padding: 10px; border: 1px solid black;' ondblclick='editColumn($index, \"branch\", \"$branch\")'>$branch</td><td style='padding: 10px; border: 1px solid black;'><form method='POST'><input type='hidden' name='email' value='$email'><button type='submit' name='delete_coordinator'>Delete</button></form></td></tr>";
-	$index++;
-}
-echo "</table>";
-echo "<br>";
-?>
-<br />
-<form method="POST" align="center" style="left: 50%;transform: translate(-50%, -50%);position:relative;left:50%">
-	Download Teacher Password:
-	<button type="submit" name="download_passwords" style="background:linear-gradient(107.52deg, rgba(71, 153, 247, 0.95) 0%, rgba(175, 137, 255, 0.95) 100%);
+							<br><br>
+							<?php
+							// display the coordinators in a table
+							echo "<table style='border-collapse: collapse;' align='center'>";
+							echo "<tr><th style='padding: 10px; border: 1px solid black;'>Sr.No. </th><th style='padding: 10px; border: 1px solid black;'>Email</th><th style='padding: 10px; border: 1px solid black;'>Branch</th><th style='padding: 10px; border: 1px solid black;'>Action</th></tr>";
+							$index = 1;
+							while ($row = mysqli_fetch_assoc($result)) {
+								$email = $row['username'];
+								$branch = $row['branch'];
+
+								echo "<tr id='row-$index'><td style='padding: 10px; border: 1px solid black;'>$index</td><td style='padding: 10px; border: 1px solid black;' ondblclick='editColumn($index, \"email\", \"$email\")'>$email</td><td style='padding: 10px; border: 1px solid black;' ondblclick='editColumn($index, \"branch\", \"$branch\")'>$branch</td><td style='padding: 10px; border: 1px solid black;'><form method='POST'><input type='hidden' name='email' value='$email'><button type='submit' name='delete_coordinator'>Delete</button></form></td></tr>";
+								$index++;
+							}
+							echo "</table>";
+							echo "<br>";
+							?>
+							<br />
+							<form method="POST" align="center" style="left: 50%;transform: translate(-50%, -50%);position:relative;left:50%">
+								Download Teacher Password:
+								<button type="submit" name="download_passwords" style="background:linear-gradient(107.52deg, rgba(71, 153, 247, 0.95) 0%, rgba(175, 137, 255, 0.95) 100%);
 	;
 	border: 0px;
 
@@ -385,37 +386,37 @@ echo "<br>";
 
 	font-size: 15px;
 	line-height: 23px;"> Download Password </button>
-</form>
-<br />
-<br />
-<form method="POST" align="center" style="left: 50%;transform: translate(-50%, -50%);position:relative;left:50%">
-	Turn the teacher login ON or OFF:
-	<button class="DownloadButtom" type="submit" name="teacher_on_off" value="on" style="background:green;">ON</button>
-	<button class="DownloadButtom" type="submit" name="teacher_on_off" value="off" style="background:red;">OFF</button>
-</form>
+							</form>
+							<br />
+							<br />
+							<form method="POST" align="center" style="left: 50%;transform: translate(-50%, -50%);position:relative;left:50%">
+								Turn the teacher login ON or OFF:
+								<button class="DownloadButtom" type="submit" name="teacher_on_off" value="on" style="background:green;">ON</button>
+								<button class="DownloadButtom" type="submit" name="teacher_on_off" value="off" style="background:red;">OFF</button>
+							</form>
 
 
 
-</div> 
-                </div>
-                
-                <!-- User Manual Tab Content -->
-                <div class="tab-pane fade" id="user-manual-content">
-                    <!-- User manual content goes here -->
-                </div>
-            </div>
-        </div>
-    </div>
+						</div>
+					</div>
 
-	
+					<!-- User Manual Tab Content -->
+					<div class="tab-pane fade" id="user-manual-content">
+						<!-- User manual content goes here -->
+					</div>
+				</div>
+			</div>
+		</div>
 
 
 
 
 
-	<script type="text/javascript" src="js.jquery.min.js"></script>
-	<script type="text/javascript" src="js.bootstrap.min.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
-</body>
+
+
+		<script type="text/javascript" src="js.jquery.min.js"></script>
+		<script type="text/javascript" src="js.bootstrap.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+	</body>
 
 </html>

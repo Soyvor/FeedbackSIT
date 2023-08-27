@@ -63,7 +63,7 @@ $query = "SELECT * FROM $branch_check WHERE prn='$username'";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Student Feedback</title>
     <link rel="stylesheet" type="text/css" href="./slick/slick.css">
     <link rel="stylesheet" href="./slick/slick-theme.css" integrity="sha512-6lLUdeQ5uheMFbWm3CP271l14RsX1xtx+J5x2yeIDkkiBpeVTNhTqijME7GgRKKi6hCqovwCoBTlRBEC20M8Mg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
@@ -139,6 +139,10 @@ $query = "SELECT * FROM $branch_check WHERE prn='$username'";
 
         /* Add the following styles to hide the arrows */
         .slick-arrow {}
+
+        .carousel-item{
+            padding-bottom: 5px;
+        } 
     </style>
 
     <style>
@@ -197,6 +201,10 @@ $query = "SELECT * FROM $branch_check WHERE prn='$username'";
                 background-color: #273444;
             }
         }
+
+        .carousel-item{
+            padding-bottom: 5px;
+        } 
     </style>
 
 

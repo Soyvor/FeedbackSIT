@@ -140,6 +140,11 @@ $query = "SELECT * FROM $branch_check WHERE prn='$username'";
 
         /* Add the following styles to hide the arrows */
         .slick-arrow {}
+
+
+        .carousel-item{
+            padding-bottom: 5px;
+        } 
     </style>
 
     <style>
