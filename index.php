@@ -15,6 +15,7 @@ include "code.php";
   <link rel="stylesheet" href="./css/footer_style.css">
   <link href="./Coordinator Dashboard css and js/dist/css/style.min.css" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Feedback System</title>
 
   <style>
     body {

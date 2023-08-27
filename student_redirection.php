@@ -15,10 +15,11 @@ $branch_feedback = $branch . '' . "_feedback";
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Button Page</title>
+    <title>Redirection Page</title>
     <style>
         body {
             display: flex;
@@ -26,38 +27,71 @@ $branch_feedback = $branch . '' . "_feedback";
             align-items: center;
             height: 100vh;
             margin: 0;
+            background-color: #1C2631;
         }
 
-        .button-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        *{
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
         }
 
-        .button {
-            margin: 10px;
-            padding: 10px 20px;
+        .buttons {
+            margin: 10%;
+            text-align: center;
+        }
+
+        .btn-hover {
+            width: 200px;
             font-size: 16px;
-            border: none;
-            border-radius: 5px;
+            font-weight: 600;
+            color: #fff;
             cursor: pointer;
+            margin: 20px;
+            height: 55px;
+            text-align: center;
+            border: none;
+            background-size: 300% 100%;
+
+            border-radius: 50px;
+            moz-transition: all .4s ease-in-out;
+            -o-transition: all .4s ease-in-out;
+            -webkit-transition: all .4s ease-in-out;
+            transition: all .4s ease-in-out;
         }
 
-        .button-primary {
-            background-color: #007bff;
-            color: #fff;
+        .btn-hover:hover {
+            background-position: 100% 0;
+            moz-transition: all .4s ease-in-out;
+            -o-transition: all .4s ease-in-out;
+            -webkit-transition: all .4s ease-in-out;
+            transition: all .4s ease-in-out;
         }
 
-        .button-secondary {
-            background-color: #6c757d;
-            color: #fff;
+        .btn-hover:focus {
+            outline: none;
+        }
+
+        .btn-hover.color-1 {
+            background-image: linear-gradient(to right, #25aae1, #40e495, #30dd8a, #2bb673);
+            box-shadow: 0 4px 15px 0 rgba(49, 196, 190, 0.75);
+        }
+
+        .btn-hover.color-2 {
+            background-image: linear-gradient(to right, #25aae1, #40e495, #30dd8a, #2bb673);
+            box-shadow: 0 4px 15px 0 rgba(49, 196, 190, 0.75);
         }
     </style>
 </head>
+
 <body>
-    <div class="button-container">
-        <button class="button button-primary" onclick="location.href='student.php'">Go to Student</button>
-        <button class="button button-secondary" onclick="location.href='student_guest.php'">Go to Student Guest</button>
+
+
+    <div class="buttons">
+        <button class="btn-hover color-1" onclick="location.href='student.php'">Go to Student</button>
+        <button class="btn-hover color-2" onclick="location.href='student_guest.php'">Go to Student Guest</button>
+
     </div>
 </body>
+
 </html>
