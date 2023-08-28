@@ -521,6 +521,7 @@ $name = $row['name'];
 
                             echo "</table>";
                             ?>
+                            <!-- //why is this double -->
                             <script>
                                 <?php
                                 if (isset($_SESSION['update_success'])) {
