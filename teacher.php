@@ -421,12 +421,20 @@ $name = $row['name'];
                                 <input type="text" class="form-control" name="guestName" required style="max-width:400px">
                             </div>
                             <div class="form-group">
-                                <label for="guestDate">Guest Date:</label>
-                                <input type="date" class="form-control" name="guestDate" required style="max-width:400px">
+                                <label for="guestDate">Guest Date From:</label>
+                                <input type="date" class="form-control" name="guestDateFrom" required style="max-width:400px">
+                            </div>
+                            <div class="form-group">
+                                <label for="guestDate">Guest Date To:</label>
+                                <input type="date" class="form-control" name="guestDateTo" required style="max-width:400px">
                             </div>
                             <div class="form-group">
                                 <label for="guestTopic">Guest Topic:</label>
                                 <input type="text" class="form-control" name="guestTopic" required style="max-width:400px">
+                            </div>
+                            <div class="form-group">
+                                <label for="guestTopic">Course and Subject or Student Club:</label>
+                                <input type="text" class="form-control" name="course_club" required style="max-width:400px">
                             </div>
                             <div class="form-group">
                                 <label for="branch">Branch:</label>
@@ -471,7 +479,9 @@ $name = $row['name'];
                             echo '<tr>';
                             echo '<th>Guest Name</th>';
                             echo '<th>Guest Topic</th>';
-                            echo '<th>Guest Date</th>';
+                            echo '<th>Guest Date From</th>';
+                            echo '<th>Guest Date To</th>';
+                            echo '<th>Course or Student Club</th>';
                             echo '<th>Feedback</th>';
                             echo '<th>Download Feedback</th>';
                             echo '<th>Turn ON/OFF</th>';
@@ -486,7 +496,9 @@ $name = $row['name'];
                                 $guest_id = $guest_row['id'];
                                 $guest_name = $guest_row['guest_name'];
                                 $guest_topic = $guest_row['guest_topic'];
-                                $guest_date = $guest_row['guest_date'];
+                                $guest_date_from = $guest_row['guest_date_from'];
+                                $guest_date_to = $guest_row['guest_date_to'];
+                                $course_club = $guest_row['course_club'];
 
                                 // Get feedback details for this guest
                                 $query_feedback = "SELECT AVG(avg) AS average, COUNT(*) AS count FROM guest_feedback WHERE guest_id = '$guest_id'";
@@ -496,7 +508,7 @@ $name = $row['name'];
                                 $feedback_count = $feedback_row['count'];
 
                                 echo "<tr>";
-                                echo "<td>$guest_name</td><td>$guest_topic</td><td>$guest_date</td>";
+                                echo "<td>$guest_name</td><td>$guest_topic</td><td>$guest_date_from</td><td>$guest_date_to</td><td>$course_club</td>";
                                 echo "<td>Average: $average_feedback<br>Feedback Count: $feedback_count</td>";
                                 echo "<td><button onclick=\"location.href='download_guest_feedback.php?guest_id=$guest_id&guest_name=$guest_name'\">Download</button></td>";
 
@@ -509,6 +521,7 @@ $name = $row['name'];
 
                             echo "</table>";
                             ?>
+                            <!-- //why is this double -->
                             <script>
                                 <?php
                                 if (isset($_SESSION['update_success'])) {
@@ -530,13 +543,14 @@ $name = $row['name'];
                 if (isset($_POST['submit1'])) {
                     // Get form inputs
                     $guestName = $_POST['guestName'];
-                    $guestDate = $_POST['guestDate'];
+                    $guestDateFrom = $_POST['guestDateFrom'];
+                    $guestDateTo = $_POST['guestDateTo'];
                     $guestTopic = $_POST['guestTopic'];
                     $branch = $_POST['branch'];
 
                     // Insert guest data into guest table
-                    $insertGuestQuery = "INSERT INTO guest (guest_name, guest_date, guest_topic, teacher_email, branch, is_valid) 
-                         VALUES ('$guestName', '$guestDate', '$guestTopic','$final_email', '$branch',1)";
+                    $insertGuestQuery = "INSERT INTO guest (guest_name, guest_date_from, guest_date_to, guest_topic, teacher_email, branch, is_valid) 
+                         VALUES ('$guestName', '$guestDateFrom','$guestDateTo', '$guestTopic','$final_email', '$branch',1)";
                     mysqli_query($conn, $insertGuestQuery);
 
                     // Process uploaded CSV file
