@@ -285,8 +285,8 @@ $query = "SELECT * FROM $branch_check WHERE prn='$username'";
                             // Display teacher and subject
 
                             echo "<div style='border-radius: 10px 10px 0px 0px;
-                        background: #425361;text-align:center;padding-top:2px;padding-bottom:1px;color:white'><h4>" .  $guest_name ." ".$guest_topic." ".$guest_date_from." "." $guest_date_to". "</h4>";
-
+                            background: #425361;text-align:center;padding-top:2px;padding-bottom:1px;color:white'><h4>" .  $guest_name ." (".$guest_topic.") </h4>";
+                            echo "<h6>".$guest_date_from." to ".$guest_date_to."</h6>";
                             echo "</div>";
 
                             echo "<div class='p-2'>";
@@ -295,12 +295,13 @@ $query = "SELECT * FROM $branch_check WHERE prn='$username'";
                                 $question = $question_row['questions'];
                                 // echo "<p>Q$question_number. $question</p>";
                                 echo "<tr><td style='padding: 10px;  '><p style='margin:0; font-size: 17px  '>" . "Q) " . "" . $question . "</p></td></tr>";
-
+                                echo "<div class='input_button' style='margin-bottom: 7px;margin-left: 25px;' >";
                                 echo "1 <input type='radio' name='feedback[$guest_id][$question_number]' value='1' required>";
                                 echo "2 <input type='radio' name='feedback[$guest_id][$question_number]' value='2' required>";
                                 echo "3 <input type='radio' name='feedback[$guest_id][$question_number]' value='3' required>";
                                 echo "4 <input type='radio' name='feedback[$guest_id][$question_number]' value='4' required>";
-                                echo "5 <input type='radio' name='feedback[$guest_id][$question_number]' value='5' required> <br></td></tr>";
+                                echo "5 <input type='radio' name='feedback[$guest_id][$question_number]' value='5' required> </div>
+                                </td></tr>";
                                 $question_number++;
                             }
 
