@@ -269,8 +269,10 @@ $query = "SELECT * FROM $branch_check WHERE prn='$username'";
                         if (mysqli_num_rows($result) > 0) {
                             $row = mysqli_fetch_assoc($result);
                             $guest_name = $row['guest_name'];
-                            $guest_date = $row['guest_date'];
+                            $guest_date_from = $row['guest_date_from'];
+                            $guest_date_to = $row['guest_date_to'];
                             $guest_topic = $row['guest_topic'];
+                            $course_club = $row['course_club'];
 
                             echo "<div class='carousel-item " . ($slideNumber == 1 ? " active" : "") . "'>";
 
@@ -283,7 +285,7 @@ $query = "SELECT * FROM $branch_check WHERE prn='$username'";
                             // Display teacher and subject
 
                             echo "<div style='border-radius: 10px 10px 0px 0px;
-                        background: #425361;text-align:center;padding-top:2px;padding-bottom:1px;color:white'><h4>" .  $guest_name ." ".$guest_topic." ".$guest_date. "</h4>";
+                        background: #425361;text-align:center;padding-top:2px;padding-bottom:1px;color:white'><h4>" .  $guest_name ." ".$guest_topic." ".$guest_date_from." "." $guest_date_to". "</h4>";
 
                             echo "</div>";
 
@@ -332,8 +334,10 @@ $query = "SELECT * FROM $branch_check WHERE prn='$username'";
                             $_SESSION['guest_id']=$guest_id;
                             $_SESSION['student_email']=$student_email;
                             $_SESSION['guest_topic']=$guest_topic;
-                            $_SESSION['guest_date']=$guest_date;
+                            $_SESSION['guest_date_from']=$guest_date_from;
+                            $_SESSION['guest_date_to']=$guest_date_to;
                             $_SESSION['guest_name']=$guest_name;
+                            $_SESSION['course_club']=$course_club;
                             $try = 0;
 
                             $slideNumber++;

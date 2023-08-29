@@ -18,7 +18,9 @@ $branch_teacher = $_SESSION['branch_teacher'];
 $guest_id = $_SESSION['guest_id'];
 $student_email = $_SESSION['student_email'];
 $guest_name = $_SESSION['guest_name'];
-$guest_date = $_SESSION['guest_date'];
+$guest_date_from = $_SESSION['guest_date_from'];
+$guest_date_to = $_SESSION['guest_date_to'];
+$course_club = $_SESSION['course_club'];
 $guest_topic = $_SESSION['guest_topic'];
 echo "$branch_feedback";
 echo "$branch_teacher";
@@ -47,8 +49,8 @@ if (isset($_POST["submit"])) {
 
 
             // Insert feedback data into database
-            $query = "INSERT INTO guest_feedback (guest_id, student_email, guest_name, guest_topic, guest_date, avg, q1, q2, q3, q4, q5, q6, q7, q8, q9, is_submitted) 
-            VALUES ('$guest_id', '$student_email', '$guest_name','$guest_topic','$guest_date','$average', '{$_POST['feedback'][$guest_id][1]}', '{$_POST['feedback'][$guest_id][2]}', '{$_POST['feedback'][$guest_id][3]}', '{$_POST['feedback'][$guest_id][4]}', '{$_POST['feedback'][$guest_id][5]}', '{$_POST['feedback'][$guest_id][6]}', '{$_POST['feedback'][$guest_id][7]}', '{$_POST['feedback'][$guest_id][8]}', '{$_POST['feedback'][$guest_id][9]}',1)";
+            $query = "INSERT INTO guest_feedback (guest_id, student_email, guest_name, guest_topic, guest_date_from, guest_date_to, course_club, avg, q1, q2, q3, q4, q5, q6, q7, q8, q9, is_submitted) 
+            VALUES ('$guest_id', '$student_email', '$guest_name','$guest_topic','$guest_date_from','$guest_date_to','$course_club' ,'$average', '{$_POST['feedback'][$guest_id][1]}', '{$_POST['feedback'][$guest_id][2]}', '{$_POST['feedback'][$guest_id][3]}', '{$_POST['feedback'][$guest_id][4]}', '{$_POST['feedback'][$guest_id][5]}', '{$_POST['feedback'][$guest_id][6]}', '{$_POST['feedback'][$guest_id][7]}', '{$_POST['feedback'][$guest_id][8]}', '{$_POST['feedback'][$guest_id][9]}',1)";
 
             $result2 = mysqli_query($conn, $query);
 
