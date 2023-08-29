@@ -422,11 +422,11 @@ $name = $row['name'];
                             </div>
                             <div class="form-group">
                                 <label for="guestDate">Guest Date From:</label>
-                                <input type="date" class="form-control" name="guestDateFrom" required style="max-width:400px">
+                                <input type="date" class="form-control" name="guest_date_from" required style="max-width:400px">
                             </div>
                             <div class="form-group">
                                 <label for="guestDate">Guest Date To:</label>
-                                <input type="date" class="form-control" name="guestDateTo" required style="max-width:400px">
+                                <input type="date" class="form-control" name="guest_date_to" required style="max-width:400px">
                             </div>
                             <div class="form-group">
                                 <label for="guestTopic">Guest Topic:</label>
@@ -543,14 +543,15 @@ $name = $row['name'];
                 if (isset($_POST['submit1'])) {
                     // Get form inputs
                     $guestName = $_POST['guestName'];
-                    $guestDateFrom = $_POST['guestDateFrom'];
-                    $guestDateTo = $_POST['guestDateTo'];
+                    $guest_date_from = $_POST['guest_date_from'];
+                    $guest_date_to = $_POST['guest_date_to'];
                     $guestTopic = $_POST['guestTopic'];
                     $branch = $_POST['branch'];
+                    $course_club = $_POST['course_club'];
 
                     // Insert guest data into guest table
-                    $insertGuestQuery = "INSERT INTO guest (guest_name, guest_date_from, guest_date_to, guest_topic, teacher_email, branch, is_valid) 
-                         VALUES ('$guestName', '$guestDateFrom','$guestDateTo', '$guestTopic','$final_email', '$branch',1)";
+                    $insertGuestQuery = "INSERT INTO guest (guest_name, guest_date_from, guest_date_to, guest_topic, course_club, teacher_email, branch, is_valid) 
+                         VALUES ('$guestName', '$guest_date_from','$guest_date_to', '$guestTopic','$course_club','$final_email', '$branch',1)";
                     mysqli_query($conn, $insertGuestQuery);
 
                     // Process uploaded CSV file
