@@ -315,12 +315,14 @@ $query = "SELECT * FROM $branch_check WHERE prn='$username'";
                                 $question = $question_row['questions'];
                                 // echo "<p>Q$question_number. $question</p>";
                                 echo "<tr><td style='padding: 10px;  '><p style='margin:0; font-size: 17px  '>" . "Q) " . "" . $question . "</p></td></tr>";
-
+                                echo "<div class='input_button' style='margin-bottom: 7px;margin-left: 25px;' >";
                                 echo "1 <input type='radio' name='feedback[$teacher_name][$teacher_subject][$question_number]' value='1' required>";
                                 echo "2 <input type='radio' name='feedback[$teacher_name][$teacher_subject][$question_number]' value='2' required>";
                                 echo "3 <input type='radio' name='feedback[$teacher_name][$teacher_subject][$question_number]' value='3' required>";
                                 echo "4 <input type='radio' name='feedback[$teacher_name][$teacher_subject][$question_number]' value='4' required>";
-                                echo "5 <input type='radio' name='feedback[$teacher_name][$teacher_subject][$question_number]' value='5' required> <br></td></tr>";
+                                echo "5 <input type='radio' name='feedback[$teacher_name][$teacher_subject][$question_number]' value='5' required> 
+                                </div>
+                                </td></tr>";
                                 $question_number++;
                             }
 
